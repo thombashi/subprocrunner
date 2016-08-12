@@ -11,7 +11,7 @@ import shutil
 import dataproperty
 import six
 
-from ._error import EmptyCommandError
+from ._error import InvalidCommandError
 from ._error import CommandNotFoundError
 
 
@@ -23,7 +23,7 @@ class Which(object):
 
     def __init__(self, command):
         if dataproperty.is_empty_string(command):
-            raise EmptyCommandError()
+            raise InvalidCommandError("invalid str: " + str(command))
 
         self.__command = command
 
@@ -35,7 +35,7 @@ class Which(object):
 
     def verify(self):
         if not self.is_exist():
-            raise CommandNotFoundError("command not found: " + self.command)
+            raise CommandNotFoundError(self.command)
 
     def which(self):
         if six.PY2:

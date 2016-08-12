@@ -13,7 +13,7 @@ import subprocess
 import dataproperty
 from logbook import Logger
 
-from ._error import EmptyCommandError
+from ._error import InvalidCommandError
 from ._which import Which
 
 
@@ -81,7 +81,7 @@ class SubprocessRunner(object):
 
     def __verify_command(self):
         if dataproperty.is_empty_string(self.command):
-            raise EmptyCommandError()
+            raise InvalidCommandError("invalid str: " + str(self.command))
 
         if platform.system() == "Windows":
             return

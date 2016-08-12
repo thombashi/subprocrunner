@@ -6,7 +6,7 @@
 
 from __future__ import absolute_import
 
-from ._error import EmptyCommandError
+from ._error import InvalidCommandError
 from ._error import CommandNotFoundError
 
 from ._which import Which
