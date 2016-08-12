@@ -4,6 +4,7 @@
 .. codeauthor:: Tsuyoshi Hombashi <gogogo.vm@gmail.com>
 """
 
+from __future__ import absolute_import
 from __future__ import unicode_literals
 import os
 import platform
@@ -12,6 +13,7 @@ import subprocess
 import dataproperty
 from logbook import Logger
 
+from ._error import EmptyCommandError
 from ._which import Which
 
 
@@ -79,7 +81,7 @@ class SubprocessRunner(object):
 
     def __verify_command(self):
         if dataproperty.is_empty_string(self.command):
-            raise ValueError("command is empty")
+            raise EmptyCommandError()
 
         if platform.system() == "Windows":
             return

@@ -4,11 +4,15 @@
 .. codeauthor:: Tsuyoshi Hombashi <gogogo.vm@gmail.com>
 """
 
+from __future__ import absolute_import
 from __future__ import unicode_literals
 import shutil
 
 import dataproperty
 import six
+
+from ._error import EmptyCommandError
+from ._error import CommandNotFoundError
 
 
 class Which(object):
@@ -19,7 +23,7 @@ class Which(object):
 
     def __init__(self, command):
         if dataproperty.is_empty_string(command):
-            raise ValueError("command is empty")
+            raise EmptyCommandError()
 
         self.__command = command
 
@@ -31,7 +35,7 @@ class Which(object):
 
     def verify(self):
         if not self.is_exist():
-            raise OSError("command not found: " + self.command)
+            raise CommandNotFoundError("command not found: " + self.command)
 
     def which(self):
         if six.PY2:

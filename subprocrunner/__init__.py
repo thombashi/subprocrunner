@@ -4,6 +4,11 @@
 .. codeauthor:: Tsuyoshi Hombashi <gogogo.vm@gmail.com>
 """
 
+from __future__ import absolute_import
+
+from ._error import EmptyCommandError
+from ._error import CommandNotFoundError
+
 from ._which import Which
 from ._subprocess_runner import logger
 from ._subprocess_runner import SubprocessRunner
