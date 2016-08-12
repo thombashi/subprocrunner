@@ -1,0 +1,2 @@
+DataProperty>=0.8.1
+six
