@@ -5,4 +5,5 @@
 """
 
 from ._which import Which
+from ._subprocess_runner import logger
 from ._subprocess_runner import SubprocessRunner

@@ -10,8 +10,12 @@ import platform
 import subprocess
 
 import dataproperty
+from logbook import Logger
 
 from ._which import Which
+
+
+logger = Logger("subprocrunner")
 
 
 class SubprocessRunner(object):
@@ -47,8 +51,10 @@ class SubprocessRunner(object):
         self.__verify_command()
 
         if self.dry_run:
+            logger.debug("dry-run: " + self.command)
             return 0
 
+        logger.debug(self.command)
         proc = subprocess.Popen(
             self.command, shell=True, env=self.__get_env(),
             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -61,8 +67,10 @@ class SubprocessRunner(object):
         self.__verify_command()
 
         if self.dry_run:
+            logger.debug("dry-run: " + self.command)
             return None
 
+        logger.debug(self.command)
         process = subprocess.Popen(
             self.command, env=self.__get_env(environ), shell=True,
             stdin=std_in, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
