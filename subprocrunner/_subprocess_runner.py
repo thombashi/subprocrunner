@@ -63,6 +63,11 @@ class SubprocessRunner(object):
         self.__stdout, self.__stderr = proc.communicate()
         self.__returncode = proc.returncode
 
+        if self.returncode != 0:
+            error_message = self.stderr.strip()
+            if dataproperty.is_not_empty_string(error_message):
+                logger.error(error_message)
+
         return self.returncode
 
     def popen(self, std_in=None, environ=None):
