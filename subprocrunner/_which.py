@@ -35,7 +35,8 @@ class Which(object):
 
     def verify(self):
         if not self.is_exist():
-            raise CommandNotFoundError(self.command)
+            raise CommandNotFoundError(
+                "command not found: '{}'".format(self.command))
 
     def which(self):
         if six.PY2:
