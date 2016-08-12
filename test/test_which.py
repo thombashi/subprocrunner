@@ -9,15 +9,16 @@ import platform
 
 import dataproperty
 import pytest
+import subprocrunner
 from subprocrunner import Which
 
 
 class Test_Which_constructor(object):
 
     @pytest.mark.parametrize(["value", "expected"], [
-        [0, ValueError],
-        ["", ValueError],
-        [None, ValueError],
+        [0, subprocrunner.InvalidCommandError],
+        ["", subprocrunner.InvalidCommandError],
+        [None, subprocrunner.InvalidCommandError],
     ])
     def test_exception(self, value, expected):
         with pytest.raises(expected):
@@ -61,7 +62,7 @@ class Test_Which_verify(object):
         Which(value).verify()
 
     @pytest.mark.parametrize(["value", "expected"], [
-        ["__not_exist_command__", OSError],
+        ["__not_exist_command__", subprocrunner.CommandNotFoundError],
     ])
     def test_exception(self, value, expected):
         with pytest.raises(expected):
