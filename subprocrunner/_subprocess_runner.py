@@ -117,3 +117,19 @@ class SubprocessRunner(object):
             return dict(os.environ, LC_ALL="C")
 
         return os.environ
+
+    @staticmethod
+    def __get_logging_method(log_level):
+        method_table = {
+            logbook.DEBUG: logbook.debug,
+            logbook.INFO: logbook.info,
+            logbook.WARNING: logbook.warning,
+            logbook.ERROR: logbook.error,
+            logbook.CRITICAL: logbook.critical,
+        }
+
+        method = method_table.get(log_level)
+        if method is None:
+            raise ValueError("unknown log level: {}".format(log_level))
+
+        return method
