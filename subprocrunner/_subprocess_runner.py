@@ -42,6 +42,22 @@ class SubprocessRunner(object):
     def returncode(self):
         return self.__returncode
 
+    @property
+    def logging_debug(self):
+        raise NotImplementedError()
+
+    @logging_debug.setter
+    def logging_debug(self, method):
+        self.__logging_debug = method
+
+    @property
+    def logging_error(self):
+        raise NotImplementedError()
+
+    @logging_error.setter
+    def logging_error(self, method):
+        self.__logging_error = method
+
     def __init__(self, command, dry_run=False):
         self.__command = command
         self.__dry_run = dry_run
