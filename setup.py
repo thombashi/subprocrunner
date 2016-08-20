@@ -20,7 +20,7 @@ module_name = "subprocrunner"
 
 setuptools.setup(
     name=module_name,
-    version="0.2.0",
+    version="0.3.0",
     author="Tsuyoshi Hombashi",
     author_email="gogogo.vm@gmail.com",
     url="https://github.com/thombashi/" + module_name,
@@ -36,7 +36,7 @@ setuptools.setup(
     setup_requires=pytest_runner,
     tests_require=tests_require,
     classifiers=[
-        "Development Status :: 4 - Beta",
+        "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
         "Operating System :: Microsoft :: Windows",
