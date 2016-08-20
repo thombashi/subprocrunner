@@ -47,16 +47,16 @@ class SubprocessRunner(object):
         raise NotImplementedError()
 
     @logging_debug.setter
-    def logging_debug(self, method):
-        self.__logging_debug = method
+    def logging_debug(self, log_level):
+        self.__logging_debug = self.__get_logging_method(log_level)
 
     @property
     def logging_error(self):
         raise NotImplementedError()
 
     @logging_error.setter
-    def logging_error(self, method):
-        self.__logging_error = method
+    def logging_error(self, log_level):
+        self.__logging_error = self.__get_logging_method(log_level)
 
     def __init__(self, command, dry_run=False):
         self.__command = command
