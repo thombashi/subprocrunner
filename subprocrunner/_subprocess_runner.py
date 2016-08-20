@@ -74,10 +74,10 @@ class SubprocessRunner(object):
         self.__verify_command()
 
         if self.dry_run:
-            logger.debug("dry-run: " + self.command)
+            self.__logging_debug("dry-run: " + self.command)
             return 0
 
-        logger.debug(self.command)
+        self.__logging_debug(self.command)
         proc = subprocess.Popen(
             self.command, shell=True, env=self.__get_env(),
             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -87,7 +87,7 @@ class SubprocessRunner(object):
         if self.returncode != 0:
             error_message = self.stderr.strip()
             if dataproperty.is_not_empty_string(error_message):
-                logger.error(error_message)
+                self.__logging_error(error_message)
 
         return self.returncode
 
@@ -95,10 +95,10 @@ class SubprocessRunner(object):
         self.__verify_command()
 
         if self.dry_run:
-            logger.debug("dry-run: " + self.command)
+            self.__logging_debug("dry-run: " + self.command)
             return None
 
-        logger.debug(self.command)
+        self.__logging_debug(self.command)
         process = subprocess.Popen(
             self.command, env=self.__get_env(environ), shell=True,
             stdin=std_in, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
