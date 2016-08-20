@@ -126,11 +126,11 @@ class SubprocessRunner(object):
     @staticmethod
     def __get_logging_method(log_level):
         method_table = {
-            logbook.DEBUG: logbook.debug,
-            logbook.INFO: logbook.info,
-            logbook.WARNING: logbook.warning,
-            logbook.ERROR: logbook.error,
-            logbook.CRITICAL: logbook.critical,
+            logbook.DEBUG: logger.debug,
+            logbook.INFO: logger.info,
+            logbook.WARNING: logger.warning,
+            logbook.ERROR: logger.error,
+            logbook.CRITICAL: logger.critical,
         }
 
         method = method_table.get(log_level)
