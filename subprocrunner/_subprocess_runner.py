@@ -67,6 +67,8 @@ class SubprocessRunner(object):
 
         self.debug_log_level = logbook.DEBUG
         self.error_log_level = logbook.WARNING
+        self.logging_debug = logbook.DEBUG
+        self.logging_error = logbook.WARNING
 
     def run(self):
         self.__verify_command()
