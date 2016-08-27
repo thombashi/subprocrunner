@@ -52,6 +52,7 @@ class Test_SubprocessRunner_run:
         assert runner.stdout.strip() == six.b(expected)
         assert dataproperty.is_empty_string(runner.stderr)
 
+    @pytest.mark.skipif("platform.system() == 'Windows'")
     @pytest.mark.parametrize(["command", "regexp", "out_regexp", "expected"], [
         [
             list_command + " __not_exist_dir__",
