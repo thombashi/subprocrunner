@@ -65,6 +65,8 @@ class SubprocessRunner(object):
         self.__stderr = None
         self.__returncode = None
 
+        self.ignore_stderr_regexp = None
+
         self.logging_debug = logbook.DEBUG
         self.logging_error = logbook.WARNING
 
@@ -83,9 +85,8 @@ class SubprocessRunner(object):
         self.__returncode = proc.returncode
 
         if self.returncode != 0:
-            error_message = self.stderr.strip()
-            if dataproperty.is_not_empty_string(error_message):
-                self.__logging_error(error_message)
+            self.__logging_error("returncode={:d}, stderr={:s}".format(
+                self.returncode, self.stderr.strip()))
 
         return self.returncode
 
