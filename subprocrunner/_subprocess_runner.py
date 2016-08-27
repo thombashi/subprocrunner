@@ -58,14 +58,14 @@ class SubprocessRunner(object):
     def logging_error(self, log_level):
         self.__logging_error = self.__get_logging_method(log_level)
 
-    def __init__(self, command, dry_run=False):
+    def __init__(self, command, ignore_stderr_regexp=None, dry_run=False):
         self.__command = command
         self.__dry_run = dry_run
         self.__stdout = None
         self.__stderr = None
         self.__returncode = None
 
-        self.ignore_stderr_regexp = None
+        self.__ignore_stderr_regexp = ignore_stderr_regexp
 
         self.logging_debug = logbook.DEBUG
         self.logging_error = logbook.WARNING
@@ -84,9 +84,17 @@ class SubprocessRunner(object):
         self.__stdout, self.__stderr = proc.communicate()
         self.__returncode = proc.returncode
 
-        if self.returncode != 0:
-            self.__logging_error("returncode={:d}, stderr={:s}".format(
-                self.returncode, self.stderr.strip()))
+        if self.returncode == 0:
+            return 0
+
+        self.__stderr = self.stderr
+        stderr = self.stderr.strip()
+        if self.__ignore_stderr_regexp is not None:
+            if self.__ignore_stderr_regexp.search(stderr) is not None:
+                return self.returncode
+
+        self.__logging_error("returncode={:d}, stderr={:s}".format(
+            self.returncode, stderr))
 
         return self.returncode
 

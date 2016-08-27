@@ -8,6 +8,7 @@ from __future__ import unicode_literals
 import errno
 import os
 import platform
+import re
 from subprocess import PIPE
 
 import dataproperty
@@ -16,6 +17,9 @@ import six
 
 from subprocrunner import SubprocessRunner
 
+import logbook
+handler = logbook.StderrHandler()
+handler.push_application()
 
 os_type = platform.system()
 if os_type == "Linux":
@@ -37,7 +41,7 @@ class Test_SubprocessRunner_run:
         [list_command + " __not_exist_dir__", True, 0],
     ])
     def test_normal(self, command, dry_run, expected):
-        assert SubprocessRunner(command, dry_run).run() == expected
+        assert SubprocessRunner(command, dry_run=dry_run).run() == expected
 
     @pytest.mark.parametrize(["command", "expected"], [
         ["echo test", "test"],
@@ -48,13 +52,28 @@ class Test_SubprocessRunner_run:
         assert runner.stdout.strip() == six.b(expected)
         assert dataproperty.is_empty_string(runner.stderr)
 
-    @pytest.mark.parametrize(["command"], [
-        [list_command + " __not_exist_dir__"],
+    @pytest.mark.parametrize(["command", "regexp", "out_regexp", "expected"], [
+        [
+            list_command + " __not_exist_dir__",
+            None,
+            re.compile("WARNING: "),
+            True,
+        ],
+        [
+            list_command + " __not_exist_dir__",
+            re.compile("__not_exist_dir__"),
+            re.compile("WARNING: ", re.DOTALL),
+            False,
+        ],
     ])
-    def test_stderr(self, command):
-        runner = SubprocessRunner(command)
+    def test_stderr(self, capsys, command, regexp, out_regexp, expected):
+        runner = SubprocessRunner(command, regexp)
         runner.run()
         assert dataproperty.is_not_empty_string(runner.stderr.strip())
+
+        _out, err = capsys.readouterr()
+        result = out_regexp.search(err) is not None
+        assert result == expected
 
 
 class Test_SubprocessRunner_popen:
