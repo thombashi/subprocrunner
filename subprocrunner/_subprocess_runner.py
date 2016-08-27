@@ -88,7 +88,7 @@ class SubprocessRunner(object):
             return 0
 
         self.__stderr = self.stderr
-        stderr = self.stderr.strip()
+        stderr = str(self.stderr).strip()
         if self.__ignore_stderr_regexp is not None:
             if self.__ignore_stderr_regexp.search(stderr) is not None:
                 return self.returncode
