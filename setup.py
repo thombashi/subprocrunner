@@ -20,7 +20,7 @@ module_name = "subprocrunner"
 
 setuptools.setup(
     name=module_name,
-    version="0.4.0",
+    version="0.4.1",
     author="Tsuyoshi Hombashi",
     author_email="gogogo.vm@gmail.com",
     url="https://github.com/thombashi/" + module_name,
