@@ -5,7 +5,6 @@
 """
 
 from __future__ import absolute_import
-from __future__ import unicode_literals
 import os
 import platform
 import subprocess
@@ -93,7 +92,7 @@ class SubprocessRunner(object):
             if self.__ignore_stderr_regexp.search(stderr) is not None:
                 return self.returncode
 
-        self.__logging_error("returncode={:d}, stderr={:s}".format(
+        self.__logging_error("returncode={}, stderr={}".format(
             self.returncode, stderr))
 
         return self.returncode

@@ -4,12 +4,12 @@
 .. codeauthor:: Tsuyoshi Hombashi <gogogo.vm@gmail.com>
 """
 
-from __future__ import unicode_literals
 import errno
 import os
 import platform
 import re
 from subprocess import PIPE
+import subprocess
 
 import dataproperty
 import pytest
@@ -75,6 +75,19 @@ class Test_SubprocessRunner_run:
         _out, err = capsys.readouterr()
         result = out_regexp.search(err) is not None
         assert result == expected
+
+    def test_unicode(self, monkeypatch):
+        def monkey_communicate(input=None):
+            return 1, """'dummy' は、内部コマンドまたは外部コマンド、
+    操作可能なプログラムまたはバッチ ファイルとして認識されていません。
+    """
+
+        monkeypatch.setattr(
+            subprocess.Popen,
+            "communicate", monkey_communicate)
+
+        runner = SubprocessRunner(list_command)
+        runner.run()
 
 
 class Test_SubprocessRunner_popen:
