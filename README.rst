@@ -1,12 +1,21 @@
 subprocrunner
 =============
 
+.. image:: https://badge.fury.io/py/subprocrunner.svg
+    :target: https://badge.fury.io/py/subprocrunner
+
 .. image:: https://img.shields.io/pypi/pyversions/subprocrunner.svg
    :target: https://pypi.python.org/pypi/subprocrunner
-.. image:: https://travis-ci.org/thombashi/subprocrunner.svg?branch=master
+
+.. image:: https://img.shields.io/travis/thombashi/subprocrunner/master.svg?label=Linux
     :target: https://travis-ci.org/thombashi/subprocrunner
+
+.. image:: https://img.shields.io/appveyor/ci/thombashi/subprocrunner/master.svg?label=Windows
+    :target: https://ci.appveyor.com/project/thombashi/subprocrunner/branch/master
+
 .. image:: https://coveralls.io/repos/github/thombashi/subprocrunner/badge.svg?branch=master
     :target: https://coveralls.io/github/thombashi/subprocrunner?branch=master
+
 
 Summary
 -------
