@@ -87,7 +87,11 @@ class SubprocessRunner(object):
             return 0
 
         self.__stderr = MultiByteStrDecoder(self.__stderr).unicode_str.strip()
+        try:
+            if self.__ignore_stderr_regexp.search(self.stderr) is not None:
                 return self.returncode
+        except AttributeError:
+            pass
 
         self.__logging_error("returncode={}, stderr={}".format(
             self.returncode, self.stderr))
