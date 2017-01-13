@@ -4,6 +4,7 @@
 .. codeauthor:: Tsuyoshi Hombashi <gogogo.vm@gmail.com>
 """
 
+from __future__ import print_function
 import errno
 import os
 import platform
@@ -17,9 +18,6 @@ import six
 
 from subprocrunner import SubprocessRunner
 
-import logbook
-handler = logbook.StderrHandler()
-handler.push_application()
 
 os_type = platform.system()
 if os_type == "Linux":
@@ -49,6 +47,7 @@ class Test_SubprocessRunner_run:
     def test_stdout(self, command, expected):
         runner = SubprocessRunner(command)
         runner.run()
+
         assert runner.stdout.strip() == six.b(expected)
         assert dataproperty.is_empty_string(runner.stderr)
 
@@ -68,17 +67,15 @@ class Test_SubprocessRunner_run:
         ],
     ])
     def test_stderr(self, capsys, command, regexp, out_regexp, expected):
-        runner = SubprocessRunner(command, regexp)
+        runner = SubprocessRunner(command, ignore_stderr_regexp=regexp)
         runner.run()
-        assert dataproperty.is_not_empty_string(runner.stderr.strip())
 
-        _out, err = capsys.readouterr()
-        result = out_regexp.search(err) is not None
-        assert result == expected
+        assert dataproperty.is_empty_string(runner.stdout.strip())
+        assert dataproperty.is_not_empty_string(runner.stderr.strip())
 
     def test_unicode(self, monkeypatch):
         def monkey_communicate(input=None):
-            return 1, """'dummy' は、内部コマンドまたは外部コマンド、
+            return 1, u"""'dummy' は、内部コマンドまたは外部コマンド、
     操作可能なプログラムまたはバッチ ファイルとして認識されていません。
     """
 
@@ -110,6 +107,7 @@ class Test_SubprocessRunner_popen:
     def test_normal_stdin(self, command, input, expected):
         proc = SubprocessRunner(command).popen(PIPE)
         ret_stdout, ret_stderr = proc.communicate(input=input)
+
         assert dataproperty.is_not_empty_string(ret_stdout)
         assert dataproperty.is_empty_string(ret_stderr)
         assert proc.returncode == expected
