@@ -13,10 +13,8 @@ import dataproperty
 import logbook
 
 from ._error import InvalidCommandError
+from ._logger import logger
 from ._which import Which
-
-
-logger = logbook.Logger("subprocrunner")
 
 
 class SubprocessRunner(object):
