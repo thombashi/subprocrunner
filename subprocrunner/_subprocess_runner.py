@@ -5,12 +5,14 @@
 """
 
 from __future__ import absolute_import
+from __future__ import unicode_literals
 import os
 import platform
 import subprocess
 
 import dataproperty
 import logbook
+from mbstrdecoder import MultiByteStrDecoder
 
 from ._error import InvalidCommandError
 from ._logger import logger
@@ -84,14 +86,11 @@ class SubprocessRunner(object):
         if self.returncode == 0:
             return 0
 
-        self.__stderr = self.stderr
-        stderr = str(self.stderr).strip()
-        if self.__ignore_stderr_regexp is not None:
-            if self.__ignore_stderr_regexp.search(stderr) is not None:
+        self.__stderr = MultiByteStrDecoder(self.__stderr).unicode_str.strip()
                 return self.returncode
 
         self.__logging_error("returncode={}, stderr={}".format(
-            self.returncode, stderr))
+            self.returncode, self.stderr))
 
         return self.returncode
 
@@ -111,7 +110,7 @@ class SubprocessRunner(object):
 
     def __verify_command(self):
         if dataproperty.is_empty_string(self.command):
-            raise InvalidCommandError("invalid str: " + str(self.command))
+            raise InvalidCommandError("invalid str: {}".format(self.command))
 
         if platform.system() == "Windows":
             return
