@@ -1,11 +1,20 @@
+# encoding: utf-8
+
+"""
+.. codeauthor:: Tsuyoshi Hombashi <gogogo.vm@gmail.com>
+"""
+
 import sys
 import os.path
 import setuptools
 
+
 REQUIREMENT_DIR = "requirements"
+MODULE_NAME = "subprocrunner"
 
 needs_pytest = set(["pytest", "test", "ptr"]).intersection(sys.argv)
 pytest_runner = ["pytest-runner"] if needs_pytest else []
+
 
 with open("README.rst") as fp:
     long_description = fp.read()
@@ -16,14 +25,13 @@ with open(os.path.join(REQUIREMENT_DIR, "requirements.txt")) as f:
 with open(os.path.join(REQUIREMENT_DIR, "test_requirements.txt")) as f:
     tests_require = [line.strip() for line in f if line.strip()]
 
-module_name = "subprocrunner"
 
 setuptools.setup(
-    name=module_name,
+    name=MODULE_NAME,
     version="0.4.2",
     author="Tsuyoshi Hombashi",
     author_email="gogogo.vm@gmail.com",
-    url="https://github.com/thombashi/" + module_name,
+    url="https://github.com/thombashi/{:s}".format(MODULE_NAME),
     license="MIT License",
     description="A python library of subprocess module wrapper.",
     include_package_data=True,
