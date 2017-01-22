@@ -5,6 +5,7 @@
 """
 
 from __future__ import print_function
+from __future__ import unicode_literals
 import errno
 import os
 import platform
@@ -48,7 +49,7 @@ class Test_SubprocessRunner_run:
         runner = SubprocessRunner(command)
         runner.run()
 
-        assert runner.stdout.strip() == six.b(expected)
+        assert runner.stdout.strip() == expected
         assert dataproperty.is_empty_string(runner.stderr)
 
     @pytest.mark.skipif("platform.system() == 'Windows'")
@@ -75,9 +76,11 @@ class Test_SubprocessRunner_run:
 
     def test_unicode(self, monkeypatch):
         def monkey_communicate(input=None):
-            return 1, u"""'dummy' は、内部コマンドまたは外部コマンド、
-    操作可能なプログラムまたはバッチ ファイルとして認識されていません。
-    """
+            return (
+                u"",
+                u"'dummy' は、内部コマンドまたは外部コマンド、"
+                u"操作可能なプログラムまたはバッチ ファイルとして認識されていません",
+            )
 
         monkeypatch.setattr(
             subprocess.Popen,
@@ -102,7 +105,7 @@ class Test_SubprocessRunner_popen:
 
     @pytest.mark.skipif("platform.system() == 'Windows'")
     @pytest.mark.parametrize(["command", "input", "expected"], [
-        ["grep a", six.b("aaa"), 0],
+        ["grep a", "aaa", 0],
     ])
     def test_normal_stdin(self, command, input, expected):
         proc = SubprocessRunner(command).popen(PIPE)

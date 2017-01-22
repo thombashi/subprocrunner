@@ -83,10 +83,12 @@ class SubprocessRunner(object):
         self.__stdout, self.__stderr = proc.communicate()
         self.__returncode = proc.returncode
 
+        self.__stdout = MultiByteStrDecoder(self.__stdout).unicode_str
+        self.__stderr = MultiByteStrDecoder(self.__stderr).unicode_str
+
         if self.returncode == 0:
             return 0
 
-        self.__stderr = MultiByteStrDecoder(self.__stderr).unicode_str.strip()
         try:
             if self.__ignore_stderr_regexp.search(self.stderr) is not None:
                 return self.returncode
