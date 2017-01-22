@@ -105,7 +105,7 @@ class Test_SubprocessRunner_popen:
 
     @pytest.mark.skipif("platform.system() == 'Windows'")
     @pytest.mark.parametrize(["command", "input", "expected"], [
-        ["grep a", "aaa", 0],
+        ["grep a", six.b("aaa"), 0],
     ])
     def test_normal_stdin(self, command, input, expected):
         proc = SubprocessRunner(command).popen(PIPE)
