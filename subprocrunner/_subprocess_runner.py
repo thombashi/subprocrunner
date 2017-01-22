@@ -77,9 +77,16 @@ class SubprocessRunner(object):
             return 0
 
         self.__logging_debug(self.command)
-        proc = subprocess.Popen(
-            self.command, shell=True, env=self.__get_env(),
-            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+        try:
+            proc = subprocess.Popen(
+                self.command, shell=True, env=self.__get_env(),
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        except TypeError:
+            proc = subprocess.Popen(
+                self.command, shell=True,
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
         self.__stdout, self.__stderr = proc.communicate()
         self.__returncode = proc.returncode
 
@@ -108,9 +115,15 @@ class SubprocessRunner(object):
             return None
 
         self.__logging_debug(self.command)
-        process = subprocess.Popen(
-            self.command, env=self.__get_env(environ), shell=True,
-            stdin=std_in, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+        try:
+            process = subprocess.Popen(
+                self.command, env=self.__get_env(environ), shell=True,
+                stdin=std_in, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        except TypeError:
+            process = subprocess.Popen(
+                self.command, shell=True,
+                stdin=std_in, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
         return process
 
