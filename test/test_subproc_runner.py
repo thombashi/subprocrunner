@@ -6,6 +6,7 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
+
 import errno
 import os
 import platform
@@ -13,10 +14,12 @@ import re
 from subprocess import PIPE
 import subprocess
 
-import dataproperty
 import pytest
+from pytypeutil import (
+    is_empty_string,
+    is_not_empty_string,
+)
 import six
-
 from subprocrunner import SubprocessRunner
 
 
@@ -50,7 +53,7 @@ class Test_SubprocessRunner_run:
         runner.run()
 
         assert runner.stdout.strip() == expected
-        assert dataproperty.is_empty_string(runner.stderr)
+        assert is_empty_string(runner.stderr)
 
     @pytest.mark.skipif("platform.system() == 'Windows'")
     @pytest.mark.parametrize(["command", "regexp", "out_regexp", "expected"], [
@@ -71,8 +74,8 @@ class Test_SubprocessRunner_run:
         runner = SubprocessRunner(command, ignore_stderr_regexp=regexp)
         runner.run()
 
-        assert dataproperty.is_empty_string(runner.stdout.strip())
-        assert dataproperty.is_not_empty_string(runner.stderr.strip())
+        assert is_empty_string(runner.stdout.strip())
+        assert is_not_empty_string(runner.stderr.strip())
 
     def test_unicode(self, monkeypatch):
         def monkey_communicate(input=None):
@@ -99,8 +102,8 @@ class Test_SubprocessRunner_popen:
     def test_normal(self, command, environ, expected):
         proc = SubprocessRunner(command).popen(environ=environ)
         ret_stdout, ret_stderr = proc.communicate()
-        assert dataproperty.is_not_empty_string(ret_stdout)
-        assert dataproperty.is_empty_string(ret_stderr)
+        assert is_not_empty_string(ret_stdout)
+        assert is_empty_string(ret_stderr)
         assert proc.returncode == expected
 
     @pytest.mark.skipif("platform.system() == 'Windows'")
@@ -111,6 +114,6 @@ class Test_SubprocessRunner_popen:
         proc = SubprocessRunner(command).popen(PIPE)
         ret_stdout, ret_stderr = proc.communicate(input=input)
 
-        assert dataproperty.is_not_empty_string(ret_stdout)
-        assert dataproperty.is_empty_string(ret_stderr)
+        assert is_not_empty_string(ret_stdout)
+        assert is_empty_string(ret_stderr)
         assert proc.returncode == expected

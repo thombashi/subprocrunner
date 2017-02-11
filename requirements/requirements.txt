@@ -1,4 +1,4 @@
-DataProperty>=0.16.2
+pytypeutil
 logbook>=1.0.0
 mbstrdecoder
 six

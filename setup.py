@@ -5,8 +5,10 @@
 """
 
 from __future__ import unicode_literals
-import sys
+
 import os.path
+import sys
+
 import setuptools
 
 
@@ -29,7 +31,7 @@ with open(os.path.join(REQUIREMENT_DIR, "test_requirements.txt")) as f:
 
 setuptools.setup(
     name=MODULE_NAME,
-    version="0.4.6",
+    version="0.4.7",
     author="Tsuyoshi Hombashi",
     author_email="gogogo.vm@gmail.com",
     url="https://github.com/thombashi/{:s}".format(MODULE_NAME),

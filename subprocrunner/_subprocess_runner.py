@@ -6,13 +6,14 @@
 
 from __future__ import absolute_import
 from __future__ import unicode_literals
+
 import os
 import platform
 import subprocess
 
-import dataproperty
 import logbook
 from mbstrdecoder import MultiByteStrDecoder
+import pytypeutil
 
 from ._error import InvalidCommandError
 from ._logger import logger
@@ -128,7 +129,7 @@ class SubprocessRunner(object):
         return process
 
     def __verify_command(self):
-        if dataproperty.is_empty_string(self.command):
+        if pytypeutil.is_empty_string(self.command):
             raise InvalidCommandError("invalid str: {}".format(self.command))
 
         if platform.system() == "Windows":

@@ -6,13 +6,14 @@
 
 from __future__ import absolute_import
 from __future__ import unicode_literals
+
 import shutil
 
-import dataproperty
+import pytypeutil
 import six
 
-from ._error import InvalidCommandError
 from ._error import CommandNotFoundError
+from ._error import InvalidCommandError
 
 
 class Which(object):
@@ -22,7 +23,7 @@ class Which(object):
         return self.__command
 
     def __init__(self, command):
-        if dataproperty.is_empty_string(command):
+        if not pytypeutil.is_not_empty_string(command):
             raise InvalidCommandError("invalid str: " + str(command))
 
         self.__command = command
