@@ -1,4 +1,4 @@
-pytypeutil
+pytypeutil>=0.0.1
 logbook>=1.0.0
-mbstrdecoder
+mbstrdecoder>0.2.2
 six

@@ -74,6 +74,8 @@ class SubprocessRunner(object):
         self.__verify_command()
 
         if self.dry_run:
+            self.__stdout = None
+            self.__stderr = None
             self.__logging_debug("dry-run: " + self.command)
             return 0
 
@@ -112,6 +114,8 @@ class SubprocessRunner(object):
         self.__verify_command()
 
         if self.dry_run:
+            self.__stdout = None
+            self.__stderr = None
             self.__logging_debug("dry-run: " + self.command)
             return None
 
