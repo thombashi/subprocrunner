@@ -9,7 +9,7 @@ from __future__ import unicode_literals
 
 import shutil
 
-import pytypeutil
+import typepy
 import six
 
 from ._error import CommandNotFoundError
@@ -23,7 +23,7 @@ class Which(object):
         return self.__command
 
     def __init__(self, command):
-        if not pytypeutil.is_not_empty_string(command):
+        if not typepy.is_not_null_string(command):
             raise InvalidCommandError("invalid str: " + str(command))
 
         self.__command = command

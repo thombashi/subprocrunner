@@ -15,9 +15,9 @@ from subprocess import PIPE
 import subprocess
 
 import pytest
-from pytypeutil import (
-    is_empty_string,
-    is_not_empty_string,
+from typepy import (
+    is_null_string,
+    is_not_null_string,
 )
 import six
 from subprocrunner import SubprocessRunner
@@ -53,7 +53,7 @@ class Test_SubprocessRunner_run:
         runner.run()
 
         assert runner.stdout.strip() == expected
-        assert is_empty_string(runner.stderr)
+        assert is_null_string(runner.stderr)
 
     @pytest.mark.skipif("platform.system() == 'Windows'")
     @pytest.mark.parametrize(["command", "regexp", "out_regexp", "expected"], [
@@ -74,8 +74,8 @@ class Test_SubprocessRunner_run:
         runner = SubprocessRunner(command, ignore_stderr_regexp=regexp)
         runner.run()
 
-        assert is_empty_string(runner.stdout.strip())
-        assert is_not_empty_string(runner.stderr.strip())
+        assert is_null_string(runner.stdout.strip())
+        assert is_not_null_string(runner.stderr.strip())
 
     def test_unicode(self, monkeypatch):
         def monkey_communicate(input=None):
@@ -102,8 +102,8 @@ class Test_SubprocessRunner_popen:
     def test_normal(self, command, environ, expected):
         proc = SubprocessRunner(command).popen(environ=environ)
         ret_stdout, ret_stderr = proc.communicate()
-        assert is_not_empty_string(ret_stdout)
-        assert is_empty_string(ret_stderr)
+        assert is_not_null_string(ret_stdout)
+        assert is_null_string(ret_stderr)
         assert proc.returncode == expected
 
     @pytest.mark.skipif("platform.system() == 'Windows'")
@@ -114,6 +114,6 @@ class Test_SubprocessRunner_popen:
         proc = SubprocessRunner(command).popen(PIPE)
         ret_stdout, ret_stderr = proc.communicate(input=input)
 
-        assert is_not_empty_string(ret_stdout)
-        assert is_empty_string(ret_stderr)
+        assert is_not_null_string(ret_stdout)
+        assert is_null_string(ret_stderr)
         assert proc.returncode == expected

@@ -13,7 +13,7 @@ import subprocess
 
 import logbook
 from mbstrdecoder import MultiByteStrDecoder
-import pytypeutil
+import typepy
 
 from ._error import InvalidCommandError
 from ._logger import logger
@@ -133,7 +133,7 @@ class SubprocessRunner(object):
         return process
 
     def __verify_command(self):
-        if pytypeutil.is_empty_string(self.command):
+        if typepy.is_null_string(self.command):
             raise InvalidCommandError("invalid str: {}".format(self.command))
 
         if platform.system() == "Windows":

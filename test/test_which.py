@@ -9,9 +9,9 @@ from __future__ import unicode_literals
 import platform
 
 import pytest
-from pytypeutil import (
+from typepy import (
     is_empty_string,
-    is_not_empty_string,
+    is_not_null_string,
 )
 from subprocrunner import Which
 import subprocrunner
@@ -80,14 +80,14 @@ class Test_Which_which(object):
         ["ls"],
     ])
     def test_normal_linux(self, value):
-        assert is_not_empty_string(Which(value).which())
+        assert is_not_null_string(Which(value).which())
 
     @pytest.mark.skipif("platform.system() != 'Windows'")
     @pytest.mark.parametrize(["value"], [
         ["ping"],
     ])
     def test_normal_windows(self, value):
-        assert is_not_empty_string(Which(value).which())
+        assert is_not_null_string(Which(value).which())
 
     @pytest.mark.parametrize(["value"], [
         ["__not_exist_command__"],
