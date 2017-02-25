@@ -52,7 +52,9 @@ Dependencies
 
 Python 2.7+ or 3.3+
 
-- `DataPropery <https://github.com/thombashi/DataProperty>`__
+- `logbook <http://logbook.readthedocs.io/en/stable/>`__
+- `mbstrdecoder <https://github.com/thombashi/mbstrdecoder>`__
+- `typepy <https://github.com/thombashi/typepy>`__
 - `six <https://pypi.python.org/pypi/six/>`__
 
 
