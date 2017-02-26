@@ -9,12 +9,12 @@ from __future__ import unicode_literals
 import platform
 
 import pytest
-from typepy import (
-    is_empty_string,
-    is_not_null_string,
-)
 from subprocrunner import Which
 import subprocrunner
+from typepy import (
+    is_null_string,
+    is_not_null_string,
+)
 
 
 class Test_Which_constructor(object):
@@ -93,4 +93,4 @@ class Test_Which_which(object):
         ["__not_exist_command__"],
     ])
     def test_abnormal(self, value):
-        assert is_empty_string(Which(value).which())
+        assert is_null_string(Which(value).which())
