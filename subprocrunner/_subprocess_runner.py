@@ -22,6 +22,17 @@ from ._which import Which
 
 class SubprocessRunner(object):
 
+    is_save_history = False
+    __command_history = []
+
+    @classmethod
+    def get_history(cls):
+        return cls.__command_history
+
+    @classmethod
+    def clear_history(cls):
+        cls.__command_history = []
+
     @property
     def dry_run(self):
         return self.__dry_run
@@ -69,6 +80,9 @@ class SubprocessRunner(object):
 
         self.logging_debug = logbook.DEBUG
         self.logging_error = logbook.WARNING
+
+        if self.is_save_history:
+            self.__command_history.append(command)
 
     def run(self):
         self.__verify_command()

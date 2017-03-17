@@ -15,12 +15,12 @@ from subprocess import PIPE
 import subprocess
 
 import pytest
+import six
+from subprocrunner import SubprocessRunner
 from typepy import (
     is_null_string,
     is_not_null_string,
 )
-import six
-from subprocrunner import SubprocessRunner
 
 
 os_type = platform.system()
@@ -117,3 +117,24 @@ class Test_SubprocessRunner_popen:
         assert is_not_null_string(ret_stdout)
         assert is_null_string(ret_stderr)
         assert proc.returncode == expected
+
+
+class Test_SubprocessRunner_command_history:
+
+    @pytest.mark.parametrize(["command", "dry_run", "expected"], [
+        [list_command, False, 0],
+        [list_command, True, 0],
+    ])
+    def test_normal(self, command, dry_run, expected):
+        SubprocessRunner.is_save_history = False
+        SubprocessRunner.clear_history()
+
+        loop_count = 3
+        for _i in range(loop_count):
+            SubprocessRunner(command, dry_run=dry_run).run()
+        assert len(SubprocessRunner.get_history()) == 0
+
+        SubprocessRunner.is_save_history = True
+        for _i in range(loop_count):
+            SubprocessRunner(command, dry_run=dry_run).run()
+        assert len(SubprocessRunner.get_history()) == loop_count
