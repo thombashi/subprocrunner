@@ -26,18 +26,54 @@ A python library of subprocess module wrapper.
 Examples
 ========
 
+Execute a command
+----------------------------
+
 .. code:: python
 
     from subprocrunner import SubprocessRunner
 
     runner = SubprocessRunner("echo test")
+    print("command: {:s}".format(runner.command))
     print("return code: {:d}".format(runner.run()))
-    print("stdout: {}".format(runner.stdout))
+    print("stdout: {:s}".format(runner.stdout))
+
+    runner = SubprocessRunner("ls __not_exist_dir__")
+    print("command: {:s}".format(runner.command))
+    print("return code: {:d}".format(runner.run()))
+    print("stderr: {:s}".format(runner.stderr))
 
 .. code::
 
+    command: echo test
     return code: 0
     stdout: test
+
+    command: ls __not_exist_dir__
+    return code: 2
+    stderr: ls: cannot access '__not_exist_dir__': No such file or directory
+
+
+Get command history
+----------------------------
+
+.. code:: python
+
+    from subprocrunner import SubprocessRunner
+
+    SubprocessRunner.clear_history()
+    SubprocessRunner.is_save_history = True
+
+    SubprocessRunner("echo hoge").run()
+    SubprocessRunner("echo foo").run()
+
+    print("\n".join(SubprocessRunner.get_history()))
+
+.. code::
+
+    echo hoge
+    echo foo
+
 
 Installation
 ============
