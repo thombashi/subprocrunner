@@ -22,6 +22,7 @@ from ._which import Which
 
 class SubprocessRunner(object):
 
+    is_dry_run = False
     is_save_history = False
     __command_history = []
 
@@ -69,9 +70,12 @@ class SubprocessRunner(object):
     def logging_error(self, log_level):
         self.__logging_error = self.__get_logging_method(log_level)
 
-    def __init__(self, command, ignore_stderr_regexp=None, dry_run=False):
+    def __init__(self, command, ignore_stderr_regexp=None, dry_run=None):
         self.__command = command
-        self.__dry_run = dry_run
+        if dry_run is not None:
+            self.__dry_run = dry_run
+        else:
+            self.__dry_run = self.is_dry_run
         self.__stdout = None
         self.__stderr = None
         self.__returncode = None
