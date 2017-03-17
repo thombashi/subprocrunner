@@ -107,12 +107,12 @@ class Test_SubprocessRunner_popen:
         assert proc.returncode == expected
 
     @pytest.mark.skipif("platform.system() == 'Windows'")
-    @pytest.mark.parametrize(["command", "input", "expected"], [
+    @pytest.mark.parametrize(["command", "pipe_input", "expected"], [
         ["grep a", six.b("aaa"), 0],
     ])
-    def test_normal_stdin(self, command, input, expected):
+    def test_normal_stdin(self, command, pipe_input, expected):
         proc = SubprocessRunner(command).popen(PIPE)
-        ret_stdout, ret_stderr = proc.communicate(input=input)
+        ret_stdout, ret_stderr = proc.communicate(input=pipe_input)
 
         assert is_not_null_string(ret_stdout)
         assert is_null_string(ret_stderr)
