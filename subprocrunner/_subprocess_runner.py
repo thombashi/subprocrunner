@@ -21,6 +21,7 @@ from ._which import Which
 
 
 class SubprocessRunner(object):
+    _DRY_RUN_OUTPUT = ""
 
     is_dry_run = False
     is_save_history = False
@@ -92,10 +93,12 @@ class SubprocessRunner(object):
         self.__verify_command()
 
         if self.dry_run:
-            self.__stdout = None
-            self.__stderr = None
+            self.__stdout = self._DRY_RUN_OUTPUT
+            self.__stderr = self._DRY_RUN_OUTPUT
+            self.__returncode = 0
             self.__logging_debug("dry-run: " + self.command)
-            return 0
+
+            return self.__returncode
 
         self.__logging_debug(self.command)
 
@@ -132,10 +135,14 @@ class SubprocessRunner(object):
         self.__verify_command()
 
         if self.dry_run:
-            self.__stdout = None
-            self.__stderr = None
+            self.__stdout = self._DRY_RUN_OUTPUT
+            self.__stderr = self._DRY_RUN_OUTPUT
+            self.__returncode = 0
             self.__logging_debug("dry-run: " + self.command)
-            return None
+
+            return subprocess.CompletedProcess(
+                args=[], returncode=self.__returncode,
+                stdout=self.__stdout, stderr=self.__stderr)
 
         self.__logging_debug(self.command)
 
