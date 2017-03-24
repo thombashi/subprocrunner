@@ -23,7 +23,7 @@ from ._which import Which
 class SubprocessRunner(object):
     _DRY_RUN_OUTPUT = ""
 
-    is_dry_run = False
+    is_dry_run_default = False
     is_save_history = False
     __command_history = []
 
@@ -76,7 +76,7 @@ class SubprocessRunner(object):
         if dry_run is not None:
             self.__dry_run = dry_run
         else:
-            self.__dry_run = self.is_dry_run
+            self.__dry_run = self.is_dry_run_default
         self.__stdout = None
         self.__stderr = None
         self.__returncode = None
