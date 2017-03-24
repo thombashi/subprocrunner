@@ -21,6 +21,17 @@ from ._which import Which
 
 
 class SubprocessRunner(object):
+    """
+    .. py:attribute:: is_dry_run_default
+
+        Class wide dry-run setting default value.
+        dry-run if ``True``.
+
+    .. py:attribute:: is_save_history
+
+        Save executed command history if ``True``.
+    """
+
     _DRY_RUN_OUTPUT = ""
 
     is_dry_run_default = False
