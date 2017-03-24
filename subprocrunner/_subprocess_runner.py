@@ -100,10 +100,13 @@ class SubprocessRunner(object):
         if self.is_save_history:
             self.__command_history.append(command)
 
-    def run(self):
+    def run(self, dry_run=None):
         self.__verify_command()
 
-        if self.dry_run:
+        if dry_run is None:
+            dry_run = self.dry_run
+
+        if dry_run:
             self.__stdout = self._DRY_RUN_OUTPUT
             self.__stderr = self._DRY_RUN_OUTPUT
             self.__returncode = 0
@@ -142,10 +145,13 @@ class SubprocessRunner(object):
 
         return self.returncode
 
-    def popen(self, std_in=None, environ=None):
+    def popen(self, std_in=None, environ=None, dry_run=None):
         self.__verify_command()
 
-        if self.dry_run:
+        if dry_run is None:
+            dry_run = self.dry_run
+
+        if dry_run:
             self.__stdout = self._DRY_RUN_OUTPUT
             self.__stderr = self._DRY_RUN_OUTPUT
             self.__returncode = 0
