@@ -129,8 +129,9 @@ class SubprocessRunner(object):
         except AttributeError:
             pass
 
-        self.__error_logging_method("returncode={}, stderr={}".format(
-            self.returncode, self.stderr))
+        self.__error_logging_method(
+            "command='{}', returncode={}, stderr={}".format(
+                self.command, self.returncode, self.stderr))
 
         return self.returncode
 
