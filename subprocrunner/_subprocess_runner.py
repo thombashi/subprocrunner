@@ -72,7 +72,7 @@ class SubprocessRunner(object):
 
     @logging_debug.setter
     def logging_debug(self, log_level):
-        self.__logging_debug = self.__get_logging_method(log_level)
+        self.__debug_logging_method = self.__get_logging_method(log_level)
 
     @property
     def logging_error(self):
@@ -80,7 +80,7 @@ class SubprocessRunner(object):
 
     @logging_error.setter
     def logging_error(self, log_level):
-        self.__logging_error = self.__get_logging_method(log_level)
+        self.__error_logging_method = self.__get_logging_method(log_level)
 
     def __init__(self, command, ignore_stderr_regexp=None, dry_run=None):
         self.__command = command
@@ -107,11 +107,11 @@ class SubprocessRunner(object):
             self.__stdout = self._DRY_RUN_OUTPUT
             self.__stderr = self._DRY_RUN_OUTPUT
             self.__returncode = 0
-            self.__logging_debug("dry-run: " + self.command)
+            self.__debug_logging_method("dry-run: " + self.command)
 
             return self.__returncode
 
-        self.__logging_debug(self.command)
+        self.__debug_logging_method(self.command)
 
         try:
             proc = subprocess.Popen(
@@ -137,7 +137,7 @@ class SubprocessRunner(object):
         except AttributeError:
             pass
 
-        self.__logging_error("returncode={}, stderr={}".format(
+        self.__error_logging_method("returncode={}, stderr={}".format(
             self.returncode, self.stderr))
 
         return self.returncode
@@ -149,13 +149,13 @@ class SubprocessRunner(object):
             self.__stdout = self._DRY_RUN_OUTPUT
             self.__stderr = self._DRY_RUN_OUTPUT
             self.__returncode = 0
-            self.__logging_debug("dry-run: " + self.command)
+            self.__debug_logging_method("dry-run: " + self.command)
 
             return subprocess.CompletedProcess(
                 args=[], returncode=self.__returncode,
                 stdout=self.__stdout, stderr=self.__stderr)
 
-        self.__logging_debug(self.command)
+        self.__debug_logging_method(self.command)
 
         try:
             process = subprocess.Popen(
