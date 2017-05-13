@@ -34,6 +34,7 @@ class SubprocessRunner(object):
 
     _DRY_RUN_OUTPUT = ""
 
+    default_error_log_level = logbook.WARNING
     default_is_dry_run = False
     is_save_history = False
     __command_history = []
@@ -86,7 +87,7 @@ class SubprocessRunner(object):
 
         self.__ignore_stderr_regexp = ignore_stderr_regexp
         self.__debug_logging_method = self.__get_logging_method(logbook.DEBUG)
-        self.error_log_level = logbook.WARNING
+        self.error_log_level = self.default_error_log_level
 
         if self.is_save_history:
             self.__command_history.append(command)
