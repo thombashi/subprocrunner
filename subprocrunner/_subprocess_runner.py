@@ -107,7 +107,8 @@ class SubprocessRunner(object):
             self.__stdout = self._DRY_RUN_OUTPUT
             self.__stderr = self._DRY_RUN_OUTPUT
             self.__returncode = 0
-            self.__debug_logging_method("dry-run: " + self.command)
+
+            self.__debug_logging_method("dry-run: {}".format(self.command))
 
             return self.__returncode
 
@@ -149,7 +150,8 @@ class SubprocessRunner(object):
             self.__stdout = self._DRY_RUN_OUTPUT
             self.__stderr = self._DRY_RUN_OUTPUT
             self.__returncode = 0
-            self.__debug_logging_method("dry-run: " + self.command)
+
+            self.__debug_logging_method("dry-run: {}".format(self.command))
 
             return subprocess.CompletedProcess(
                 args=[], returncode=self.__returncode,
