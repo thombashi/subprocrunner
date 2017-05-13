@@ -67,11 +67,11 @@ class SubprocessRunner(object):
         return self.__returncode
 
     @property
-    def logging_error(self):
+    def error_log_level(self):
         raise NotImplementedError()
 
-    @logging_error.setter
-    def logging_error(self, log_level):
+    @error_log_level.setter
+    def error_log_level(self, log_level):
         self.__error_logging_method = self.__get_logging_method(log_level)
 
     def __init__(self, command, ignore_stderr_regexp=None, dry_run=None):
@@ -86,7 +86,7 @@ class SubprocessRunner(object):
 
         self.__ignore_stderr_regexp = ignore_stderr_regexp
         self.__debug_logging_method = self.__get_logging_method(logbook.DEBUG)
-        self.logging_error = logbook.WARNING
+        self.error_log_level = logbook.WARNING
 
         if self.is_save_history:
             self.__command_history.append(command)
