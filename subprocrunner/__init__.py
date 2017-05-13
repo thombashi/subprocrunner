@@ -15,5 +15,5 @@ from ._logger import (
     set_logger,
     set_log_level,
 )
-from ._which import Which
 from ._subprocess_runner import SubprocessRunner
+from ._which import Which

@@ -9,8 +9,8 @@ from __future__ import unicode_literals
 
 import shutil
 
-import typepy
 import six
+import typepy
 
 from ._error import CommandNotFoundError
 from ._error import InvalidCommandError
