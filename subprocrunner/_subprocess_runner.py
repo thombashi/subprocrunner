@@ -22,7 +22,7 @@ from ._which import Which
 
 class SubprocessRunner(object):
     """
-    .. py:attribute:: is_dry_run_default
+    .. py:attribute:: default_is_dry_run
 
         Class wide dry-run setting default value.
         dry-run if ``True``.
@@ -34,7 +34,7 @@ class SubprocessRunner(object):
 
     _DRY_RUN_OUTPUT = ""
 
-    is_dry_run_default = False
+    default_is_dry_run = False
     is_save_history = False
     __command_history = []
 
@@ -79,7 +79,7 @@ class SubprocessRunner(object):
         if dry_run is not None:
             self.__dry_run = dry_run
         else:
-            self.__dry_run = self.is_dry_run_default
+            self.__dry_run = self.default_is_dry_run
         self.__stdout = None
         self.__stderr = None
         self.__returncode = None
