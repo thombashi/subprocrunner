@@ -37,6 +37,7 @@ class SubprocessRunner(object):
     default_error_log_level = logbook.WARNING
     default_is_dry_run = False
     is_save_history = False
+    history_size = 512
     __command_history = []
 
     @classmethod
@@ -90,6 +91,9 @@ class SubprocessRunner(object):
         self.error_log_level = self.default_error_log_level
 
         if self.is_save_history:
+            if len(self.__command_history) >= self.history_size:
+                self.__command_history.pop(0)
+
             self.__command_history.append(command)
 
     def run(self):
