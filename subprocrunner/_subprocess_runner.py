@@ -171,7 +171,7 @@ class SubprocessRunner(object):
         if typepy.is_null_string(self.command):
             raise InvalidCommandError("invalid str: {}".format(self.command))
 
-        if platform.system() == "Windows":
+        if self.dry_run or platform.system() == "Windows":
             return
 
         Which(self.command.split()[0].lstrip("(")).verify()
