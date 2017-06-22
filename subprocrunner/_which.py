@@ -29,10 +29,7 @@ class Which(object):
         self.__command = command
 
     def is_exist(self):
-        if self.which() is None:
-            return False
-
-        return True
+        return self.which() is not None
 
     def verify(self):
         if not self.is_exist():
