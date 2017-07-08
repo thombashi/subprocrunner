@@ -80,9 +80,9 @@ class Test_SubprocessRunner_run:
     def test_unicode(self, monkeypatch):
         def monkey_communicate(input=None):
             return (
-                u"",
-                u"'dummy' は、内部コマンドまたは外部コマンド、"
-                u"操作可能なプログラムまたはバッチ ファイルとして認識されていません",
+                "",
+                "'dummy' は、内部コマンドまたは外部コマンド、"
+                "操作可能なプログラムまたはバッチ ファイルとして認識されていません",
             )
 
         monkeypatch.setattr(
