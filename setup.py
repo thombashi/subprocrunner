@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 """
-.. codeauthor:: Tsuyoshi Hombashi <gogogo.vm@gmail.com>
+.. codeauthor:: Tsuyoshi Hombashi <tsuyoshi.hombashi@gmail.com>
 """
 
 from __future__ import unicode_literals
@@ -33,7 +33,7 @@ setuptools.setup(
     name=MODULE_NAME,
     version="0.8.2",
     author="Tsuyoshi Hombashi",
-    author_email="gogogo.vm@gmail.com",
+    author_email="tsuyoshi.hombashi@gmail.com",
     url="https://github.com/thombashi/{:s}".format(MODULE_NAME),
     license="MIT License",
     description="A python library of subprocess module wrapper.",
