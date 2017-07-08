@@ -34,7 +34,7 @@ else:
     raise NotImplementedError(os_type)
 
 
-class Test_SubprocessRunner_run:
+class Test_SubprocessRunner_run(object):
 
     @pytest.mark.parametrize(["command", "dry_run", "expected"], [
         [list_command, False, 0],
@@ -93,7 +93,7 @@ class Test_SubprocessRunner_run:
         runner.run()
 
 
-class Test_SubprocessRunner_popen:
+class Test_SubprocessRunner_popen(object):
 
     @pytest.mark.parametrize(["command", "environ", "expected"], [
         ["hostname", None, 0],
@@ -119,7 +119,7 @@ class Test_SubprocessRunner_popen:
         assert proc.returncode == expected
 
 
-class Test_SubprocessRunner_command_history:
+class Test_SubprocessRunner_command_history(object):
 
     @pytest.mark.parametrize(["command", "dry_run", "expected"], [
         [list_command, False, 0],
