@@ -8,6 +8,7 @@ from __future__ import absolute_import
 from __future__ import unicode_literals
 
 import shutil
+import warnings
 
 import six
 import typepy
@@ -36,9 +37,18 @@ class Which(object):
             raise CommandNotFoundError(
                 "command not found: '{}'".format(self.command))
 
-    def which(self):
+    def full_path(self):
         if six.PY2:
             from distutils.spawn import find_executable
             return find_executable(self.command)
 
         return shutil.which(self.command)
+
+    def which(self):
+        warnings.warn(
+            "which() deleted in the future, "
+            "use full_path() instead.",
+            DeprecationWarning
+        )
+
+        return self.full_path()
