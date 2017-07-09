@@ -1,6 +1,5 @@
 subprocrunner
 =============
-
 .. image:: https://badge.fury.io/py/subprocrunner.svg
     :target: https://badge.fury.io/py/subprocrunner
 
@@ -19,60 +18,70 @@ subprocrunner
 
 Summary
 -------
-
-A python library of subprocess module wrapper.
+A Python wrapper library for subprocess module.
 
 
 Examples
 ========
-
 Execute a command
 ----------------------------
+:Sample Code:
+    .. code:: python
 
-.. code:: python
+        from subprocrunner import SubprocessRunner
 
-    from subprocrunner import SubprocessRunner
+        runner = SubprocessRunner("echo test")
+        print("command: {:s}".format(runner.command))
+        print("return code: {:d}".format(runner.run()))
+        print("stdout: {:s}".format(runner.stdout))
 
-    runner = SubprocessRunner("echo test")
-    print("command: {:s}".format(runner.command))
-    print("return code: {:d}".format(runner.run()))
-    print("stdout: {:s}".format(runner.stdout))
+        runner = SubprocessRunner("ls __not_exist_dir__")
+        print("command: {:s}".format(runner.command))
+        print("return code: {:d}".format(runner.run()))
+        print("stderr: {:s}".format(runner.stderr))
 
-    runner = SubprocessRunner("ls __not_exist_dir__")
-    print("command: {:s}".format(runner.command))
-    print("return code: {:d}".format(runner.run()))
-    print("stderr: {:s}".format(runner.stderr))
+:Output:
+    .. code::
 
-.. code::
+        command: echo test
+        return code: 0
+        stdout: test
 
-    command: echo test
-    return code: 0
-    stdout: test
+        command: ls __not_exist_dir__
+        return code: 2
+        stderr: ls: cannot access '__not_exist_dir__': No such file or directory
 
-    command: ls __not_exist_dir__
-    return code: 2
-    stderr: ls: cannot access '__not_exist_dir__': No such file or directory
+Get execution command history
+--------------------------------------------------------
+:Sample Code:
+    .. code:: python
 
+        from subprocrunner import SubprocessRunner
 
-Get command history
+        SubprocessRunner.clear_history()
+        SubprocessRunner.is_save_history = True
+
+        SubprocessRunner("echo hoge").run()
+        SubprocessRunner("echo foo").run()
+
+        print("\n".join(SubprocessRunner.get_history()))
+
+:Output:
+    .. code::
+
+        echo hoge
+        echo foo
+
+Get a command information
 ----------------------------
+.. code-block:: pycon
 
-.. code:: python
-
-    from subprocrunner import SubprocessRunner
-
-    SubprocessRunner.clear_history()
-    SubprocessRunner.is_save_history = True
-
-    SubprocessRunner("echo hoge").run()
-    SubprocessRunner("echo foo").run()
-
-    print("\n".join(SubprocessRunner.get_history()))
-
-.. code::
-
-    echo hoge
-    echo foo
+    >>> from subprocrunner import Which
+    >>> which = Which("ls")
+    >>> which.is_exist()
+    True
+    >>> which.full_path()
+    '/usr/bin/ls'
 
 
 Installation
@@ -85,18 +94,16 @@ Installation
 
 Dependencies
 ============
-
 Python 2.7+ or 3.3+
 
 - `logbook <http://logbook.readthedocs.io/en/stable/>`__
 - `mbstrdecoder <https://github.com/thombashi/mbstrdecoder>`__
-- `typepy <https://github.com/thombashi/typepy>`__
 - `six <https://pypi.python.org/pypi/six/>`__
+- `typepy <https://github.com/thombashi/typepy>`__
 
 
 Test dependencies
 -----------------
-
 - `pytest <http://pytest.org/latest/>`__
 - `pytest-runner <https://pypi.python.org/pypi/pytest-runner>`__
 - `tox <https://testrun.org/tox/latest/>`__
