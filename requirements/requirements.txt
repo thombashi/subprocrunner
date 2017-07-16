@@ -1,4 +1,4 @@
-logbook>=1.0.0
+logbook>=1.1.0
 mbstrdecoder
 six
-typepy>=0.0.12
+typepy>=0.0.13
