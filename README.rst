@@ -80,7 +80,7 @@ Get a command information
     >>> which = Which("ls")
     >>> which.is_exist()
     True
-    >>> which.full_path()
+    >>> which.abspath()
     '/usr/bin/ls'
 
 
