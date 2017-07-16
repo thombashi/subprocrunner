@@ -11,10 +11,7 @@ import platform
 import pytest
 from subprocrunner import Which
 import subprocrunner
-from typepy import (
-    is_null_string,
-    is_not_null_string,
-)
+from typepy import is_not_null_string
 
 
 class Test_Which_constructor(object):
