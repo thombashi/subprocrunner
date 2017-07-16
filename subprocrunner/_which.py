@@ -37,18 +37,23 @@ class Which(object):
             raise CommandNotFoundError(
                 "command not found: '{}'".format(self.command))
 
-    def full_path(self):
+    def abspath(self):
         if six.PY2:
             from distutils.spawn import find_executable
             return find_executable(self.command)
 
         return shutil.which(self.command)
 
+    def full_path(self):
+        warnings.warn(
+            "which() deleted in the future, use abspath() instead.",
+            DeprecationWarning)
+
+        return self.abspath()
+
     def which(self):
         warnings.warn(
-            "which() deleted in the future, "
-            "use full_path() instead.",
-            DeprecationWarning
-        )
+            "which() deleted in the future, use abspath() instead.",
+            DeprecationWarning)
 
-        return self.full_path()
+        return self.abspath()

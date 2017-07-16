@@ -70,24 +70,24 @@ class Test_Which_verify(object):
             Which(value).verify()
 
 
-class Test_Which_full_path(object):
+class Test_Which_abspath(object):
 
     @pytest.mark.skipif("platform.system() != 'Linux'")
     @pytest.mark.parametrize(["value"], [
         ["ls"],
     ])
     def test_normal_linux(self, value):
-        assert is_not_null_string(Which(value).full_path())
+        assert is_not_null_string(Which(value).abspath())
 
     @pytest.mark.skipif("platform.system() != 'Windows'")
     @pytest.mark.parametrize(["value"], [
         ["ping"],
     ])
     def test_normal_windows(self, value):
-        assert is_not_null_string(Which(value).full_path())
+        assert is_not_null_string(Which(value).abspath())
 
     @pytest.mark.parametrize(["value"], [
         ["__not_exist_command__"],
     ])
     def test_abnormal(self, value):
-        assert Which(value).full_path() is None
+        assert Which(value).abspath() is None
