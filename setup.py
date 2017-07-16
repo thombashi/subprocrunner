@@ -36,7 +36,7 @@ setuptools.setup(
     author_email="tsuyoshi.hombashi@gmail.com",
     url="https://github.com/thombashi/{:s}".format(MODULE_NAME),
     license="MIT License",
-    description="A python library of subprocess module wrapper.",
+    description="A Python wrapper library for subprocess module.",
     include_package_data=True,
     install_requires=install_requires,
     keywords=[
