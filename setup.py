@@ -13,11 +13,6 @@ import setuptools
 
 
 REQUIREMENT_DIR = "requirements"
-MODULE_NAME = "subprocrunner"
-
-needs_pytest = set(["pytest", "test", "ptr"]).intersection(sys.argv)
-pytest_runner = ["pytest-runner"] if needs_pytest else []
-
 
 with open("README.rst") as fp:
     long_description = fp.read()
@@ -31,6 +26,10 @@ with open(os.path.join(REQUIREMENT_DIR, "test_requirements.txt")) as f:
 with open(os.path.join(REQUIREMENT_DIR, "docs_requirements.txt")) as f:
     docs_requires = [line.strip() for line in f if line.strip()]
 
+MODULE_NAME = "subprocrunner"
+needs_pytest = set(["pytest", "test", "ptr"]).intersection(sys.argv)
+pytest_runner = ["pytest-runner"] if needs_pytest else []
+
 setuptools.setup(
     name=MODULE_NAME,
     version="0.8.5",
@@ -40,12 +39,12 @@ setuptools.setup(
     author_email="tsuyoshi.hombashi@gmail.com",
     description="A Python wrapper library for subprocess module.",
     include_package_data=True,
-    install_requires=install_requires,
     keywords=["library", "subprocess"],
     license="MIT License",
     long_description=long_description,
     packages=setuptools.find_packages(exclude=['test*']),
 
+    install_requires=install_requires,
     setup_requires=pytest_runner,
     tests_require=tests_requires,
     extras_require={
