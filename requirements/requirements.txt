@@ -1,3 +1,4 @@
+setuptools>=20.2.2
 logbook>=1.1.0
 mbstrdecoder
 six
