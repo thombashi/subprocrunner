@@ -46,7 +46,7 @@ setuptools.setup(
     long_description=long_description,
     packages=setuptools.find_packages(exclude=['test*']),
 
-    setup_requires=["setuptools>=20.2.2"] + pytest_runner,
+    setup_requires=pytest_runner,
     tests_require=tests_requires,
     extras_require={
         "test": tests_requires,
@@ -70,5 +70,4 @@ setuptools.setup(
         "Programming Language :: Python :: 3.6",
         "Topic :: Software Development :: Libraries",
         "Topic :: Software Development :: Libraries :: Python Modules",
-    ],
-)
+    ])
