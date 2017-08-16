@@ -10,6 +10,7 @@ from __future__ import unicode_literals
 import os
 import platform
 import subprocess
+import traceback
 
 import logbook
 from mbstrdecoder import MultiByteStrDecoder
@@ -108,7 +109,8 @@ class SubprocessRunner(object):
 
             return self.__returncode
 
-        self.__debug_logging_method(self.command)
+        self.__debug_logging_method("{}\n{}".format(
+            self.command, "".join(traceback.format_stack()[:-1])))
 
         try:
             proc = subprocess.Popen(
@@ -154,7 +156,8 @@ class SubprocessRunner(object):
                 args=[], returncode=self.__returncode,
                 stdout=self.__stdout, stderr=self.__stderr)
 
-        self.__debug_logging_method(self.command)
+        self.__debug_logging_method("{}\n{}".format(
+            self.command, "".join(traceback.format_stack()[:-1])))
 
         try:
             process = subprocess.Popen(
