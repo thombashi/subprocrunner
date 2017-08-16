@@ -37,8 +37,12 @@ class SubprocessRunner(object):
 
     default_error_log_level = logbook.WARNING
     default_is_dry_run = False
+
+    is_output_stacktrace = False
+
     is_save_history = False
     history_size = 512
+
     __command_history = []
 
     @classmethod
@@ -203,5 +207,9 @@ class SubprocessRunner(object):
         return method
 
     def __debug_print_command(self):
-        self.__debug_logging_method("{}\n{}".format(
-            self.command, "".join(traceback.format_stack()[:-2])))
+        message_list = [self.command]
+
+        if self.is_output_stacktrace:
+            message_list.append("".join(traceback.format_stack()[:-2]))
+
+        self.__debug_logging_method("\n".join(message_list))
