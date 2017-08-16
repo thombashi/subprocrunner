@@ -109,8 +109,7 @@ class SubprocessRunner(object):
 
             return self.__returncode
 
-        self.__debug_logging_method("{}\n{}".format(
-            self.command, "".join(traceback.format_stack()[:-1])))
+        self.__debug_print_command()
 
         try:
             proc = subprocess.Popen(
@@ -156,8 +155,7 @@ class SubprocessRunner(object):
                 args=[], returncode=self.__returncode,
                 stdout=self.__stdout, stderr=self.__stderr)
 
-        self.__debug_logging_method("{}\n{}".format(
-            self.command, "".join(traceback.format_stack()[:-1])))
+        self.__debug_print_command()
 
         try:
             process = subprocess.Popen(
@@ -203,3 +201,7 @@ class SubprocessRunner(object):
             raise ValueError("unknown log level: {}".format(log_level))
 
         return method
+
+    def __debug_print_command(self):
+        self.__debug_logging_method("{}\n{}".format(
+            self.command, "".join(traceback.format_stack()[:-2])))
