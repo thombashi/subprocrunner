@@ -45,6 +45,14 @@ class Test_SubprocessRunner_run(object):
     def test_normal(self, command, dry_run, expected):
         assert SubprocessRunner(command, dry_run=dry_run).run() == expected
 
+    @pytest.mark.skipif("platform.system() == 'Windows'")
+    @pytest.mark.parametrize(["command", "expected"], [
+        [list_command + " -l", 0],
+        [[list_command, " -l"], 0],
+    ])
+    def test_command(self, command, expected):
+        assert SubprocessRunner(command).run() == expected
+
     @pytest.mark.parametrize(["command", "expected"], [
         ["echo test", "test"],
     ])
