@@ -56,26 +56,46 @@ class Test_SubprocessRunner_run(object):
         assert is_null_string(runner.stderr)
 
     @pytest.mark.skipif("platform.system() == 'Windows'")
-    @pytest.mark.parametrize(["command", "regexp", "out_regexp", "expected"], [
+    @pytest.mark.parametrize(
+        ["command", "ignore_stderr_regexp", "out_regexp", "expected"],
         [
-            list_command + " __not_exist_dir__",
-            None,
-            re.compile("WARNING: "),
-            True,
-        ],
-        [
-            list_command + " __not_exist_dir__",
-            re.compile("__not_exist_dir__"),
-            re.compile("WARNING: ", re.DOTALL),
-            False,
-        ],
-    ])
-    def test_stderr(self, capsys, command, regexp, out_regexp, expected):
-        runner = SubprocessRunner(command, ignore_stderr_regexp=regexp)
+            [
+                list_command + " __not_exist_dir__",
+                None,
+                re.compile("WARNING"),
+                True,
+            ],
+            [
+                list_command + " __not_exist_dir__",
+                re.compile(re.escape("__not_exist_dir__")),
+                re.compile("WARNING"),
+                False,
+            ],
+        ])
+    def test_stderr(
+            self, capsys, command, ignore_stderr_regexp, out_regexp, expected):
+        import logbook
+        import subprocrunner
+
+        logbook.StderrHandler(
+            level=logbook.DEBUG).push_application()
+        subprocrunner.set_log_level(logbook.INFO)
+
+        runner = SubprocessRunner(
+            command, ignore_stderr_regexp=ignore_stderr_regexp)
         runner.run()
 
         assert is_null_string(runner.stdout.strip())
         assert is_not_null_string(runner.stderr.strip())
+
+        out, err = capsys.readouterr()
+        print("[sys stdout]\n{}\n".format(out))
+        print("[sys stderr]\n{}\n".format(err))
+        print("[proc stdout]\n{}\n".format(runner.stdout))
+        print("[proc stderr]\n{}\n".format(runner.stderr))
+
+        actual = out_regexp.search(err) is not None
+        assert actual == expected
 
     def test_unicode(self, monkeypatch):
         def monkey_communicate(input=None):
