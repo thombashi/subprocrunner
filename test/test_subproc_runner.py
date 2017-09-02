@@ -48,7 +48,7 @@ class Test_SubprocessRunner_run(object):
     @pytest.mark.skipif("platform.system() == 'Windows'")
     @pytest.mark.parametrize(["command", "expected"], [
         [list_command + " -l", 0],
-        [[list_command, " -l"], 0],
+        [[list_command, "-l"], 0],
     ])
     def test_command(self, command, expected):
         assert SubprocessRunner(command).run() == expected
