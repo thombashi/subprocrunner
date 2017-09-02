@@ -51,6 +51,9 @@ Execute a command
         return code: 2
         stderr: ls: cannot access '__not_exist_dir__': No such file or directory
 
+dry run
+----------------------------
+
 Get execution command history
 --------------------------------------------------------
 :Sample Code:
@@ -82,6 +85,9 @@ Get a command information
     True
     >>> which.abspath()
     '/usr/bin/ls'
+    >>> which
+    command=ls, is_exist=True, abspath=/usr/bin/ls
+    
 
 
 Installation
