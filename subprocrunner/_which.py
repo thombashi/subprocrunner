@@ -30,7 +30,7 @@ class Which(object):
         self.__command = command
 
     def is_exist(self):
-        return self.which() is not None
+        return self.abspath() is not None
 
     def verify(self):
         if not self.is_exist():
