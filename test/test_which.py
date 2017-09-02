@@ -26,6 +26,19 @@ class Test_Which_constructor(object):
             Which(value)
 
 
+class Test_Which_repr(object):
+
+    @pytest.mark.parametrize(["value", "expected"], [
+        ["ls", "command=ls, is_exist=True, abspath=/usr/bin/ls"],
+        [
+            "__not_exist_command__",
+            "command=__not_exist_command__, is_exist=False",
+        ],
+    ])
+    def test_normal(self, value, expected):
+        assert str(Which(value)) == expected
+
+
 class Test_Which_is_exist(object):
 
     @pytest.mark.skipif("platform.system() != 'Linux'")

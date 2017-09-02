@@ -29,6 +29,17 @@ class Which(object):
 
         self.__command = command
 
+    def __repr__(self):
+        item_list = [
+            "command={}".format(self.command),
+            "is_exist={}".format(self.is_exist()),
+        ]
+
+        if self.is_exist():
+            item_list.append("abspath={}".format(self.abspath()))
+
+        return ", ".join(item_list)
+
     def is_exist(self):
         return self.abspath() is not None
 
