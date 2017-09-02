@@ -46,7 +46,7 @@ class Which(object):
 
     def full_path(self):
         warnings.warn(
-            "which() deleted in the future, use abspath() instead.",
+            "full_path() deleted in the future, use abspath() instead.",
             DeprecationWarning)
 
         return self.abspath()
