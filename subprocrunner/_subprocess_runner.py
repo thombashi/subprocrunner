@@ -9,6 +9,7 @@ from __future__ import unicode_literals
 
 import os
 import platform
+from subprocess import PIPE
 import subprocess
 import traceback
 
@@ -123,13 +124,11 @@ class SubprocessRunner(object):
         try:
             proc = subprocess.Popen(
                 self.command, shell=True, env=self.__get_env(),
-                stdin=subprocess.PIPE,
-                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                stdin=PIPE, stdout=PIPE, stderr=PIPE)
         except TypeError:
             proc = subprocess.Popen(
                 self.command, shell=True,
-                stdin=subprocess.PIPE,
-                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                stdin=PIPE, stdout=PIPE, stderr=PIPE)
 
         self.__stdout, self.__stderr = proc.communicate(**kwargs)
         self.__returncode = proc.returncode
@@ -171,11 +170,11 @@ class SubprocessRunner(object):
         try:
             process = subprocess.Popen(
                 self.command, env=self.__get_env(environ), shell=True,
-                stdin=std_in, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                stdin=std_in, stdout=PIPE, stderr=PIPE)
         except TypeError:
             process = subprocess.Popen(
                 self.command, shell=True,
-                stdin=std_in, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                stdin=std_in, stdout=PIPE, stderr=PIPE)
 
         return process
 
