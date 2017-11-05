@@ -188,7 +188,8 @@ class SubprocessRunner(object):
 
         Which(self.command.split()[0].lstrip("(")).verify()
 
-    def __get_env(self, env=None):
+    @staticmethod
+    def __get_env(env=None):
         if env is not None:
             return env
 
