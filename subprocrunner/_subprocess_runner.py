@@ -106,7 +106,7 @@ class SubprocessRunner(object):
 
             self.__command_history.append(command)
 
-    def run(self):
+    def run(self, **kwargs):
         self.__verify_command()
 
         if self.dry_run:
@@ -123,13 +123,15 @@ class SubprocessRunner(object):
         try:
             proc = subprocess.Popen(
                 self.command, shell=True, env=self.__get_env(),
+                stdin=subprocess.PIPE,
                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         except TypeError:
             proc = subprocess.Popen(
                 self.command, shell=True,
+                stdin=subprocess.PIPE,
                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-        self.__stdout, self.__stderr = proc.communicate()
+        self.__stdout, self.__stderr = proc.communicate(**kwargs)
         self.__returncode = proc.returncode
 
         self.__stdout = MultiByteStrDecoder(self.__stdout).unicode_str
