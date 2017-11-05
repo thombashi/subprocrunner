@@ -15,6 +15,9 @@ subprocrunner
 .. image:: https://coveralls.io/repos/github/thombashi/subprocrunner/badge.svg?branch=master
     :target: https://coveralls.io/github/thombashi/subprocrunner?branch=master
 
+.. contents:: Table of Contents
+   :depth: 2
+
 
 Summary
 -------
@@ -53,6 +56,22 @@ Execute a command
 
 dry run
 ----------------------------
+:Sample Code:
+    .. code:: python
+
+        from subprocrunner import SubprocessRunner
+
+        runner = SubprocessRunner("echo test", dry_run=True)
+        print("command: {:s}".format(runner.command))
+        print("return code: {:d}".format(runner.run()))
+        print("stdout: {:s}".format(runner.stdout))
+
+:Output:
+    .. code::
+
+        command: echo test
+        return code: 0
+        stdout:
 
 Get execution command history
 --------------------------------------------------------
@@ -92,7 +111,6 @@ Get a command information
 
 Installation
 ============
-
 ::
 
     pip install subprocrunner
@@ -100,7 +118,7 @@ Installation
 
 Dependencies
 ============
-Python 2.7+ or 3.3+
+Python 2.7+ or 3.4+
 
 - `logbook <http://logbook.readthedocs.io/en/stable/>`__
 - `mbstrdecoder <https://github.com/thombashi/mbstrdecoder>`__
