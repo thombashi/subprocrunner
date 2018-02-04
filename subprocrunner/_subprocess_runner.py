@@ -82,7 +82,7 @@ class SubprocessRunner(object):
     def error_log_level(self, log_level):
         self.__error_logging_method = self.__get_logging_method(log_level)
 
-    def __init__(self, command, ignore_stderr_regexp=None, dry_run=None):
+    def __init__(self, command, error_log_level=None, ignore_stderr_regexp=None, dry_run=None):
         if typepy.type.List(command).is_type():
             # concatenate command arguments to create a command if the command
             # argument is list.
@@ -99,7 +99,11 @@ class SubprocessRunner(object):
 
         self.__ignore_stderr_regexp = ignore_stderr_regexp
         self.__debug_logging_method = self.__get_logging_method(logbook.DEBUG)
-        self.error_log_level = self.default_error_log_level
+
+        if error_log_level is not None:
+            self.error_log_level = error_log_level
+        else:
+            self.error_log_level = self.default_error_log_level
 
         if self.is_save_history:
             if len(self.__command_history) >= self.history_size:
@@ -200,6 +204,7 @@ class SubprocessRunner(object):
     @staticmethod
     def __get_logging_method(log_level):
         method_table = {
+            logbook.NOTSET: lambda _x: None,
             logbook.DEBUG: logger.debug,
             logbook.INFO: logger.info,
             logbook.WARNING: logger.warning,
