@@ -26,6 +26,7 @@ class Which(object):
             raise InvalidCommandError("invalid str {}: ".format(command))
 
         self.__command = command
+        self.__abspath = None
 
     def __repr__(self):
         item_list = [
@@ -47,11 +48,16 @@ class Which(object):
                 "command not found: '{}'".format(self.command))
 
     def abspath(self):
+        if self.__abspath:
+            return self.__abspath
+
         if six.PY2:
             from distutils.spawn import find_executable
-            return find_executable(self.command)
+            self.__abspath = find_executable(self.command)
+        else:
+            self.__abspath = shutil.which(self.command)
 
-        return shutil.which(self.command)
+        return self.__abspath
 
     def full_path(self):
         warnings.warn(
