@@ -15,8 +15,10 @@ import setuptools
 MODULE_NAME = "subprocrunner"
 REQUIREMENT_DIR = "requirements"
 
+pkg_info = {}
+
 with open(os.path.join(MODULE_NAME, "__version__.py")) as f:
-    exec(f.read())
+    exec(f.read(), pkg_info)
 
 with open("README.rst") as fp:
     long_description = fp.read()
@@ -35,17 +37,17 @@ pytest_runner = ["pytest-runner"] if needs_pytest else []
 
 setuptools.setup(
     name=MODULE_NAME,
-    version=__version__,
+    version=pkg_info["__version__"],
     url="https://github.com/thombashi/{:s}".format(MODULE_NAME),
 
-    author=__author__,
-    author_email=__email__,
+    author=pkg_info["__author__"],
+    author_email=pkg_info["__email__"],
     description="A Python wrapper library for subprocess module.",
     include_package_data=True,
     keywords=["library", "subprocess"],
-    license=__license__,
+    license=pkg_info["__license__"],
     long_description=long_description,
-    packages=setuptools.find_packages(exclude=['test*']),
+    packages=setuptools.find_packages(exclude=["test*"]),
 
     install_requires=install_requires,
     setup_requires=pytest_runner,
