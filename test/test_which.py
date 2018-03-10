@@ -28,16 +28,21 @@ class Test_Which_constructor(object):
 
 class Test_Which_repr(object):
 
-    @pytest.mark.xfail
     @pytest.mark.parametrize(["value", "expected"], [
-        ["ls", "command=ls, is_exist=True, abspath=/usr/bin/ls"],
+        [
+            "ls", 
+            [
+                "command=ls, is_exist=True, abspath=/usr/bin/ls",
+                "command=ls, is_exist=True, abspath=/bin/ls",
+            ],
+        ],
         [
             "__not_exist_command__",
-            "command=__not_exist_command__, is_exist=False",
+            ["command=__not_exist_command__, is_exist=False"],
         ],
     ])
     def test_normal(self, value, expected):
-        assert str(Which(value)) == expected
+        assert str(Which(value)) in expected
 
 
 class Test_Which_is_exist(object):
