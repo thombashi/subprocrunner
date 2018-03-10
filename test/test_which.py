@@ -9,8 +9,8 @@ from __future__ import unicode_literals
 import platform
 
 import pytest
-from subprocrunner import Which
 import subprocrunner
+from subprocrunner import Which
 from typepy import is_not_null_string
 
 

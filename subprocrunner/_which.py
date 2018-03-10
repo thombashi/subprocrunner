@@ -4,8 +4,7 @@
 .. codeauthor:: Tsuyoshi Hombashi <tsuyoshi.hombashi@gmail.com>
 """
 
-from __future__ import absolute_import
-from __future__ import unicode_literals
+from __future__ import absolute_import, unicode_literals
 
 import shutil
 import warnings
@@ -13,8 +12,7 @@ import warnings
 import six
 import typepy
 
-from ._error import CommandNotFoundError
-from ._error import InvalidCommandError
+from ._error import CommandNotFoundError, InvalidCommandError
 
 
 class Which(object):

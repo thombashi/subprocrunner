@@ -4,24 +4,19 @@
 .. codeauthor:: Tsuyoshi Hombashi <tsuyoshi.hombashi@gmail.com>
 """
 
-from __future__ import print_function
-from __future__ import unicode_literals
+from __future__ import print_function, unicode_literals
 
 import errno
 import os
 import platform
 import re
-from subprocess import PIPE
 import subprocess
+from subprocess import PIPE
 
 import pytest
 import six
 from subprocrunner import SubprocessRunner
-from typepy import (
-    is_null_string,
-    is_not_null_string,
-)
-
+from typepy import is_not_null_string, is_null_string
 
 os_type = platform.system()
 if os_type == "Linux":
