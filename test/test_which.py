@@ -28,6 +28,7 @@ class Test_Which_constructor(object):
 
 class Test_Which_repr(object):
 
+    @pytest.mark.skipif("platform.system() == 'Windows'")
     @pytest.mark.parametrize(["value", "expected"], [
         [
             "ls", 
