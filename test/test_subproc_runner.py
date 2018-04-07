@@ -18,6 +18,7 @@ import six
 from subprocrunner import SubprocessRunner
 from typepy import is_not_null_string, is_null_string
 
+
 os_type = platform.system()
 if os_type == "Linux":
     list_command = "ls"

@@ -8,6 +8,7 @@ from __future__ import absolute_import, unicode_literals
 
 import logbook
 
+
 logger = logbook.Logger("subprocrunner")
 logger.disable()
 

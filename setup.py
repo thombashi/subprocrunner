@@ -11,6 +11,7 @@ import sys
 
 import setuptools
 
+
 MODULE_NAME = "subprocrunner"
 REQUIREMENT_DIR = "requirements"
 
