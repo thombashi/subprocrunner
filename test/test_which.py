@@ -31,7 +31,7 @@ class Test_Which_repr(object):
     @pytest.mark.skipif("platform.system() == 'Windows'")
     @pytest.mark.parametrize(["value", "expected"], [
         [
-            "ls", 
+            "ls",
             [
                 "command=ls, is_exist=True, abspath=/usr/bin/ls",
                 "command=ls, is_exist=True, abspath=/bin/ls",
