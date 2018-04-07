@@ -51,6 +51,7 @@ class Test_Which_is_exist(object):
     @pytest.mark.skipif("platform.system() != 'Linux'")
     @pytest.mark.parametrize(["value", "expected"], [
         ["ls", True],
+        ["/bin/ls", True],
         ["__not_exist_command__", False],
     ])
     def test_normal_linux(self, value, expected):
