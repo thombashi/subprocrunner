@@ -44,8 +44,7 @@ class Which(object):
 
     def verify(self):
         if not self.is_exist():
-            raise CommandNotFoundError(
-                "command not found: '{}'".format(self.command))
+            raise CommandNotFoundError("command not found: '{}'".format(self.command))
 
     def abspath(self):
         if self.__abspath:
@@ -61,14 +60,12 @@ class Which(object):
 
     def full_path(self):
         warnings.warn(
-            "full_path() deleted in the future, use abspath() instead.",
-            DeprecationWarning)
+            "full_path() deleted in the future, use abspath() instead.", DeprecationWarning)
 
         return self.abspath()
 
     def which(self):
         warnings.warn(
-            "which() deleted in the future, use abspath() instead.",
-            DeprecationWarning)
+            "which() deleted in the future, use abspath() instead.", DeprecationWarning)
 
         return self.abspath()
