@@ -16,9 +16,9 @@ import logbook
 import typepy
 from mbstrdecoder import MultiByteStrDecoder
 
-from ._error import InvalidCommandError
 from ._logger import logger
 from ._which import Which
+from .error import InvalidCommandError
 
 
 class SubprocessRunner(object):

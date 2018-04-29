@@ -12,7 +12,7 @@ import warnings
 import six
 import typepy
 
-from ._error import CommandNotFoundError, InvalidCommandError
+from .error import CommandNotFoundError, InvalidCommandError
 
 
 class Which(object):
