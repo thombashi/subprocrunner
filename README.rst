@@ -1,5 +1,12 @@
-subprocrunner
+**subprocrunner**
+
+.. contents:: Table of Contents
+   :depth: 2
+
+Summary
 =============
+A Python wrapper library for subprocess module.
+
 .. image:: https://badge.fury.io/py/subprocrunner.svg
     :target: https://badge.fury.io/py/subprocrunner
 
@@ -14,14 +21,6 @@ subprocrunner
 
 .. image:: https://coveralls.io/repos/github/thombashi/subprocrunner/badge.svg?branch=master
     :target: https://coveralls.io/github/thombashi/subprocrunner?branch=master
-
-.. contents:: Table of Contents
-   :depth: 2
-
-
-Summary
--------
-A Python wrapper library for subprocess module.
 
 
 Examples
@@ -106,7 +105,6 @@ Get a command information
     '/usr/bin/ls'
     >>> which
     command=ls, is_exist=True, abspath=/usr/bin/ls
-    
 
 
 Installation
