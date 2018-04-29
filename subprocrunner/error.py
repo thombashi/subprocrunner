@@ -8,7 +8,15 @@ from __future__ import absolute_import, unicode_literals
 
 
 class CommandError(Exception):
-    pass
+
+    @property
+    def errno(self):
+        return self.__errno
+
+    def __init__(self, *args, **kwargs):
+        self.__errno = kwargs.pop("errno", None)
+
+        super(CommandError, self).__init__(*args, **kwargs)
 
 
 class InvalidCommandError(CommandError):

@@ -6,6 +6,7 @@
 
 from __future__ import absolute_import, unicode_literals
 
+import errno
 import shutil
 import warnings
 
@@ -44,7 +45,8 @@ class Which(object):
 
     def verify(self):
         if not self.is_exist():
-            raise CommandNotFoundError("command not found: '{}'".format(self.command))
+            raise CommandNotFoundError(
+                "command not found: '{}'".format(self.command), errno=errno.ENOENT)
 
     def abspath(self):
         if self.__abspath:
