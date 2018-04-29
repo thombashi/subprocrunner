@@ -69,6 +69,7 @@ setuptools.setup(
     project_urls={
         "Tracker": "{:s}/issues".format(REPOSITORY_URL),
     },
+    python_requires='>=2.7,!=3.0.*,!=3.1.*,!=3.2.*',
 
     install_requires=SETUPTOOLS_REQUIRES + install_requires,
     setup_requires=SETUPTOOLS_REQUIRES + PYTEST_RUNNER_REQUIRES,
