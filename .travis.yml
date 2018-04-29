@@ -19,7 +19,7 @@ install:
   - pip install tox
   - pip install coveralls
 
-script: 
+script:
   - tox
   - python setup.py test --addopts "-v --cov subprocrunner --cov-report term-missing"
 
@@ -29,15 +29,3 @@ after_success:
 notifications:
   slack:
     secure: f87TSzbMgePCkZJx3aJOiQqHCH+Me5PPI9Y/Wxsy5Io+pnYhi6P7WcCTLLljlXB4rEiBDXGtx4K0j/nRmixdtNQfyRURShBVLZGattV0wQwaaWaZeWFoq6ndePHTlQIkHRCWxJaq1LyqIghbj3Y8VKJRzdGzyEFPt9GyQASltQkmPeKwNnpBWqET5a0Bu2djD3bTsuoADHMr5gAYxsPF/XuC11uoXJdkdMvQSJZLloLqfvBDz5DF4DEG7pZrnrFXlifHidxAUQgOfyfCFLogM5MlxfJUtGaP31sdQuwwrSW78FFVP+wGCxefyX/TkL/Q+YNFnKmfBWF6I8M7n2tUvkmH5IGpen3tc1/cw0lLiKkqoFqvUELZh/3d7qdrM4xPxksdiY8ZSX9h8lB8KcdhD4TLhA8+PSfEQoVBH1cbnCqDp/0DnbZc/i5+ETXl/akkK4kUb0f+uauwJjmk9Nvet1kPtDUwIn9l4XU1B4ek6BzPCLgbLk/FytZYDVQi2xYc/2E/oN0Cu5gwDjKnj4hb+owBVlDEQ/FACxqx4b+CFhemjvMl9lzlRWkM/5ZyFz81EbRdWvNMo07NRFYGltVhsxkANkO8QPOsLMYs6kdglDsKt3yaAdCvtNIrOR5JzhjtQLFxbSdHGaRHBz3qLFZHhXNfAYxMF2/Xnp9gqCcFE64=
-
-deploy:
-  provider: pypi
-  user: vmmhypervisor
-  password:
-    secure: V/SPfXCw/1QCU0qKaH7n2gAVgdKSKVCsxoY/DqXGBORdbZuK4PHeMX4Ful+UNDW0xsxppnwGwy1tcgNKDnlhyFUW1IMCG3cTCLpvgPTFZnDuZ0c+euwF298BQjVD8ZDfK0LYl9TrlkwDMNcgmDj106HxsM3SDDhnLhWIcO4xlyajfMI1pARUMXcN/MU35VU4IX8dZFTjfeCgiJgHmEI7mMKEVySgzOIBuoy1iOkuXEgm1OcSvs1GK4JYd8TbG+qIkYnCAcvgTjkZiN+FZOVUEpbDBqbJdJbv8ow+xGU1YKK8LAiyc1HwCNq8wW/0PzvKXFST7sgvjr5Up7QiBxpRa2ge9u0JD0gcfPczRbl/SPh+bZR1Cwz4WQBE4/iLAj7LP2qTuHxxACgxzlkSTarJX/3joowPl9iPxbsfPEdLQpaS1kQ5RHy9KSOdkilyUPE03s0F0xm8MfSKec/v1pyUM4QIbt4QnkDiG4AdmxKeVBryxjeQgtemmiiM0EZqQIU9SNCuANQYO20D5iGt42WEo0UXE6LxTiX6xfoB/qfZQAL3BraHflbvcfjh7Z8OQvAKEKprpgy7inBMoFnD9/HD89hRwWC323FDKim2vZd5vAm6gU1kbCBk2DXqvqx2LGzj8OAzrQxQ2AVTu+6kDqyk/Ffz2XWyA0bqKxPDqf3mv9c=
-  on:
-    tags: true
-    repo: thombashi/subprocrunner
-    branch: master
-    python: 3.6
-  distributions: "sdist bdist_wheel"
