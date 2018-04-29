@@ -72,6 +72,7 @@ setuptools.setup(
     setup_requires=pytest_runner,
     tests_require=tests_requires,
     extras_require={
+        "build": "wheel",
         "test": tests_requires,
         "docs": docs_requires,
     },
