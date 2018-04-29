@@ -14,6 +14,7 @@ import setuptools
 
 MODULE_NAME = "subprocrunner"
 REQUIREMENT_DIR = "requirements"
+ENCODING = "utf8"
 
 pkg_info = {}
 
@@ -39,7 +40,7 @@ class ReleaseCommand(setuptools.Command):
         os.system("git push --tags")
 
 
-with open("README.rst") as fp:
+with io.open("README.rst", encoding=ENCODING) as fp:
     long_description = fp.read()
 
 with open(os.path.join(REQUIREMENT_DIR, "requirements.txt")) as f:
