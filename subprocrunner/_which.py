@@ -24,7 +24,7 @@ class Which(object):
 
     def __init__(self, command):
         if not typepy.is_not_null_string(command):
-            raise InvalidCommandError("invalid str {}: ".format(command))
+            raise InvalidCommandError("invalid str {}: ".format(command), errno=errno.EINVAL)
 
         self.__command = command
         self.__abspath = None

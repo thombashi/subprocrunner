@@ -6,6 +6,7 @@
 
 from __future__ import absolute_import, unicode_literals
 
+import errno
 import os
 import platform
 import subprocess
@@ -183,7 +184,7 @@ class SubprocessRunner(object):
 
     def __verify_command(self):
         if typepy.is_null_string(self.command):
-            raise InvalidCommandError("invalid str: {}".format(self.command))
+            raise InvalidCommandError("invalid str: {}".format(self.command), errno=errno.EINVAL)
 
         if self.dry_run or platform.system() == "Windows":
             return
