@@ -7,9 +7,13 @@
 from __future__ import absolute_import, unicode_literals
 
 
-class InvalidCommandError(Exception):
+class CommandError(Exception):
     pass
 
 
-class CommandNotFoundError(Exception):
+class InvalidCommandError(CommandError):
+    pass
+
+
+class CommandNotFoundError(CommandError):
     pass
