@@ -20,8 +20,10 @@ class CommandError(Exception):
 
 
 class InvalidCommandError(CommandError):
+    # Deprecate in the future
     pass
 
 
 class CommandNotFoundError(CommandError):
+    # Deprecate in the future
     pass
