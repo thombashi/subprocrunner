@@ -97,5 +97,5 @@ setuptools.setup(
         "Topic :: Software Development :: Libraries :: Python Modules",
     ],
     cmdclass={
-        "release": ReleaseCommand,
+        "release": get_release_command_class(),
     })
