@@ -114,6 +114,8 @@ class SubprocessRunner(object):
     def run(self, **kwargs):
         self.__verify_command()
 
+        env = kwargs.pop("env", None)
+
         if self.dry_run:
             self.__stdout = self._DRY_RUN_OUTPUT
             self.__stderr = self._DRY_RUN_OUTPUT
@@ -127,7 +129,7 @@ class SubprocessRunner(object):
 
         try:
             proc = subprocess.Popen(
-                self.command, shell=True, env=self.__get_env(),
+                self.command, shell=True, env=self.__get_env(env),
                 stdin=PIPE, stdout=PIPE, stderr=PIPE)
         except TypeError:
             proc = subprocess.Popen(
