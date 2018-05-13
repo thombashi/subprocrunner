@@ -156,7 +156,7 @@ class SubprocessRunner(object):
 
         return self.returncode
 
-    def popen(self, std_in=None, environ=None):
+    def popen(self, std_in=None, env=None):
         self.__verify_command()
 
         if self.dry_run:
@@ -174,7 +174,7 @@ class SubprocessRunner(object):
 
         try:
             process = subprocess.Popen(
-                self.command, env=self.__get_env(environ), shell=True,
+                self.command, env=self.__get_env(env), shell=True,
                 stdin=std_in, stdout=PIPE, stderr=PIPE)
         except TypeError:
             process = subprocess.Popen(

@@ -119,7 +119,7 @@ class Test_SubprocessRunner_popen(object):
         ["hostname", dict(os.environ), 0],
     ])
     def test_normal(self, command, environ, expected):
-        proc = SubprocessRunner(command).popen(environ=environ)
+        proc = SubprocessRunner(command).popen(env=environ)
         ret_stdout, ret_stderr = proc.communicate()
         assert is_not_null_string(ret_stdout)
         assert is_null_string(ret_stderr)
