@@ -76,17 +76,14 @@ class Test_SubprocessRunner_run(object):
                 False,
             ],
         ])
-    def test_stderr(
-            self, capsys, command, ignore_stderr_regexp, out_regexp, expected):
+    def test_stderr(self, capsys, command, ignore_stderr_regexp, out_regexp, expected):
         import logbook
         import subprocrunner
 
-        logbook.StderrHandler(
-            level=logbook.DEBUG).push_application()
+        logbook.StderrHandler(level=logbook.DEBUG).push_application()
         subprocrunner.set_log_level(logbook.INFO)
 
-        runner = SubprocessRunner(
-            command, ignore_stderr_regexp=ignore_stderr_regexp)
+        runner = SubprocessRunner(command, ignore_stderr_regexp=ignore_stderr_regexp)
         runner.run()
 
         assert is_null_string(runner.stdout.strip())
@@ -109,9 +106,7 @@ class Test_SubprocessRunner_run(object):
                 "操作可能なプログラムまたはバッチ ファイルとして認識されていません",
             )
 
-        monkeypatch.setattr(
-            subprocess.Popen,
-            "communicate", monkey_communicate)
+        monkeypatch.setattr(subprocess.Popen, "communicate", monkey_communicate)
 
         runner = SubprocessRunner(list_command)
         runner.run()
