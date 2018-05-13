@@ -20,7 +20,7 @@ from typepy import is_not_null_string, is_null_string
 
 
 os_type = platform.system()
-if os_type == "Linux":
+if os_type in ["Linux", "Darwin"]:
     list_command = "ls"
     list_command_errno = errno.ENOENT
 elif os_type == "Windows":

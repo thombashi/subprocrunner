@@ -7,6 +7,7 @@
 from __future__ import unicode_literals
 
 import platform
+import re
 
 import pytest
 import subprocrunner
@@ -29,26 +30,22 @@ class Test_Which_constructor(object):
 class Test_Which_repr(object):
 
     @pytest.mark.skipif("platform.system() == 'Windows'")
-    @pytest.mark.parametrize(["value", "expected"], [
+    @pytest.mark.parametrize(["value", "expected_regexp"], [
         [
             "ls",
-            [
-                "command=ls, is_exist=True, abspath=/usr/bin/ls",
-                "command=ls, is_exist=True, abspath=/bin/ls",
-            ],
-        ],
-        [
+            re.compile("^command=ls, is_exist=True, abspath=.*?bin/ls$"),
+        ], [
             "__not_exist_command__",
-            ["command=__not_exist_command__, is_exist=False"],
+            re.compile("^command=__not_exist_command__, is_exist=False$"),
         ],
     ])
-    def test_normal(self, value, expected):
-        assert str(Which(value)) in expected
+    def test_normal(self, value, expected_regexp):
+        assert expected_regexp.search(str(Which(value))) is not None
 
 
 class Test_Which_is_exist(object):
 
-    @pytest.mark.skipif("platform.system() != 'Linux'")
+    @pytest.mark.skipif("platform.system() == 'Windows'")
     @pytest.mark.parametrize(["value", "expected"], [
         ["ls", True],
         ["/bin/ls", True],
@@ -69,7 +66,7 @@ class Test_Which_is_exist(object):
 
 class Test_Which_verify(object):
 
-    @pytest.mark.skipif("platform.system() != 'Linux'")
+    @pytest.mark.skipif("platform.system() == 'Windows'")
     @pytest.mark.parametrize(["value"], [
         ["ls"],
     ])
@@ -93,7 +90,7 @@ class Test_Which_verify(object):
 
 class Test_Which_abspath(object):
 
-    @pytest.mark.skipif("platform.system() != 'Linux'")
+    @pytest.mark.skipif("platform.system() == 'Windows'")
     @pytest.mark.parametrize(["value"], [
         ["ls"],
     ])
