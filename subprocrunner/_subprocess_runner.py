@@ -83,7 +83,7 @@ class SubprocessRunner(object):
         self.__error_logging_method = self.__get_logging_method(log_level)
 
     def __init__(self, command, error_log_level=None, ignore_stderr_regexp=None, dry_run=None):
-        if typepy.type.List(command).is_type():
+        if typepy.List(command).is_type():
             # concatenate command arguments to create a command if the command
             # argument is list.
             command = " ".join(command)
