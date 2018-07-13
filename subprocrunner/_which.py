@@ -17,7 +17,6 @@ from .error import CommandNotFoundError, InvalidCommandError
 
 
 class Which(object):
-
     @property
     def command(self):
         return self.__command
@@ -30,10 +29,7 @@ class Which(object):
         self.__abspath = None
 
     def __repr__(self):
-        item_list = [
-            "command={}".format(self.command),
-            "is_exist={}".format(self.is_exist()),
-        ]
+        item_list = ["command={}".format(self.command), "is_exist={}".format(self.is_exist())]
 
         if self.is_exist():
             item_list.append("abspath={}".format(self.abspath()))
@@ -46,7 +42,8 @@ class Which(object):
     def verify(self):
         if not self.is_exist():
             raise CommandNotFoundError(
-                "command not found: '{}'".format(self.command), errno=errno.ENOENT)
+                "command not found: '{}'".format(self.command), errno=errno.ENOENT
+            )
 
     def abspath(self):
         if self.__abspath:
@@ -54,6 +51,7 @@ class Which(object):
 
         if six.PY2:
             from distutils.spawn import find_executable
+
             self.__abspath = find_executable(self.command)
         else:
             self.__abspath = shutil.which(self.command)
@@ -62,12 +60,12 @@ class Which(object):
 
     def full_path(self):
         warnings.warn(
-            "full_path() deleted in the future, use abspath() instead.", DeprecationWarning)
+            "full_path() deleted in the future, use abspath() instead.", DeprecationWarning
+        )
 
         return self.abspath()
 
     def which(self):
-        warnings.warn(
-            "which() deleted in the future, use abspath() instead.", DeprecationWarning)
+        warnings.warn("which() deleted in the future, use abspath() instead.", DeprecationWarning)
 
         return self.abspath()

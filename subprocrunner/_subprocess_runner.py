@@ -129,12 +129,15 @@ class SubprocessRunner(object):
 
         try:
             proc = subprocess.Popen(
-                self.command, shell=True, env=self.__get_env(env),
-                stdin=PIPE, stdout=PIPE, stderr=PIPE)
+                self.command,
+                shell=True,
+                env=self.__get_env(env),
+                stdin=PIPE,
+                stdout=PIPE,
+                stderr=PIPE,
+            )
         except TypeError:
-            proc = subprocess.Popen(
-                self.command, shell=True,
-                stdin=PIPE, stdout=PIPE, stderr=PIPE)
+            proc = subprocess.Popen(self.command, shell=True, stdin=PIPE, stdout=PIPE, stderr=PIPE)
 
         self.__stdout, self.__stderr = proc.communicate(**kwargs)
         self.__returncode = proc.returncode
@@ -151,8 +154,11 @@ class SubprocessRunner(object):
         except AttributeError:
             pass
 
-        self.__error_logging_method("command='{}', returncode={}, stderr={}".format(
-            self.command, self.returncode, self.stderr))
+        self.__error_logging_method(
+            "command='{}', returncode={}, stderr={}".format(
+                self.command, self.returncode, self.stderr
+            )
+        )
 
         return self.returncode
 
@@ -167,19 +173,24 @@ class SubprocessRunner(object):
             self.__debug_logging_method("dry-run: {}".format(self.command))
 
             return subprocess.CompletedProcess(
-                args=[], returncode=self.__returncode,
-                stdout=self.__stdout, stderr=self.__stderr)
+                args=[], returncode=self.__returncode, stdout=self.__stdout, stderr=self.__stderr
+            )
 
         self.__debug_print_command()
 
         try:
             process = subprocess.Popen(
-                self.command, env=self.__get_env(env), shell=True,
-                stdin=std_in, stdout=PIPE, stderr=PIPE)
+                self.command,
+                env=self.__get_env(env),
+                shell=True,
+                stdin=std_in,
+                stdout=PIPE,
+                stderr=PIPE,
+            )
         except TypeError:
             process = subprocess.Popen(
-                self.command, shell=True,
-                stdin=std_in, stdout=PIPE, stderr=PIPE)
+                self.command, shell=True, stdin=std_in, stdout=PIPE, stderr=PIPE
+            )
 
         return process
 

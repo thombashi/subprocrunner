@@ -8,7 +8,6 @@ from __future__ import absolute_import, unicode_literals
 
 
 class CommandError(Exception):
-
     @property
     def errno(self):
         return self.__errno
