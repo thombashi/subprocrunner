@@ -13,7 +13,7 @@ A Python wrapper library for subprocess module.
 .. image:: https://img.shields.io/pypi/pyversions/subprocrunner.svg
    :target: https://pypi.python.org/pypi/subprocrunner
 
-.. image:: https://img.shields.io/travis/thombashi/subprocrunner/master.svg?label=Linux
+.. image:: https://img.shields.io/travis/thombashi/subprocrunner/master.svg?label=Linux/macOS
     :target: https://travis-ci.org/thombashi/subprocrunner
 
 .. image:: https://img.shields.io/appveyor/ci/thombashi/subprocrunner/master.svg?label=Windows
