@@ -11,7 +11,6 @@ import shutil
 import warnings
 
 import six
-import typepy
 
 from .error import CommandNotFoundError, InvalidCommandError
 
@@ -22,7 +21,7 @@ class Which(object):
         return self.__command
 
     def __init__(self, command):
-        if not typepy.is_not_null_string(command):
+        if not command:
             raise InvalidCommandError("invalid str {}: ".format(command), errno=errno.EINVAL)
 
         self.__command = command

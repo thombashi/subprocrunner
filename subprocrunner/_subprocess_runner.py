@@ -14,7 +14,6 @@ import traceback
 from subprocess import PIPE
 
 import logbook
-import typepy
 from mbstrdecoder import MultiByteStrDecoder
 
 from ._logger import logger
@@ -83,10 +82,9 @@ class SubprocessRunner(object):
         self.__error_logging_method = self.__get_logging_method(log_level)
 
     def __init__(self, command, error_log_level=None, ignore_stderr_regexp=None, dry_run=None):
-        if typepy.List(command).is_type():
-            # concatenate command arguments to create a command if the command
-            # argument is list.
-            command = " ".join(command)
+        self.__is_shell = True
+        if isinstance(command, (list, tuple)):
+            self.__is_shell = False
 
         self.__command = command
         if dry_run is not None:
@@ -130,14 +128,16 @@ class SubprocessRunner(object):
         try:
             proc = subprocess.Popen(
                 self.command,
-                shell=True,
+                shell=self.__is_shell,
                 env=self.__get_env(env),
                 stdin=PIPE,
                 stdout=PIPE,
                 stderr=PIPE,
             )
         except TypeError:
-            proc = subprocess.Popen(self.command, shell=True, stdin=PIPE, stdout=PIPE, stderr=PIPE)
+            proc = subprocess.Popen(
+                self.command, shell=self.__is_shell, stdin=PIPE, stdout=PIPE, stderr=PIPE
+            )
 
         self.__stdout, self.__stderr = proc.communicate(**kwargs)
         self.__returncode = proc.returncode
@@ -182,26 +182,31 @@ class SubprocessRunner(object):
             process = subprocess.Popen(
                 self.command,
                 env=self.__get_env(env),
-                shell=True,
+                shell=self.__is_shell,
                 stdin=std_in,
                 stdout=PIPE,
                 stderr=PIPE,
             )
         except TypeError:
             process = subprocess.Popen(
-                self.command, shell=True, stdin=std_in, stdout=PIPE, stderr=PIPE
+                self.command, shell=self.__is_shell, stdin=std_in, stdout=PIPE, stderr=PIPE
             )
 
         return process
 
     def __verify_command(self):
-        if typepy.is_null_string(self.command):
+        if not self.command:
             raise InvalidCommandError("invalid str: {}".format(self.command), errno=errno.EINVAL)
 
         if self.dry_run or platform.system() == "Windows":
             return
 
-        Which(self.command.split()[0].lstrip("(")).verify()
+        if isinstance(self.command, (list, tuple)):
+            base_command = self.command[0]
+        else:
+            base_command = self.command.split()[0].lstrip("(")
+
+        Which(base_command).verify()
 
     @staticmethod
     def __get_env(env=None):
@@ -231,7 +236,10 @@ class SubprocessRunner(object):
         return method
 
     def __debug_print_command(self):
-        message_list = [self.command]
+        if isinstance(self.command, (list, tuple)):
+            message_list = list(self.command)
+        else:
+            message_list = [self.command]
 
         if self.is_output_stacktrace:
             message_list.append("".join(traceback.format_stack()[:-2]))
