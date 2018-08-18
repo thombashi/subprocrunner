@@ -59,6 +59,7 @@ class Test_SubprocessRunner_run(object):
 
         assert runner.command == command
         assert isinstance(runner.command_str, six.string_types)
+        assert runner.returncode == 0
         assert runner.stdout.strip() == expected
         assert is_null_string(runner.stderr)
 
@@ -87,6 +88,7 @@ class Test_SubprocessRunner_run(object):
 
         assert is_null_string(runner.stdout.strip())
         assert is_not_null_string(runner.stderr.strip())
+        assert runner.returncode != 0
 
         out, err = capsys.readouterr()
         print("[sys stdout]\n{}\n".format(out))
