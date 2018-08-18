@@ -11,7 +11,7 @@ import os
 import platform
 import re
 import subprocess
-from subprocess import PIPE
+from subprocess import PIPE, CalledProcessError
 
 import pytest
 import six
