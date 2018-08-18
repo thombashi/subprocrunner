@@ -12,7 +12,7 @@ import warnings
 
 import six
 
-from .error import CommandNotFoundError, InvalidCommandError
+from .error import CommandError, InvalidCommandError
 
 
 class Which(object):
@@ -40,8 +40,8 @@ class Which(object):
 
     def verify(self):
         if not self.is_exist():
-            raise CommandNotFoundError(
-                "command not found: '{}'".format(self.command), errno=errno.ENOENT
+            raise CommandError(
+                "command not found: '{}'".format(self.command), cmd=self.command, errno=errno.ENOENT
             )
 
     def abspath(self):

@@ -74,7 +74,7 @@ class Test_Which_verify(object):
         Which(value).verify()
 
     @pytest.mark.parametrize(
-        ["value", "expected"], [["__not_exist_command__", subprocrunner.CommandNotFoundError]]
+        ["value", "expected"], [["__not_exist_command__", subprocrunner.CommandError]]
     )
     def test_exception(self, value, expected):
         with pytest.raises(expected):
