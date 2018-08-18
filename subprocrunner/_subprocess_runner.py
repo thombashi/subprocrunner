@@ -62,6 +62,13 @@ class SubprocessRunner(object):
         return self.__command
 
     @property
+    def command_str(self):
+        if self.__is_shell:
+            return self.__command
+
+        return " ".join(self.__command)
+
+    @property
     def stdout(self):
         return self.__stdout
 
