@@ -19,9 +19,9 @@ class Test_Which_constructor(object):
     @pytest.mark.parametrize(
         ["value", "expected"],
         [
-            [0, subprocrunner.InvalidCommandError],
-            ["", subprocrunner.InvalidCommandError],
-            [None, subprocrunner.InvalidCommandError],
+            [0, subprocrunner.CommandError],
+            ["", subprocrunner.CommandError],
+            [None, subprocrunner.CommandError],
         ],
     )
     def test_exception(self, value, expected):

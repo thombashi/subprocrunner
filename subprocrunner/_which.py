@@ -12,7 +12,7 @@ import warnings
 
 import six
 
-from .error import CommandError, InvalidCommandError
+from .error import CommandError
 
 
 class Which(object):
@@ -22,7 +22,9 @@ class Which(object):
 
     def __init__(self, command):
         if not command:
-            raise InvalidCommandError("invalid command {}: ".format(command), errno=errno.EINVAL)
+            raise CommandError(
+                "invalid command {}: ".format(command), cmd=command, errno=errno.EINVAL
+            )
 
         self.__command = command
         self.__abspath = None

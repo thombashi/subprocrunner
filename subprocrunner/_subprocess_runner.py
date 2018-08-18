@@ -18,7 +18,7 @@ from mbstrdecoder import MultiByteStrDecoder
 
 from ._logger import logger
 from ._which import Which
-from .error import InvalidCommandError
+from .error import CommandError
 
 
 class SubprocessRunner(object):
@@ -206,7 +206,9 @@ class SubprocessRunner(object):
 
     def __verify_command(self):
         if not self.command:
-            raise InvalidCommandError("invalid command: {}".format(self.command), errno=errno.EINVAL)
+            raise CommandError(
+                "invalid command: {}".format(self.command), cmd=self.command, errno=errno.EINVAL
+            )
 
         if self.dry_run or platform.system() == "Windows":
             return
