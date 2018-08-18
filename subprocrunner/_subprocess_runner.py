@@ -207,7 +207,7 @@ class SubprocessRunner(object):
     def __verify_command(self):
         if not self.command:
             raise CommandError(
-                "invalid command: {}".format(self.command), cmd=self.command, errno=errno.EINVAL
+                "invalid command: {}".format(self.command), cmd=self.command_str, errno=errno.EINVAL
             )
 
         if self.dry_run or platform.system() == "Windows":
