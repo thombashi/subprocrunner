@@ -17,6 +17,7 @@ import logbook
 from mbstrdecoder import MultiByteStrDecoder
 
 from ._logger import logger
+from ._six import text_type
 from ._which import Which
 from .error import CommandError
 
@@ -92,11 +93,13 @@ class SubprocessRunner(object):
         if not command:
             raise ValueError("command is empty")
 
-        self.__is_shell = True
         if isinstance(command, (list, tuple)):
             self.__is_shell = False
+            self.__command = [text_type(item) for item in command]
+        else:
+            self.__is_shell = True
+            self.__command = command
 
-        self.__command = command
         if dry_run is not None:
             self.__dry_run = dry_run
         else:
