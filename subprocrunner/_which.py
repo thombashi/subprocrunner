@@ -22,7 +22,7 @@ class Which(object):
 
     def __init__(self, command):
         if not command:
-            raise InvalidCommandError("invalid str {}: ".format(command), errno=errno.EINVAL)
+            raise InvalidCommandError("invalid command {}: ".format(command), errno=errno.EINVAL)
 
         self.__command = command
         self.__abspath = None
