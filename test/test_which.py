@@ -6,7 +6,7 @@
 
 from __future__ import unicode_literals
 
-import platform
+import platform  # noqa: W0611
 import re
 
 import pytest
