@@ -204,10 +204,10 @@ class SubprocessRunner(object):
         if self.dry_run or platform.system() == "Windows":
             return
 
-        if isinstance(self.command, (list, tuple)):
-            base_command = self.command[0]
-        else:
+        if self.__is_shell:
             base_command = self.command.split()[0].lstrip("(")
+        else:
+            base_command = self.command[0]
 
         Which(base_command).verify()
 
@@ -239,10 +239,10 @@ class SubprocessRunner(object):
         return method
 
     def __debug_print_command(self):
-        if isinstance(self.command, (list, tuple)):
-            message_list = list(self.command)
-        else:
+        if self.__is_shell:
             message_list = [self.command]
+        else:
+            message_list = list(self.command)
 
         if self.is_output_stacktrace:
             message_list.append("".join(traceback.format_stack()[:-2]))
