@@ -8,9 +8,9 @@ from __future__ import absolute_import, unicode_literals
 
 import errno
 import shutil
-import sys
 import warnings
 
+from ._six import PY2
 from .error import CommandError
 
 
@@ -49,7 +49,7 @@ class Which(object):
         if self.__abspath:
             return self.__abspath
 
-        if sys.version_info[0] == 2:
+        if PY2:
             from distutils.spawn import find_executable
 
             self.__abspath = find_executable(self.command)
