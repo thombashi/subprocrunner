@@ -50,11 +50,15 @@ class Test_SubprocessRunner_run(object):
     def test_command(self, command, expected):
         assert SubprocessRunner(command).run() == expected
 
-    @pytest.mark.parametrize(["command", "expected"], [["echo test", "test"]])
+    @pytest.mark.parametrize(
+        ["command", "expected"], [["echo test", "test"], [["echo", "test"], "test"]]
+    )
     def test_stdout(self, command, expected):
         runner = SubprocessRunner(command)
         runner.run()
 
+        assert runner.command == command
+        assert isinstance(runner.command_str, six.string_types)
         assert runner.stdout.strip() == expected
         assert is_null_string(runner.stderr)
 
