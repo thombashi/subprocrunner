@@ -1,3 +1,2 @@
 logbook>=1.0.1
 mbstrdecoder
-six
