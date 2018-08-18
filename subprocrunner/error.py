@@ -9,10 +9,15 @@ from __future__ import absolute_import, unicode_literals
 
 class CommandError(Exception):
     @property
+    def cmd(self):
+        return self.__cmd
+
+    @property
     def errno(self):
         return self.__errno
 
     def __init__(self, *args, **kwargs):
+        self.__cmd = kwargs.pop("cmd", None)
         self.__errno = kwargs.pop("errno", None)
 
         super(CommandError, self).__init__(*args, **kwargs)
