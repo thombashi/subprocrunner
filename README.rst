@@ -120,12 +120,11 @@ Python 2.7+ or 3.4+
 
 - `logbook <http://logbook.readthedocs.io/en/stable/>`__
 - `mbstrdecoder <https://github.com/thombashi/mbstrdecoder>`__
-- `six <https://pypi.python.org/pypi/six/>`__
-- `typepy <https://github.com/thombashi/typepy>`__
-
 
 Test dependencies
 -----------------
 - `pytest <http://pytest.org/latest/>`__
 - `pytest-runner <https://pypi.python.org/pypi/pytest-runner>`__
+- `six <https://pypi.python.org/pypi/six/>`__
 - `tox <https://testrun.org/tox/latest/>`__
+- `typepy <https://github.com/thombashi/typepy>`__
