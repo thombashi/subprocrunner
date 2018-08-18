@@ -11,7 +11,7 @@ import os
 import platform
 import subprocess
 import traceback
-from subprocess import PIPE
+from subprocess import PIPE, CalledProcessError
 
 import logbook
 from mbstrdecoder import MultiByteStrDecoder
@@ -122,6 +122,7 @@ class SubprocessRunner(object):
     def run(self, **kwargs):
         self.__verify_command()
 
+        check = kwargs.pop("check", None)
         env = kwargs.pop("env", None)
 
         if self.dry_run:
@@ -163,6 +164,12 @@ class SubprocessRunner(object):
                 return self.returncode
         except AttributeError:
             pass
+
+        if check is True:
+            # stdout and stderr attributes added since Python 3.5
+            raise CalledProcessError(
+                returncode=self.returncode, cmd=self.command_str, output=self.stdout
+            )
 
         self.__error_logging_method(
             "command='{}', returncode={}, stderr={}".format(

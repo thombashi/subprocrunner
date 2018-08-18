@@ -97,6 +97,23 @@ class Test_SubprocessRunner_run(object):
         actual = out_regexp.search(err) is not None
         assert actual == expected
 
+    @pytest.mark.skipif("platform.system() == 'Windows'")
+    @pytest.mark.parametrize(
+        ["command", "ignore_stderr_regexp", "expected"],
+        [
+            [[list_command, "__not_exist_dir__"], None, CalledProcessError],
+            [[list_command, "__not_exist_dir__"], re.compile(re.escape("__not_exist_dir__")), None],
+        ],
+    )
+    def test_stderr_check(self, command, ignore_stderr_regexp, expected):
+        runner = SubprocessRunner(command, ignore_stderr_regexp=ignore_stderr_regexp)
+
+        if ignore_stderr_regexp:
+            runner.run(check=True)
+        else:
+            with pytest.raises(expected):
+                runner.run(check=True)
+
     def test_unicode(self, monkeypatch):
         def monkey_communicate(input=None):
             return ("", "'dummy' は、内部コマンドまたは外部コマンド、" "操作可能なプログラムまたはバッチ ファイルとして認識されていません")
