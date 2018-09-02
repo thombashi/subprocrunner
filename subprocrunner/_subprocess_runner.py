@@ -11,7 +11,7 @@ import os
 import platform
 import subprocess
 import traceback
-from subprocess import PIPE, CalledProcessError
+from subprocess import PIPE
 
 import logbook
 from mbstrdecoder import MultiByteStrDecoder
@@ -19,7 +19,7 @@ from mbstrdecoder import MultiByteStrDecoder
 from ._logger import logger
 from ._six import text_type
 from ._which import Which
-from .error import CommandError
+from .error import CalledProcessError, CommandError
 
 
 class SubprocessRunner(object):
@@ -171,7 +171,10 @@ class SubprocessRunner(object):
         if check is True:
             # stdout and stderr attributes added since Python 3.5
             raise CalledProcessError(
-                returncode=self.returncode, cmd=self.command_str, output=self.stdout
+                returncode=self.returncode,
+                cmd=self.command_str,
+                output=self.stdout,
+                stderr=self.stderr,
             )
 
         self.__error_logging_method(
