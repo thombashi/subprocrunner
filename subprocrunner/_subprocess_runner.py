@@ -258,10 +258,7 @@ class SubprocessRunner(object):
         return method
 
     def __debug_print_command(self):
-        if self.__is_shell:
-            message_list = [self.command]
-        else:
-            message_list = list(self.command)
+        message_list = [self.command_str]
 
         if self.is_output_stacktrace:
             message_list.append("".join(traceback.format_stack()[:-2]))
