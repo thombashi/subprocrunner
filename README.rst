@@ -11,7 +11,7 @@ A Python wrapper library for subprocess module.
     :target: https://badge.fury.io/py/subprocrunner
 
 .. image:: https://img.shields.io/pypi/pyversions/subprocrunner.svg
-   :target: https://pypi.python.org/pypi/subprocrunner
+   :target: https://pypi.org/project/subprocrunner
 
 .. image:: https://img.shields.io/travis/thombashi/subprocrunner/master.svg?label=Linux/macOS
     :target: https://travis-ci.org/thombashi/subprocrunner
@@ -124,7 +124,7 @@ Python 2.7+ or 3.4+
 Test dependencies
 -----------------
 - `pytest <https://docs.pytest.org/en/latest/>`__
-- `pytest-runner <https://pypi.python.org/pypi/pytest-runner>`__
-- `six <https://pypi.python.org/pypi/six/>`__
+- `pytest-runner <https://github.com/pytest-dev/pytest-runner>`__
+- `six <https://pypi.org/project/six/>`__
 - `tox <https://testrun.org/tox/latest/>`__
 - `typepy <https://github.com/thombashi/typepy>`__
