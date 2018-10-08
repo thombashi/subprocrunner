@@ -1,2 +1,2 @@
 logbook>=1.0.1
-mbstrdecoder>=0.4.2
+mbstrdecoder>=0.5.0
