@@ -21,12 +21,15 @@ from typepy import is_not_null_string, is_null_string
 
 
 os_type = platform.system()
-if os_type in ["Linux", "Darwin"]:
+if os_type == "Linux":
     list_command = "ls"
-    list_command_errno = errno.ENOENT
+    list_command_errno = [errno.ENOENT]
+elif os_type == "Darwin":
+    list_command = "ls"
+    list_command_errno = [1, errno.ENOENT]
 elif os_type == "Windows":
     list_command = "dir"
-    list_command_errno = 1
+    list_command_errno = [1]
 else:
     raise NotImplementedError(os_type)
 
@@ -35,10 +38,10 @@ class Test_SubprocessRunner_run(object):
     @pytest.mark.parametrize(
         ["command", "dry_run", "expected"],
         [
-            [list_command, False, 0],
-            [list_command, True, 0],
+            [list_command, False, [0]],
+            [list_command, True, [0]],
             [list_command + " __not_exist_dir__", False, list_command_errno],
-            [list_command + " __not_exist_dir__", True, 0],
+            [list_command + " __not_exist_dir__", True, [0]],
         ],
     )
     def test_normal(self, command, dry_run, expected):
@@ -48,7 +51,7 @@ class Test_SubprocessRunner_run(object):
         if not dry_run:
             print(r.stderr, file=sys.stderr)
 
-        assert r.returncode == expected
+        assert r.returncode in expected
 
     @pytest.mark.skipif("platform.system() == 'Windows'")
     @pytest.mark.parametrize(
