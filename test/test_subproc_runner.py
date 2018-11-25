@@ -11,6 +11,7 @@ import os
 import platform
 import re
 import subprocess
+import sys
 from subprocess import PIPE, CalledProcessError
 
 import pytest
@@ -41,7 +42,13 @@ class Test_SubprocessRunner_run(object):
         ],
     )
     def test_normal(self, command, dry_run, expected):
-        assert SubprocessRunner(command, dry_run=dry_run).run() == expected
+        r = SubprocessRunner(command, dry_run=dry_run)
+        r.run()
+
+        if not dry_run:
+            print(r.stderr, file=sys.stderr)
+
+        assert r.returncode == expected
 
     @pytest.mark.skipif("platform.system() == 'Windows'")
     @pytest.mark.parametrize(
