@@ -1,2 +1,2 @@
 logbook>=1.0.1
-mbstrdecoder[all]>=0.6.1
+mbstrdecoder[all]>=0.6.1,<1.0.0
