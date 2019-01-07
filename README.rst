@@ -15,16 +15,17 @@ A Python wrapper library for subprocess module.
     :target: https://pypi.org/project/subprocrunner
     :alt: Supported Python versions
 
-.. image:: https://img.shields.io/travis/thombashi/subprocrunner/master.svg?label=Linux/macOS-CI
+.. image:: https://img.shields.io/travis/thombashi/subprocrunner/master.svg?label=Linux/macOS%20CI
     :target: https://travis-ci.org/thombashi/subprocrunner
     :alt: Linux/macOS CI status
 
-.. image:: https://img.shields.io/appveyor/ci/thombashi/subprocrunner/master.svg?label=Windows-CI
+.. image:: https://img.shields.io/appveyor/ci/thombashi/subprocrunner/master.svg?label=Windows%20CI
     :target: https://ci.appveyor.com/project/thombashi/subprocrunner/branch/master
     :alt: Windows CI status
 
 .. image:: https://coveralls.io/repos/github/thombashi/subprocrunner/badge.svg?branch=master
     :target: https://coveralls.io/github/thombashi/subprocrunner?branch=master
+    :alt: Test coverage
 
 
 Examples
