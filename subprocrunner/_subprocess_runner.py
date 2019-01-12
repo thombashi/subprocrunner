@@ -13,10 +13,9 @@ import subprocess
 import traceback
 from subprocess import PIPE
 
-import logbook
 from mbstrdecoder import MultiByteStrDecoder
 
-from ._logger import logger
+from ._logger import DEFAULT_ERROR_LOG_LEVEL, get_logging_method
 from ._six import text_type
 from ._which import Which
 from .error import CalledProcessError, CommandError
@@ -36,7 +35,7 @@ class SubprocessRunner(object):
 
     _DRY_RUN_OUTPUT = ""
 
-    default_error_log_level = logbook.WARNING
+    default_error_log_level = DEFAULT_ERROR_LOG_LEVEL
     default_is_dry_run = False
 
     is_output_stacktrace = False
@@ -87,7 +86,7 @@ class SubprocessRunner(object):
 
     @error_log_level.setter
     def error_log_level(self, log_level):
-        self.__error_logging_method = self.__get_logging_method(log_level)
+        self.__error_logging_method = get_logging_method(log_level)
 
     def __init__(self, command, error_log_level=None, ignore_stderr_regexp=None, dry_run=None):
         if not command:
@@ -109,7 +108,7 @@ class SubprocessRunner(object):
         self.__returncode = None
 
         self.__ignore_stderr_regexp = ignore_stderr_regexp
-        self.__debug_logging_method = self.__get_logging_method(logbook.DEBUG)
+        self.__debug_logging_method = get_logging_method()
 
         if error_log_level is not None:
             self.error_log_level = error_log_level
@@ -242,23 +241,6 @@ class SubprocessRunner(object):
             return dict(os.environ, LC_ALL="C")
 
         return os.environ
-
-    @staticmethod
-    def __get_logging_method(log_level):
-        method_table = {
-            logbook.NOTSET: lambda _x: None,
-            logbook.DEBUG: logger.debug,
-            logbook.INFO: logger.info,
-            logbook.WARNING: logger.warning,
-            logbook.ERROR: logger.error,
-            logbook.CRITICAL: logger.critical,
-        }
-
-        method = method_table.get(log_level)
-        if method is None:
-            raise ValueError("unknown log level: {}".format(log_level))
-
-        return method
 
     def __debug_print_command(self):
         message_list = [self.command_str]
