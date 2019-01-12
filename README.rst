@@ -1,11 +1,12 @@
-**subprocrunner**
-
-.. contents:: Table of Contents
+.. contents:: **subprocrunner**
+   :backlinks: top
    :depth: 2
+
 
 Summary
 =============
 A Python wrapper library for subprocess module.
+
 
 .. image:: https://badge.fury.io/py/subprocrunner.svg
     :target: https://badge.fury.io/py/subprocrunner
@@ -123,8 +124,12 @@ Dependencies
 ============
 Python 2.7+ or 3.4+
 
-- `logbook <https://logbook.readthedocs.io/en/stable/>`__
 - `mbstrdecoder <https://github.com/thombashi/mbstrdecoder>`__
+
+Optional dependencies
+----------------------------------
+- `logbook <https://logbook.readthedocs.io/en/stable/>`__
+    - Logging using logbook if the package installed
 
 Test dependencies
 -----------------
