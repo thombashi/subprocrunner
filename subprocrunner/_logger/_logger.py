@@ -9,11 +9,18 @@ from __future__ import absolute_import, unicode_literals
 from ._null_logger import NullLogger
 
 
+def _disable_logger(l):
+    try:
+        l.disable()
+    except AttributeError:
+        l.disabled = True  # to support Logbook<1.0.0
+
+
 try:
     import logbook
 
     logger = logbook.Logger("subprocrunner")
-    logger.disable()
+    _disable_logger(logger)
     LOGBOOK_INSTALLED = True
     DEFAULT_ERROR_LOG_LEVEL = logbook.WARNING
 except ImportError:
@@ -50,9 +57,12 @@ def set_logger(is_enable):
         return
 
     if is_enable:
-        logger.enable()
+        try:
+            logger.enable()
+        except AttributeError:
+            logger.disabled = False  # to support Logbook<1.0.0
     else:
-        logger.disable()
+        _disable_logger(logger)
 
 
 def set_log_level(log_level):
