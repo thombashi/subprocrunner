@@ -10,4 +10,4 @@ from .__version__ import __author__, __copyright__, __email__, __license__, __ve
 from ._logger import set_log_level, set_logger
 from ._subprocess_runner import SubprocessRunner
 from ._which import Which
-from .error import CommandError, CommandNotFoundError, InvalidCommandError, CalledProcessError
+from .error import CalledProcessError, CommandError, CommandNotFoundError, InvalidCommandError
