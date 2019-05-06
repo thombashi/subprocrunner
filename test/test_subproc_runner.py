@@ -87,7 +87,7 @@ class Test_SubprocessRunner_run(object):
         ],
     )
     def test_stderr(self, capsys, command, ignore_stderr_regexp, out_regexp, expected):
-        logbook = pytest.importorskip("logbook", minversion="1.1.0")
+        logbook = pytest.importorskip("logbook", minversion="0.12.3")
 
         import logbook
         import subprocrunner
