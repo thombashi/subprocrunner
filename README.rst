@@ -133,7 +133,7 @@ Install from PPA (for Ubuntu)
 
 Dependencies
 ============
-Python 2.7+ or 3.4+
+Python 2.7+ or 3.5+
 
 - `mbstrdecoder <https://github.com/thombashi/mbstrdecoder>`__
 
