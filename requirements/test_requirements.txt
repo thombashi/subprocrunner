@@ -1,5 +1,3 @@
-pytest-cov
 pytest
 six
-tox
 typepy
