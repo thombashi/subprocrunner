@@ -16,8 +16,9 @@ from subprocess import PIPE, CalledProcessError
 
 import pytest
 import six
-from subprocrunner import SubprocessRunner
 from typepy import is_not_null_string, is_null_string
+
+from subprocrunner import SubprocessRunner
 
 
 os_type = platform.system()

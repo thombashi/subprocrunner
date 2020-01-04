@@ -10,9 +10,10 @@ import platform  # noqa: W0611
 import re
 
 import pytest
+from typepy import is_not_null_string
+
 import subprocrunner
 from subprocrunner import Which
-from typepy import is_not_null_string
 
 
 class Test_Which_constructor(object):
