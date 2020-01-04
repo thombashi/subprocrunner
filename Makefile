@@ -12,7 +12,7 @@ build:
 .PHONY: check
 check:
 	python setup.py check
-	codespell $(PACKAGE) examples test -q 2 --check-filenames --ignore-words-list followings
+	codespell $(PACKAGE) examples test README.rst -q 2 --check-filenames --ignore-words-list followings
 	pylama
 
 .PHONY: clean
