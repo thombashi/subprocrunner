@@ -16,6 +16,10 @@ A Python wrapper library for subprocess module.
     :target: https://pypi.org/project/subprocrunner
     :alt: Supported Python versions
 
+.. image:: https://img.shields.io/pypi/implementation/subprocrunner.svg
+    :target: https://pypi.org/project/subprocrunner
+    :alt: Supported Python implementations
+
 .. image:: https://img.shields.io/travis/thombashi/subprocrunner/master.svg?label=Linux/macOS%20CI
     :target: https://travis-ci.org/thombashi/subprocrunner
     :alt: Linux/macOS CI status
