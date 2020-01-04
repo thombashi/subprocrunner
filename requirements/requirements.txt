@@ -1,1 +1,1 @@
-mbstrdecoder[all]>=0.8.0,<1.0.0
+mbstrdecoder>=0.8.3,<1.0.0
