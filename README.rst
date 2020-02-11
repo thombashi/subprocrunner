@@ -137,19 +137,17 @@ Install from PPA (for Ubuntu)
 
 Dependencies
 ============
-Python 2.7+ or 3.5+
+Python 3.5+
 
 - `mbstrdecoder <https://github.com/thombashi/mbstrdecoder>`__
 
 Optional dependencies
 ----------------------------------
-- `logbook <https://logbook.readthedocs.io/en/stable/>`__
-    - Logging using logbook if the package installed
+- `loguru <https://github.com/Delgan/loguru>`__
+    - Used for logging if the package installed
 
 Test dependencies
 -----------------
 - `pytest <https://docs.pytest.org/en/latest/>`__
-- `pytest-runner <https://github.com/pytest-dev/pytest-runner>`__
-- `six <https://pypi.org/project/six/>`__
 - `tox <https://testrun.org/tox/latest/>`__
 - `typepy <https://github.com/thombashi/typepy>`__
