@@ -21,6 +21,7 @@ matrix:
       env: TOXENV=py38
 
     - os: linux
+      dist: bionic
       python: 3.9-dev
       env: TOXENV=py39
 
