@@ -8,7 +8,6 @@ from __future__ import unicode_literals
 
 import io
 import os.path
-import sys
 
 import setuptools
 
@@ -19,10 +18,6 @@ REQUIREMENT_DIR = "requirements"
 ENCODING = "utf8"
 
 pkg_info = {}
-
-
-def need_pytest():
-    return set(["pytest", "test", "ptr"]).intersection(sys.argv)
 
 
 def get_release_command_class():
@@ -51,7 +46,6 @@ with open(os.path.join(REQUIREMENT_DIR, "docs_requirements.txt")) as f:
     docs_requires = [line.strip() for line in f if line.strip()]
 
 SETUPTOOLS_REQUIRES = ["setuptools>=38.3.0"]
-PYTEST_RUNNER_REQUIRES = ["pytest-runner"] if need_pytest() else []
 
 setuptools.setup(
     name=MODULE_NAME,
@@ -69,8 +63,6 @@ setuptools.setup(
     project_urls={"Source": REPOSITORY_URL, "Tracker": "{:s}/issues".format(REPOSITORY_URL)},
     python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*",
     install_requires=SETUPTOOLS_REQUIRES + install_requires,
-    setup_requires=SETUPTOOLS_REQUIRES + PYTEST_RUNNER_REQUIRES,
-    tests_require=tests_requires,
     extras_require={
         "dev": ["releasecmd>=0.1.0,<1", "twine", "wheel"]
         + docs_requires
