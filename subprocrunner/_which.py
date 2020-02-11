@@ -48,15 +48,3 @@ class Which:
         self.__abspath = shutil.which(self.command)
 
         return self.__abspath
-
-    def full_path(self):
-        warnings.warn(
-            "full_path() deleted in the future, use abspath() instead.", DeprecationWarning
-        )
-
-        return self.abspath()
-
-    def which(self):
-        warnings.warn("which() deleted in the future, use abspath() instead.", DeprecationWarning)
-
-        return self.abspath()
