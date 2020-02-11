@@ -55,6 +55,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/x-rst",
     packages=setuptools.find_packages(exclude=["test*"]),
+    package_data={"subprocrunner": ["py.typed"]},
     project_urls={"Source": REPOSITORY_URL, "Tracker": "{:s}/issues".format(REPOSITORY_URL)},
     python_requires=">=3.5",
     install_requires=SETUPTOOLS_REQUIRES + install_requires,
