@@ -11,9 +11,8 @@ build:
 
 .PHONY: check
 check:
-	python setup.py check
-	codespell $(PACKAGE) examples test README.rst -q 2 --check-filenames --ignore-words-list followings
-	pylama
+	@tox -e lint
+	travis lint
 
 .PHONY: clean
 clean:

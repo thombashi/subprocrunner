@@ -65,8 +65,7 @@ setuptools.setup(
     install_requires=SETUPTOOLS_REQUIRES + install_requires,
     extras_require={
         "dev": ["releasecmd>=0.1.0,<1", "twine", "wheel"]
-        + docs_requires
-        + ["codespell", "pylama"],
+        + docs_requires,
         "logging": ["Logbook>=0.12.3,<2.0.0"],
         "test": tests_requires,
     },
