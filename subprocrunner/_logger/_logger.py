@@ -9,40 +9,33 @@ from __future__ import absolute_import, unicode_literals
 from ._null_logger import NullLogger
 
 
-def _disable_logger(l):
-    try:
-        l.disable()
-    except AttributeError:
-        l.disabled = True  # to support Logbook<1.0.0
+MODULE_NAME = "subprocrunner"
+DEFAULT_ERROR_LOG_LEVEL = "WARNING"
 
 
 try:
-    import logbook
+    from loguru import logger
 
-    logger = logbook.Logger("subprocrunner")
-    _disable_logger(logger)
-    LOGBOOK_INSTALLED = True
-    DEFAULT_ERROR_LOG_LEVEL = logbook.WARNING
+    LOGURU_INSTALLED = True
+    logger.disable(MODULE_NAME)
 except ImportError:
-    logger = NullLogger()
-    LOGBOOK_INSTALLED = False
-    DEFAULT_ERROR_LOG_LEVEL = 13
+    LOGURU_INSTALLED = False
+    logger = NullLogger()  # type: ignore
 
 
 def get_logging_method(log_level=None):
-    if not LOGBOOK_INSTALLED:
+    if not LOGURU_INSTALLED:
         return logger.debug
 
     if log_level is None:
-        log_level = logbook.DEBUG
+        log_level = "DEBUG"
 
     method_table = {
-        logbook.NOTSET: lambda _x: None,
-        logbook.DEBUG: logger.debug,
-        logbook.INFO: logger.info,
-        logbook.WARNING: logger.warning,
-        logbook.ERROR: logger.error,
-        logbook.CRITICAL: logger.critical,
+        "DEBUG": logger.debug,
+        "INFO": logger.info,
+        "WARNING": logger.warning,
+        "ERROR": logger.error,
+        "CRITICAL": logger.critical,
     }
 
     method = method_table.get(log_level)
@@ -52,40 +45,13 @@ def get_logging_method(log_level=None):
     return method
 
 
-def set_logger(is_enable):
-    if not LOGBOOK_INSTALLED:
-        return
-
+def set_logger(is_enable, propagation_depth=1):
     if is_enable:
-        try:
-            logger.enable()
-        except AttributeError:
-            logger.disabled = False  # to support Logbook<1.0.0
+        logger.enable(MODULE_NAME)
     else:
-        _disable_logger(logger)
+        logger.disable(MODULE_NAME)
 
 
 def set_log_level(log_level):
-    """
-    Set logging level of this module. Using
-    `logbook <https://logbook.readthedocs.io/en/stable/>`__ module for logging.
-
-    :param int log_level:
-        One of the log level of
-        `logbook <https://logbook.readthedocs.io/en/stable/api/base.html>`__.
-        Disabled logging if ``log_level`` is ``logbook.NOTSET``.
-    :raises LookupError: If ``log_level`` is an invalid value.
-    """
-
-    if not LOGBOOK_INSTALLED:
-        return
-
-    # validate log level
-    logbook.get_level_name(log_level)
-
-    if log_level == logbook.NOTSET:
-        set_logger(is_enable=False)
-    else:
-        set_logger(is_enable=True)
-
-    logger.level = log_level
+    # deprecated
+    return

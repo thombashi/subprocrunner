@@ -88,13 +88,13 @@ class Test_SubprocessRunner_run(object):
         ],
     )
     def test_stderr(self, capsys, command, ignore_stderr_regexp, out_regexp, expected):
-        logbook = pytest.importorskip("logbook", minversion="0.12.3")
-
-        import logbook
+        from loguru import logger
         import subprocrunner
 
-        logbook.StderrHandler(level=logbook.DEBUG).push_application()
-        subprocrunner.set_log_level(logbook.INFO)
+        logger.remove()
+        logger.add(sys.stderr, level="DEBUG")
+        logger.enable("test")
+        subprocrunner.set_logger(True)
 
         runner = SubprocessRunner(command, ignore_stderr_regexp=ignore_stderr_regexp)
         runner.run()

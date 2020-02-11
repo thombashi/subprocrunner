@@ -43,6 +43,7 @@ with open(os.path.join(REQUIREMENT_DIR, "test_requirements.txt")) as f:
     tests_requires = [line.strip() for line in f if line.strip()]
 
 SETUPTOOLS_REQUIRES = ["setuptools>=38.3.0"]
+LOGGING_REQUIRES = ["loguru>=0.4.1,<1"]
 
 setuptools.setup(
     name=MODULE_NAME,
@@ -62,8 +63,8 @@ setuptools.setup(
     install_requires=SETUPTOOLS_REQUIRES + install_requires,
     extras_require={
         "dev": ["releasecmd>=0.1.0,<1"],
-        "logging": ["Logbook>=0.12.3,<2.0.0"],
-        "test": tests_requires,
+        "logging": LOGGING_REQUIRES,
+        "test": tests_requires + LOGGING_REQUIRES,
     },
     classifiers=[
         "Development Status :: 4 - Beta",
