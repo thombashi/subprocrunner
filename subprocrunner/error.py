@@ -31,13 +31,3 @@ class CalledProcessError(subprocess.CalledProcessError):
             self.stderr = kwargs.pop("stderr", None)
 
         super().__init__(*args, **kwargs)
-
-
-class InvalidCommandError(CommandError):
-    # Deprecate in the future
-    pass
-
-
-class CommandNotFoundError(CommandError):
-    # Deprecate in the future
-    pass
