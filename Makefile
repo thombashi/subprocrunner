@@ -17,16 +17,7 @@ check:
 
 .PHONY: clean
 clean:
-	@rm -rf $(PACKAGE)-*.*.*/ \
-		dist/ \
-		pip-wheel-metadata/ \
-		.eggs/ \
-		.pytest_cache/ \
-		.tox/ \
-		**/*/__pycache__/ \
-		*.egg-info/
-	@python setup.py clean --all
-	@find . -not -path '*/\.*' -type f | grep -E .+\.py\.[a-z0-9]{32,}\.py$ | xargs -r rm
+	@tox -e clean
 
 .PHONY: fmt
 fmt:
