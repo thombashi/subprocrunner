@@ -3,6 +3,8 @@
 """
 
 
+from typing import Callable, Optional
+
 from ._null_logger import NullLogger
 
 
@@ -20,7 +22,7 @@ except ImportError:
     logger = NullLogger()  # type: ignore
 
 
-def get_logging_method(log_level=None):
+def get_logging_method(log_level: Optional[str] = None) -> Callable:
     if not LOGURU_INSTALLED:
         return logger.debug
 
@@ -42,7 +44,7 @@ def get_logging_method(log_level=None):
     return method
 
 
-def set_logger(is_enable, propagation_depth=1):
+def set_logger(is_enable: bool, propagation_depth: int = 1) -> None:
     if is_enable:
         logger.enable(MODULE_NAME)
     else:

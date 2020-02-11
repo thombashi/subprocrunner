@@ -9,12 +9,16 @@ import platform
 import subprocess
 import traceback
 from subprocess import PIPE
+from typing import Dict, List, Optional, Pattern, Sequence, Union, cast
 
 from mbstrdecoder import MultiByteStrDecoder
 
 from ._logger import DEFAULT_ERROR_LOG_LEVEL, get_logging_method
 from ._which import Which
 from .error import CalledProcessError, CommandError
+
+
+Command = Union[str, Sequence[str]]
 
 
 class SubprocessRunner:
@@ -39,52 +43,25 @@ class SubprocessRunner:
     is_save_history = False
     history_size = 512
 
-    __command_history = []
+    __command_history = []  # type: List[Command]
 
     @classmethod
-    def get_history(cls):
+    def get_history(cls) -> List[Command]:
         return cls.__command_history
 
     @classmethod
-    def clear_history(cls):
+    def clear_history(cls) -> None:
         cls.__command_history = []
 
-    @property
-    def dry_run(self):
-        return self.__dry_run
+    def __init__(
+        self,
+        command: Command,
+        error_log_level: None = None,
+        ignore_stderr_regexp: Optional[Pattern] = None,
+        dry_run: Optional[bool] = None,
+    ) -> None:
+        self.__command = []  # type: Union[str, Sequence[str]]
 
-    @property
-    def command(self):
-        return self.__command
-
-    @property
-    def command_str(self):
-        if self.__is_shell:
-            return self.__command
-
-        return " ".join(self.__command)
-
-    @property
-    def stdout(self):
-        return self.__stdout
-
-    @property
-    def stderr(self):
-        return self.__stderr
-
-    @property
-    def returncode(self):
-        return self.__returncode
-
-    @property
-    def error_log_level(self):
-        raise NotImplementedError()
-
-    @error_log_level.setter
-    def error_log_level(self, log_level):
-        self.__error_logging_method = get_logging_method(log_level)
-
-    def __init__(self, command, error_log_level=None, ignore_stderr_regexp=None, dry_run=None):
         if not command:
             raise ValueError("command is empty")
 
@@ -99,8 +76,8 @@ class SubprocessRunner:
             self.__dry_run = dry_run
         else:
             self.__dry_run = self.default_is_dry_run
-        self.__stdout = None
-        self.__stderr = None
+        self.__stdout = None  # type: Union[str, bytes, None]
+        self.__stderr = None  # type: Union[str, bytes, None]
         self.__returncode = None
 
         self.__ignore_stderr_regexp = ignore_stderr_regexp
@@ -117,7 +94,42 @@ class SubprocessRunner:
 
             self.__command_history.append(command)
 
-    def run(self, **kwargs):
+    @property
+    def dry_run(self) -> bool:
+        return self.__dry_run
+
+    @property
+    def command(self) -> Command:
+        return self.__command
+
+    @property
+    def command_str(self) -> str:
+        if self.__is_shell:
+            return cast(str, self.__command)
+
+        return " ".join(self.__command)
+
+    @property
+    def stdout(self) -> Union[str, bytes, None]:
+        return self.__stdout
+
+    @property
+    def stderr(self) -> Union[str, bytes, None]:
+        return self.__stderr
+
+    @property
+    def returncode(self) -> Optional[int]:
+        return self.__returncode
+
+    @property
+    def error_log_level(self):
+        raise NotImplementedError()
+
+    @error_log_level.setter
+    def error_log_level(self, log_level):
+        self.__error_logging_method = get_logging_method(log_level)
+
+    def run(self, **kwargs) -> Optional[int]:
         self.__verify_command()
 
         check = kwargs.pop("check", None)
@@ -158,7 +170,10 @@ class SubprocessRunner:
             return 0
 
         try:
-            if self.__ignore_stderr_regexp.search(self.stderr) is not None:
+            if (
+                self.__ignore_stderr_regexp
+                and self.__ignore_stderr_regexp.search(self.stderr) is not None
+            ):
                 return self.returncode
         except AttributeError:
             pass
@@ -174,7 +189,7 @@ class SubprocessRunner:
 
         # pytype: disable=attribute-error
         self.__error_logging_method(
-            "command='{}', returncode={}, stderr={}".format(
+            "command='{}', returncode={}, stderr={!r}".format(
                 self.command, self.returncode, self.stderr
             )
         )
@@ -182,7 +197,7 @@ class SubprocessRunner:
 
         return self.returncode
 
-    def popen(self, std_in=None, env=None):
+    def popen(self, std_in: Optional[int] = None, env: Optional[Dict[str, str]] = None):
         self.__verify_command()
 
         if self.dry_run:
@@ -224,7 +239,7 @@ class SubprocessRunner:
             return
 
         if self.__is_shell:
-            base_command = self.command.split()[0].lstrip("(")
+            base_command = cast(str, self.command).split()[0].lstrip("(")
         else:
             base_command = self.command[0]
 

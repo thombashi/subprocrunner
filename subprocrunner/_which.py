@@ -5,7 +5,7 @@
 
 import errno
 import shutil
-import warnings
+from typing import Optional
 
 from .error import CommandError
 
@@ -15,16 +15,16 @@ class Which:
     def command(self):
         return self.__command
 
-    def __init__(self, command):
+    def __init__(self, command: str) -> None:
         if not command:
             raise CommandError(
                 "invalid command {}: ".format(command), cmd=command, errno=errno.EINVAL
             )
 
         self.__command = command
-        self.__abspath = None
+        self.__abspath = None  # type: Optional[str]
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         item_list = ["command={}".format(self.command), "is_exist={}".format(self.is_exist())]
 
         if self.is_exist():
@@ -32,16 +32,16 @@ class Which:
 
         return ", ".join(item_list)
 
-    def is_exist(self):
+    def is_exist(self) -> bool:
         return self.abspath() is not None
 
-    def verify(self):
+    def verify(self) -> None:
         if not self.is_exist():
             raise CommandError(
                 "command not found: '{}'".format(self.command), cmd=self.command, errno=errno.ENOENT
             )
 
-    def abspath(self):
+    def abspath(self) -> Optional[str]:
         if self.__abspath:
             return self.__abspath
 
