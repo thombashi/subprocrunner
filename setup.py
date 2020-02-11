@@ -4,6 +4,7 @@
 
 
 import os.path
+from typing import Dict, List  # noqa
 
 import setuptools
 
@@ -13,10 +14,10 @@ REPOSITORY_URL = "https://github.com/thombashi/{:s}".format(MODULE_NAME)
 REQUIREMENT_DIR = "requirements"
 ENCODING = "utf8"
 
-pkg_info = {}
+pkg_info = {}  # type: Dict[str, str]
 
 
-def get_release_command_class():
+def get_release_command_class() -> Dict[str, setuptools.Command]:
     try:
         from releasecmd import ReleaseCommand
     except ImportError:
