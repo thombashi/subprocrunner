@@ -7,6 +7,9 @@ if [ "$TRAVIS_OS_NAME" = "osx" ]; then
     fi
 
     pip3 install setuptools tox --upgrade
+elif [ "${TOXENV}" = "py39" ]; then
+    sudo apt install python3-pip
+    pip install setuptools tox --upgrade
 else
     pip install setuptools tox --upgrade
 fi
