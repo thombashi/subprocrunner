@@ -58,7 +58,6 @@ setuptools.setup(
     python_requires=">=3.5",
     install_requires=SETUPTOOLS_REQUIRES + install_requires,
     extras_require={
-        "dev": ["releasecmd>=0.1.0,<1"],
         "logging": LOGGING_REQUIRES,
         "test": tests_requires + LOGGING_REQUIRES,
     },
