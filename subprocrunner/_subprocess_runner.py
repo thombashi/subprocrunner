@@ -1,10 +1,7 @@
-# encoding: utf-8
-
 """
 .. codeauthor:: Tsuyoshi Hombashi <tsuyoshi.hombashi@gmail.com>
 """
 
-from __future__ import absolute_import, unicode_literals
 
 import errno
 import os
@@ -16,12 +13,11 @@ from subprocess import PIPE
 from mbstrdecoder import MultiByteStrDecoder
 
 from ._logger import DEFAULT_ERROR_LOG_LEVEL, get_logging_method
-from ._six import text_type
 from ._which import Which
 from .error import CalledProcessError, CommandError
 
 
-class SubprocessRunner(object):
+class SubprocessRunner:
     """
     .. py:attribute:: default_is_dry_run
 
@@ -94,7 +90,7 @@ class SubprocessRunner(object):
 
         if isinstance(command, (list, tuple)):
             self.__is_shell = False
-            self.__command = [text_type(item) for item in command]
+            self.__command = [str(item) for item in command]
         else:
             self.__is_shell = True
             self.__command = command
@@ -176,11 +172,13 @@ class SubprocessRunner(object):
                 stderr=self.stderr,
             )
 
+        # pytype: disable=attribute-error
         self.__error_logging_method(
             "command='{}', returncode={}, stderr={}".format(
                 self.command, self.returncode, self.stderr
             )
         )
+        # pytype: enable=attribute-error
 
         return self.returncode
 

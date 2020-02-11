@@ -1,10 +1,7 @@
-# encoding: utf-8
-
 """
 .. codeauthor:: Tsuyoshi Hombashi <tsuyoshi.hombashi@gmail.com>
 """
 
-from __future__ import print_function, unicode_literals
 
 import errno
 import os
@@ -15,7 +12,6 @@ import sys
 from subprocess import PIPE, CalledProcessError
 
 import pytest
-import six
 from typepy import is_not_null_string, is_null_string
 
 from subprocrunner import SubprocessRunner
@@ -35,7 +31,7 @@ else:
     raise NotImplementedError(os_type)
 
 
-class Test_SubprocessRunner_run(object):
+class Test_SubprocessRunner_run:
     @pytest.mark.parametrize(
         ["command", "dry_run", "expected"],
         [
@@ -69,7 +65,7 @@ class Test_SubprocessRunner_run(object):
         runner.run()
 
         assert runner.command == command
-        assert isinstance(runner.command_str, six.string_types)
+        assert isinstance(runner.command_str, str)
         assert runner.returncode == 0
         assert runner.stdout.strip() == expected
         assert is_null_string(runner.stderr)
@@ -139,7 +135,7 @@ class Test_SubprocessRunner_run(object):
         runner.run()
 
 
-class Test_SubprocessRunner_popen(object):
+class Test_SubprocessRunner_popen:
     @pytest.mark.parametrize(
         ["command", "environ", "expected"],
         [["hostname", None, 0], ["hostname", dict(os.environ), 0]],
@@ -152,7 +148,7 @@ class Test_SubprocessRunner_popen(object):
         assert proc.returncode == expected
 
     @pytest.mark.skipif("platform.system() == 'Windows'")
-    @pytest.mark.parametrize(["command", "pipe_input", "expected"], [["grep a", six.b("aaa"), 0]])
+    @pytest.mark.parametrize(["command", "pipe_input", "expected"], [["grep a", b"aaa", 0]])
     def test_normal_stdin(self, command, pipe_input, expected):
         proc = SubprocessRunner(command).popen(PIPE)
         ret_stdout, ret_stderr = proc.communicate(input=pipe_input)
@@ -162,7 +158,7 @@ class Test_SubprocessRunner_popen(object):
         assert proc.returncode == expected
 
 
-class Test_SubprocessRunner_command_history(object):
+class Test_SubprocessRunner_command_history:
     @pytest.mark.parametrize(
         ["command", "dry_run", "expected"], [[list_command, False, 0], [list_command, True, 0]]
     )

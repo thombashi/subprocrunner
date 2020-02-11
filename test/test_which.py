@@ -1,10 +1,7 @@
-# encoding: utf-8
-
 """
 .. codeauthor:: Tsuyoshi Hombashi <tsuyoshi.hombashi@gmail.com>
 """
 
-from __future__ import unicode_literals
 
 import platform  # noqa: W0611
 import re
@@ -16,7 +13,7 @@ import subprocrunner
 from subprocrunner import Which
 
 
-class Test_Which_constructor(object):
+class Test_Which_constructor:
     @pytest.mark.parametrize(
         ["value", "expected"],
         [
@@ -30,7 +27,7 @@ class Test_Which_constructor(object):
             Which(value)
 
 
-class Test_Which_repr(object):
+class Test_Which_repr:
     @pytest.mark.skipif("platform.system() == 'Windows'")
     @pytest.mark.parametrize(
         ["value", "expected_regexp"],
@@ -46,7 +43,7 @@ class Test_Which_repr(object):
         assert expected_regexp.search(str(Which(value))) is not None
 
 
-class Test_Which_is_exist(object):
+class Test_Which_is_exist:
     @pytest.mark.skipif("platform.system() == 'Windows'")
     @pytest.mark.parametrize(
         ["value", "expected"], [["ls", True], ["/bin/ls", True], ["__not_exist_command__", False]]
@@ -63,7 +60,7 @@ class Test_Which_is_exist(object):
         assert which.is_exist() == expected
 
 
-class Test_Which_verify(object):
+class Test_Which_verify:
     @pytest.mark.skipif("platform.system() == 'Windows'")
     @pytest.mark.parametrize(["value"], [["ls"]])
     def test_normal_linux(self, value):
@@ -82,7 +79,7 @@ class Test_Which_verify(object):
             Which(value).verify()
 
 
-class Test_Which_abspath(object):
+class Test_Which_abspath:
     @pytest.mark.skipif("platform.system() == 'Windows'")
     @pytest.mark.parametrize(["value"], [["ls"]])
     def test_normal_linux(self, value):
