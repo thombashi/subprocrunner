@@ -3,7 +3,7 @@
 """
 
 
-import platform  # noqa: W0611
+import platform
 import re
 
 import pytest
@@ -28,7 +28,7 @@ class Test_Which_constructor:
 
 
 class Test_Which_repr:
-    @pytest.mark.skipif("platform.system() == 'Windows'")
+    @pytest.mark.skipif(platform.system() == "Windows", reason="platform dependent tests")
     @pytest.mark.parametrize(
         ["value", "expected_regexp"],
         [
@@ -44,7 +44,7 @@ class Test_Which_repr:
 
 
 class Test_Which_is_exist:
-    @pytest.mark.skipif("platform.system() == 'Windows'")
+    @pytest.mark.skipif(platform.system() == "Windows", reason="platform dependent tests")
     @pytest.mark.parametrize(
         ["value", "expected"], [["ls", True], ["/bin/ls", True], ["__not_exist_command__", False]]
     )
@@ -61,7 +61,7 @@ class Test_Which_is_exist:
 
 
 class Test_Which_verify:
-    @pytest.mark.skipif("platform.system() == 'Windows'")
+    @pytest.mark.skipif(platform.system() == "Windows", reason="platform dependent tests")
     @pytest.mark.parametrize(["value"], [["ls"]])
     def test_normal_linux(self, value):
         Which(value).verify()
@@ -80,7 +80,7 @@ class Test_Which_verify:
 
 
 class Test_Which_abspath:
-    @pytest.mark.skipif("platform.system() == 'Windows'")
+    @pytest.mark.skipif(platform.system() == "Windows", reason="platform dependent tests")
     @pytest.mark.parametrize(["value"], [["ls"]])
     def test_normal_linux(self, value):
         assert is_not_null_string(Which(value).abspath())

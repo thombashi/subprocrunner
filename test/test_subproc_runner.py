@@ -50,7 +50,7 @@ class Test_SubprocessRunner_run:
 
         assert r.returncode in expected
 
-    @pytest.mark.skipif("platform.system() == 'Windows'")
+    @pytest.mark.skipif(platform.system() == "Windows", reason="platform dependent tests")
     @pytest.mark.parametrize(
         ["command", "expected"], [[list_command + " -l", 0], [[list_command, "-l"], 0]]
     )
@@ -70,7 +70,7 @@ class Test_SubprocessRunner_run:
         assert runner.stdout.strip() == expected
         assert is_null_string(runner.stderr)
 
-    @pytest.mark.skipif("platform.system() == 'Windows'")
+    @pytest.mark.skipif(platform.system() == "Windows", reason="platform dependent tests")
     @pytest.mark.parametrize(
         ["command", "ignore_stderr_regexp", "out_regexp", "expected"],
         [
@@ -108,7 +108,7 @@ class Test_SubprocessRunner_run:
         actual = out_regexp.search(err) is not None
         assert actual == expected
 
-    @pytest.mark.skipif("platform.system() == 'Windows'")
+    @pytest.mark.skipif(platform.system() == "Windows", reason="platform dependent tests")
     @pytest.mark.parametrize(
         ["command", "ignore_stderr_regexp", "expected"],
         [
@@ -147,7 +147,7 @@ class Test_SubprocessRunner_popen:
         assert is_null_string(ret_stderr)
         assert proc.returncode == expected
 
-    @pytest.mark.skipif("platform.system() == 'Windows'")
+    @pytest.mark.skipif(platform.system() == "Windows", reason="platform dependent tests")
     @pytest.mark.parametrize(["command", "pipe_input", "expected"], [["grep a", b"aaa", 0]])
     def test_normal_stdin(self, command, pipe_input, expected):
         proc = SubprocessRunner(command).popen(PIPE)
