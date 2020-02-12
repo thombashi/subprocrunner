@@ -51,7 +51,7 @@ class Test_Which_is_exist:
     def test_normal_linux(self, value, expected):
         assert Which(value).is_exist() == expected
 
-    @pytest.mark.skipif("platform.system() != 'Windows'")
+    @pytest.mark.skipif(platform.system() != "Windows", reason="platform dependent tests")
     @pytest.mark.parametrize(
         ["value", "expected"], [["ping", True], ["__not_exist_command__", False]]
     )
@@ -66,7 +66,7 @@ class Test_Which_verify:
     def test_normal_linux(self, value):
         Which(value).verify()
 
-    @pytest.mark.skipif("platform.system() != 'Windows'")
+    @pytest.mark.skipif(platform.system() != "Windows", reason="platform dependent tests")
     @pytest.mark.parametrize(["value"], [["ping"]])
     def test_normal_windows(self, value):
         Which(value).verify()
@@ -85,7 +85,7 @@ class Test_Which_abspath:
     def test_normal_linux(self, value):
         assert is_not_null_string(Which(value).abspath())
 
-    @pytest.mark.skipif("platform.system() != 'Windows'")
+    @pytest.mark.skipif(platform.system() != "Windows", reason="platform dependent tests")
     @pytest.mark.parametrize(["value"], [["ping"]])
     def test_normal_windows(self, value):
         assert is_not_null_string(Which(value).abspath())
