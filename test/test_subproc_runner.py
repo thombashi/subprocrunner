@@ -15,6 +15,7 @@ import pytest
 from typepy import is_not_null_string, is_null_string
 
 from subprocrunner import SubprocessRunner
+from subprocrunner._logger._null_logger import NullLogger
 
 
 os_type = platform.system()
@@ -41,7 +42,7 @@ class Test_SubprocessRunner_run:
             [list_command + " __not_exist_dir__", True, [0]],
         ],
     )
-    def test_normal(self, command, dry_run, expected):
+    def test_normal(self, monkeypatch, command, dry_run, expected):
         r = SubprocessRunner(command, dry_run=dry_run)
         r.run()
 
@@ -49,6 +50,9 @@ class Test_SubprocessRunner_run:
             print(r.stderr, file=sys.stderr)
 
         assert r.returncode in expected
+
+        monkeypatch.setattr("subprocrunner._logger._logger.logger", NullLogger())
+        r.run()
 
     @pytest.mark.skipif(platform.system() == "Windows", reason="platform dependent tests")
     @pytest.mark.parametrize(
