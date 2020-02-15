@@ -30,8 +30,11 @@ def get_logging_method(log_level: Optional[str] = None) -> Callable:
         log_level = "DEBUG"
 
     method_table = {
+        "QUIET": lambda _x: None,
+        "TRACE": logger.trace,
         "DEBUG": logger.debug,
         "INFO": logger.info,
+        "SUCCESS": logger.success,
         "WARNING": logger.warning,
         "ERROR": logger.error,
         "CRITICAL": logger.critical,
