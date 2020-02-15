@@ -126,7 +126,7 @@ class SubprocessRunner:
         raise NotImplementedError()
 
     @error_log_level.setter
-    def error_log_level(self, log_level):
+    def error_log_level(self, log_level: Optional[str]):
         self.__error_logging_method = get_logging_method(log_level)
 
     def run(self, **kwargs) -> Optional[int]:
