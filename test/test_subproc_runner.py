@@ -74,7 +74,7 @@ class Test_SubprocessRunner_run:
         assert runner.stdout.strip() == expected
         assert is_null_string(runner.stderr)
 
-    @pytest.mark.skipif(platform.system() == "Windows", reason="platform dependent tests")
+    @pytest.mark.skip
     @pytest.mark.parametrize(
         ["command", "ignore_stderr_regexp", "out_regexp", "expected"],
         [

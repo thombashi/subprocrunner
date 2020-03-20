@@ -5,6 +5,7 @@
 
 import platform
 import re
+import sys
 
 import pytest
 from typepy import is_not_null_string
@@ -15,12 +16,7 @@ from subprocrunner import Which
 
 class Test_Which_constructor:
     @pytest.mark.parametrize(
-        ["value", "expected"],
-        [
-            [0, subprocrunner.CommandError],
-            ["", subprocrunner.CommandError],
-            [None, subprocrunner.CommandError],
-        ],
+        ["value", "expected"], [[0, ValueError], ["", ValueError], [None, ValueError],],
     )
     def test_exception(self, value, expected):
         with pytest.raises(expected):
@@ -32,15 +28,22 @@ class Test_Which_repr:
     @pytest.mark.parametrize(
         ["value", "expected_regexp"],
         [
-            ["ls", re.compile("^command=ls, is_exist=True, abspath=.*?bin/ls$")],
+            [
+                "ls",
+                re.compile("^command=ls, is_exist=True, follow_symlinks=False, abspath=.*?bin/ls$"),
+            ],
             [
                 "__not_exist_command__",
-                re.compile("^command=__not_exist_command__, is_exist=False$"),
+                re.compile(
+                    "^command=__not_exist_command__, is_exist=False, follow_symlinks=False$"
+                ),
             ],
         ],
     )
     def test_normal(self, value, expected_regexp):
-        assert expected_regexp.search(str(Which(value))) is not None
+        actual = str(Which(value))
+        print(actual, file=sys.stderr)
+        assert expected_regexp.search(actual) is not None
 
 
 class Test_Which_is_exist:
