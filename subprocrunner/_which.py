@@ -31,7 +31,7 @@ class Which:
         return ", ".join(item_list)
 
     def is_exist(self) -> bool:
-        return self.abspath() is not None
+        return self.abspath() is not None and os.path.exists(str(self.abspath()))
 
     def verify(self) -> None:
         if not self.is_exist():
