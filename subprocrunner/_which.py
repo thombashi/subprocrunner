@@ -17,9 +17,7 @@ class Which:
 
     def __init__(self, command: str) -> None:
         if not command:
-            raise CommandError(
-                "invalid command {}: ".format(command), cmd=command, errno=errno.EINVAL
-            )
+            raise ValueError("require a command")
 
         self.__command = command
         self.__abspath = None  # type: Optional[str]
