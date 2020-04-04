@@ -2,9 +2,8 @@
 .. codeauthor:: Tsuyoshi Hombashi <tsuyoshi.hombashi@gmail.com>
 """
 
-
 import os.path
-from typing import Dict, List  # noqa
+from typing import Dict
 
 import setuptools
 
