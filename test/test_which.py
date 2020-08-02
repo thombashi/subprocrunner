@@ -16,7 +16,7 @@ from subprocrunner import Which
 
 class Test_Which_constructor:
     @pytest.mark.parametrize(
-        ["value", "expected"], [[0, ValueError], ["", ValueError], [None, ValueError],],
+        ["value", "expected"], [[0, ValueError], ["", ValueError], [None, ValueError]],
     )
     def test_exception(self, value, expected):
         with pytest.raises(expected):
