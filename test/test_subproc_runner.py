@@ -89,6 +89,7 @@ class Test_SubprocessRunner_run:
     )
     def test_stderr(self, capsys, command, ignore_stderr_regexp, out_regexp, expected):
         from loguru import logger
+
         import subprocrunner
 
         logger.remove()
