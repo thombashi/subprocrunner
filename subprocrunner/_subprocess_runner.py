@@ -16,9 +16,7 @@ from mbstrdecoder import MultiByteStrDecoder
 from ._logger import DEFAULT_ERROR_LOG_LEVEL, get_logging_method
 from ._which import Which
 from .error import CalledProcessError, CommandError
-
-
-Command = Union[str, Sequence[str]]
+from .typing import Command
 
 
 class SubprocessRunner:

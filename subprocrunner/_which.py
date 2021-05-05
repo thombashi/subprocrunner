@@ -7,8 +7,8 @@ import os
 import shutil
 from typing import Optional
 
-from ._subprocess_runner import Command
 from .error import CommandError
+from .typing import Command
 
 
 class Which:

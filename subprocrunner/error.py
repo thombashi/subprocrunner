@@ -7,7 +7,7 @@ import subprocess
 import sys
 from typing import Optional
 
-from ._subprocess_runner import Command
+from .typing import Command
 
 
 class CommandError(Exception):
