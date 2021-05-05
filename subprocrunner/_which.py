@@ -52,7 +52,7 @@ class Which:
         if self.__abspath:
             return self.__abspath
 
-        self.__abspath = shutil.which(self.command)
+        self.__abspath = shutil.which(self.command)  # type: ignore
         if self.__abspath is None:
             return self.__abspath
 
