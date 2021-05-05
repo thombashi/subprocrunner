@@ -7,12 +7,13 @@ import os
 import shutil
 from typing import Optional
 
+from ._subprocess_runner import Command
 from .error import CommandError
 
 
 class Which:
     @property
-    def command(self):
+    def command(self) -> Command:
         return self.__command
 
     def __init__(self, command: str, follow_symlinks: bool = False) -> None:

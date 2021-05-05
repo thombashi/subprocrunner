@@ -5,15 +5,18 @@
 
 import subprocess
 import sys
+from typing import Optional
+
+from ._subprocess_runner import Command
 
 
 class CommandError(Exception):
     @property
-    def cmd(self):
+    def cmd(self) -> Optional[Command]:
         return self.__cmd
 
     @property
-    def errno(self):
+    def errno(self) -> Optional[int]:
         return self.__errno
 
     def __init__(self, *args, **kwargs) -> None:

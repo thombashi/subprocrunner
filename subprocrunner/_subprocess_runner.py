@@ -56,7 +56,7 @@ class SubprocessRunner:
     def __init__(
         self,
         command: Command,
-        error_log_level: None = None,
+        error_log_level: Optional[str] = None,
         ignore_stderr_regexp: Optional[Pattern] = None,
         dry_run: Optional[bool] = None,
     ) -> None:
@@ -229,7 +229,7 @@ class SubprocessRunner:
 
         return process
 
-    def __verify_command(self):
+    def __verify_command(self) -> None:
         if not self.command:
             raise CommandError(
                 "invalid command: {}".format(self.command), cmd=self.command_str, errno=errno.EINVAL
@@ -255,7 +255,7 @@ class SubprocessRunner:
 
         return os.environ
 
-    def __debug_print_command(self):
+    def __debug_print_command(self) -> None:
         message_list = [self.command_str]
 
         if self.is_output_stacktrace:
