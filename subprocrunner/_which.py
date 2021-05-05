@@ -20,6 +20,9 @@ class Which:
         if not command:
             raise ValueError("require a command")
 
+        if not command:
+            raise ValueError("require a command")
+
         self.__command = command
         self.__follow_symlinks = follow_symlinks
         self.__abspath = None  # type: Optional[str]
