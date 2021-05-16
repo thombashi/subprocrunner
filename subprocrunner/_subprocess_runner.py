@@ -9,7 +9,8 @@ import platform
 import subprocess
 import traceback
 from subprocess import PIPE
-from typing import Dict, List, Optional, Pattern, Sequence, Union, cast
+from typing import Sequence, Union  # noqa
+from typing import Dict, List, Optional, Pattern, cast
 
 from mbstrdecoder import MultiByteStrDecoder
 
@@ -74,8 +75,8 @@ class SubprocessRunner:
             self.__dry_run = dry_run
         else:
             self.__dry_run = self.default_is_dry_run
-        self.__stdout = None  # type: Union[str, bytes, None]
-        self.__stderr = None  # type: Union[str, bytes, None]
+        self.__stdout = None  # type: Optional[str]
+        self.__stderr = None  # type: Optional[str]
         self.__returncode = None
 
         self.__ignore_stderr_regexp = ignore_stderr_regexp
@@ -108,11 +109,11 @@ class SubprocessRunner:
         return " ".join(self.__command)
 
     @property
-    def stdout(self) -> Union[str, bytes, None]:
+    def stdout(self) -> Optional[str]:
         return self.__stdout
 
     @property
-    def stderr(self) -> Union[str, bytes, None]:
+    def stderr(self) -> Optional[str]:
         return self.__stderr
 
     @property
@@ -158,11 +159,11 @@ class SubprocessRunner:
                 self.command, shell=self.__is_shell, stdin=PIPE, stdout=PIPE, stderr=PIPE
             )
 
-        self.__stdout, self.__stderr = proc.communicate(**kwargs)
+        stdout, stderr = proc.communicate(**kwargs)
         self.__returncode = proc.returncode
 
-        self.__stdout = MultiByteStrDecoder(self.__stdout).unicode_str
-        self.__stderr = MultiByteStrDecoder(self.__stderr).unicode_str
+        self.__stdout = MultiByteStrDecoder(stdout).unicode_str
+        self.__stderr = MultiByteStrDecoder(stderr).unicode_str
 
         if self.returncode == 0:
             return 0
