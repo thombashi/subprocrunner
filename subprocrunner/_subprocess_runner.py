@@ -187,7 +187,7 @@ class SubprocessRunner:
         if check is True:
             # stdout and stderr attributes added since Python 3.5
             raise CalledProcessError(
-                returncode=self.returncode,
+                returncode=self.__returncode,
                 cmd=self.command_str,
                 output=self.stdout,
                 stderr=self.stderr,
