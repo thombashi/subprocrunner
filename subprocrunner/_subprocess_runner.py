@@ -176,6 +176,14 @@ class SubprocessRunner:
         except AttributeError:
             pass
 
+        # pytype: disable=attribute-error
+        self.__error_logging_method(
+            "command='{}', returncode={}, stderr={!r}".format(
+                self.command, self.returncode, self.stderr
+            )
+        )
+        # pytype: enable=attribute-error
+
         if check is True:
             # stdout and stderr attributes added since Python 3.5
             raise CalledProcessError(
@@ -184,14 +192,6 @@ class SubprocessRunner:
                 output=self.stdout,
                 stderr=self.stderr,
             )
-
-        # pytype: disable=attribute-error
-        self.__error_logging_method(
-            "command='{}', returncode={}, stderr={!r}".format(
-                self.command, self.returncode, self.stderr
-            )
-        )
-        # pytype: enable=attribute-error
 
         return self.returncode
 
