@@ -62,7 +62,11 @@ class Test_SubprocessRunner_run:
         assert SubprocessRunner(command).run() == expected
 
     @pytest.mark.parametrize(
-        ["command", "expected"], [["echo test", "test"], [["echo", "test"], "test"]]
+        ["command", "expected"],
+        [
+            ["echo test", "test"],
+            [["echo", "test"], "test"],
+        ],
     )
     def test_stdout(self, command, expected):
         runner = SubprocessRunner(command)
