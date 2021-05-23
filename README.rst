@@ -59,8 +59,20 @@ Execute a command
         return code: 2
         stderr: ls: cannot access '__not_exist_dir__': No such file or directory
 
+Execute a command with retry
+--------------------------------------------------------
+
+:Sample Code:
+    .. code:: python
+
+        from subprocrunner import Retry, SubprocessRunner
+
+        SubprocessRunner(command).run(retry=Retry(total=3, backoff_factor=0.2, jitter=0.2))
+
 dry run
 ----------------------------
+Commands are not actually run when passing ``dry_run=True`` to ``SubprocessRunner`` class constructor.
+
 :Sample Code:
     .. code:: python
 
