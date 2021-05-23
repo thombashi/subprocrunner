@@ -3,7 +3,7 @@ import pytest
 from subprocrunner.retry import Retry
 
 
-class Test_Retry:
+class Test_Retry_calc_backoff_time:
     @pytest.mark.parametrize(
         ["attempt"],
         [
@@ -14,7 +14,7 @@ class Test_Retry:
             [4],
         ],
     )
-    def test_calc_backoff_time(self, attempt):
+    def test_normal(self, attempt):
         LOOP = 100
         coef = 2 ** max(0, attempt - 1)
         backoff_factor = 1
@@ -29,7 +29,9 @@ class Test_Retry:
                 <= (base_time + jitter * 1.5)
             )
 
-    def test_sleep_before_retry(self):
+
+class Test_Retry_sleep_before_retry:
+    def test_normal(self):
         attempt = 1
         coef = 2 ** max(0, attempt - 1)
         backoff_factor = 0.1
