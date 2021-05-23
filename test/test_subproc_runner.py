@@ -130,8 +130,18 @@ class Test_SubprocessRunner_run:
             with pytest.raises(expected):
                 runner.run(check=True)
 
+    def test_timeout_kwarg(self, mocker):
+        mocked_communicate = mocker.patch("subprocess.Popen.communicate")
+        mocked_communicate.return_value = ("", "")
+
+        mocker.patch("subprocrunner.Which.verify")
+        runner = SubprocessRunner("dummy")
+        runner.run(timeout=1)
+
+        mocked_communicate.assert_called_with(timeout=1)
+
     def test_unicode(self, monkeypatch):
-        def monkey_communicate(input=None):
+        def monkey_communicate(input=None, timeout=None):
             return ("", "'dummy' は、内部コマンドまたは外部コマンド、" "操作可能なプログラムまたはバッチ ファイルとして認識されていません")
 
         monkeypatch.setattr(subprocess.Popen, "communicate", monkey_communicate)

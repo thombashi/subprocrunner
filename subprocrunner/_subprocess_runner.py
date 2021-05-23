@@ -128,7 +128,7 @@ class SubprocessRunner:
     def error_log_level(self, log_level: Optional[str]):
         self.__error_logging_method = get_logging_method(log_level)
 
-    def run(self, **kwargs) -> Optional[int]:
+    def run(self, timeout: Optional[float] = None, **kwargs) -> Optional[int]:
         self.__verify_command()
 
         check = kwargs.pop("check", None)
@@ -159,7 +159,7 @@ class SubprocessRunner:
                 self.command, shell=self.__is_shell, stdin=PIPE, stdout=PIPE, stderr=PIPE
             )
 
-        stdout, stderr = proc.communicate(**kwargs)
+        stdout, stderr = proc.communicate(timeout=timeout, **kwargs)
         self.__returncode = proc.returncode
 
         self.__stdout = MultiByteStrDecoder(stdout).unicode_str
