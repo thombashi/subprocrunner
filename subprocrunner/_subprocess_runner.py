@@ -131,7 +131,7 @@ class SubprocessRunner:
     def run(self, timeout: Optional[float] = None, **kwargs) -> Optional[int]:
         self.__verify_command()
 
-        check = kwargs.pop("check", None)
+        check = kwargs.pop("check", False)
         env = kwargs.pop("env", None)
 
         if self.dry_run:
