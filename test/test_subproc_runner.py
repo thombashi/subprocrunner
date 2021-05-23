@@ -9,13 +9,14 @@ import platform
 import re
 import subprocess
 import sys
-from subprocess import PIPE, CalledProcessError
+from subprocess import PIPE
 
 import pytest
 from typepy import is_not_null_string, is_null_string
 
 from subprocrunner import SubprocessRunner
 from subprocrunner._logger._null_logger import NullLogger
+from subprocrunner.error import CalledProcessError
 from subprocrunner.retry import Retry
 
 
@@ -158,18 +159,36 @@ class Test_SubprocessRunner_run:
         mocker.patch("subprocrunner.Which.verify")
 
         runner = SubprocessRunner("dummy")
+        retry_ct = 3
 
-        # w/ retry
+        # w/ retry: check=False
         mocked_run = mocker.patch("subprocrunner.SubprocessRunner._run")
         mocked_run.return_value = -1
-        retry_ct = 3
-        runner.run(timeout=1, retry=Retry(total=retry_ct, backoff_factor=0.1, jitter=0.1))
+        runner.run(check=False, retry=Retry(total=retry_ct, backoff_factor=0.1, jitter=0.1))
         assert mocked_run.call_count == retry_ct + 1
 
-        # w/o retry
+        # w/ retry: check=True
         mocked_run = mocker.patch("subprocrunner.SubprocessRunner._run")
         mocked_run.return_value = -1
-        runner.run(timeout=1, retry=None)
+        try:
+            runner.run(check=True, retry=Retry(total=retry_ct, backoff_factor=0.1, jitter=0.1))
+        except CalledProcessError:
+            pass
+        assert mocked_run.call_count == retry_ct + 1
+
+        # w/o retry: check=False
+        mocked_run = mocker.patch("subprocrunner.SubprocessRunner._run")
+        mocked_run.return_value = -1
+        runner.run(check=False, retry=None)
+        assert mocked_run.call_count == 1
+
+        # w/o retry: check=True
+        mocked_run = mocker.patch("subprocrunner.SubprocessRunner._run")
+        mocked_run.return_value = -1
+        try:
+            runner.run(check=True, retry=None)
+        except CalledProcessError:
+            pass
         assert mocked_run.call_count == 1
 
 

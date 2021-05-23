@@ -194,7 +194,7 @@ class SubprocessRunner:
             return self.__returncode
 
         self.__debug_print_command()
-        self._run(env=env, check=check, timeout=timeout, **kwargs)
+        self._run(env=env, check=check if retry is None else False, timeout=timeout, **kwargs)
 
         if self.__returncode == 0 or retry is None:
             return self.__returncode  # type: ignore
@@ -208,8 +208,16 @@ class SubprocessRunner:
                 retry_target=self.command_str,
             )
 
-            if self._run(env=env, check=check, timeout=timeout, **kwargs) == 0:
+            if self._run(env=env, check=False, timeout=timeout, **kwargs) == 0:
                 break
+
+        if check is True:
+            raise CalledProcessError(
+                returncode=self.__returncode,  # type: ignore
+                cmd=self.command_str,
+                output=self.stdout,
+                stderr=self.stderr,
+            )
 
         return self.__returncode  # type: ignore
 
