@@ -17,6 +17,7 @@ from mbstrdecoder import MultiByteStrDecoder
 from ._logger import DEFAULT_ERROR_LOG_LEVEL, get_logging_method
 from ._which import Which
 from .error import CalledProcessError, CommandError
+from .retry import Retry
 from .typing import Command
 
 
@@ -128,23 +129,7 @@ class SubprocessRunner:
     def error_log_level(self, log_level: Optional[str]):
         self.__error_logging_method = get_logging_method(log_level)
 
-    def run(self, timeout: Optional[float] = None, **kwargs) -> int:
-        self.__verify_command()
-
-        check = kwargs.pop("check", False)
-        env = self.__get_env(kwargs.pop("env", None))
-
-        if self.dry_run:
-            self.__stdout = self._DRY_RUN_OUTPUT
-            self.__stderr = self._DRY_RUN_OUTPUT
-            self.__returncode = 0
-
-            self.__debug_logging_method("dry-run: {}".format(self.command))
-
-            return self.__returncode
-
-        self.__debug_print_command()
-
+    def _run(self, env, check: bool, timeout: Optional[float] = None, **kwargs) -> int:
         try:
             proc = subprocess.Popen(
                 self.command,
@@ -193,6 +178,41 @@ class SubprocessRunner:
             )
 
         return self.__returncode
+
+    def run(self, timeout: Optional[float] = None, retry: Retry = None, **kwargs) -> int:
+        self.__verify_command()
+
+        check = kwargs.pop("check", False)
+        env = self.__get_env(kwargs.pop("env", None))
+
+        if self.dry_run:
+            self.__stdout = self._DRY_RUN_OUTPUT
+            self.__stderr = self._DRY_RUN_OUTPUT
+            self.__returncode = 0
+
+            self.__debug_logging_method("dry-run: {}".format(self.command))
+
+            return self.__returncode
+
+        self.__debug_print_command()
+        self._run(env=env, check=check, timeout=timeout, **kwargs)
+
+        if self.__returncode == 0 or retry is None:
+            return self.__returncode  # type: ignore
+
+        for i in range(retry.total):
+            self.__error_logging_method(self.stderr)
+
+            retry.sleep_before_retry(
+                attempt=i + 1,
+                logging_method=self.__debug_logging_method,
+                retry_target=self.command_str,
+            )
+
+            if self._run(env=env, check=check, timeout=timeout, **kwargs) == 0:
+                break
+
+        return self.__returncode  # type: ignore
 
     def popen(self, std_in: Optional[int] = None, env: Optional[Dict[str, str]] = None):
         self.__verify_command()

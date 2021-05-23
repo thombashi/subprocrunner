@@ -16,6 +16,7 @@ from typepy import is_not_null_string, is_null_string
 
 from subprocrunner import SubprocessRunner
 from subprocrunner._logger._null_logger import NullLogger
+from subprocrunner.retry import Retry
 
 
 os_type = platform.system()
@@ -152,6 +153,24 @@ class Test_SubprocessRunner_run:
 
         runner = SubprocessRunner(list_command)
         runner.run()
+
+    def test_retry(self, mocker):
+        mocker.patch("subprocrunner.Which.verify")
+
+        runner = SubprocessRunner("dummy")
+
+        # w/ retry
+        mocked_run = mocker.patch("subprocrunner.SubprocessRunner._run")
+        mocked_run.return_value = -1
+        retry_ct = 3
+        runner.run(timeout=1, retry=Retry(total=retry_ct, backoff_factor=0.1, jitter=0.1))
+        assert mocked_run.call_count == retry_ct + 1
+
+        # w/o retry
+        mocked_run = mocker.patch("subprocrunner.SubprocessRunner._run")
+        mocked_run.return_value = -1
+        runner.run(timeout=1, retry=None)
+        assert mocked_run.call_count == 1
 
 
 class Test_SubprocessRunner_popen:
