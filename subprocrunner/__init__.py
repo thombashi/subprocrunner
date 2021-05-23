@@ -8,3 +8,4 @@ from ._logger import set_log_level, set_logger
 from ._subprocess_runner import SubprocessRunner
 from ._which import Which
 from .error import CalledProcessError, CommandError
+from .retry import Retry
