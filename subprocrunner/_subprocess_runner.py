@@ -128,7 +128,7 @@ class SubprocessRunner:
     def error_log_level(self, log_level: Optional[str]):
         self.__error_logging_method = get_logging_method(log_level)
 
-    def run(self, timeout: Optional[float] = None, **kwargs) -> Optional[int]:
+    def run(self, timeout: Optional[float] = None, **kwargs) -> int:
         self.__verify_command()
 
         check = kwargs.pop("check", False)
@@ -173,7 +173,7 @@ class SubprocessRunner:
                 self.__ignore_stderr_regexp
                 and self.__ignore_stderr_regexp.search(self.stderr) is not None
             ):
-                return self.returncode
+                return self.__returncode
         except AttributeError:
             pass
 
@@ -194,7 +194,7 @@ class SubprocessRunner:
                 stderr=self.stderr,
             )
 
-        return self.returncode
+        return self.__returncode
 
     def popen(self, std_in: Optional[int] = None, env: Optional[Dict[str, str]] = None):
         self.__verify_command()
