@@ -132,7 +132,7 @@ class SubprocessRunner:
         self.__verify_command()
 
         check = kwargs.pop("check", False)
-        env = kwargs.pop("env", None)
+        env = self.__get_env(kwargs.pop("env", None))
 
         if self.dry_run:
             self.__stdout = self._DRY_RUN_OUTPUT
@@ -149,7 +149,7 @@ class SubprocessRunner:
             proc = subprocess.Popen(
                 self.command,
                 shell=self.__is_shell,
-                env=self.__get_env(env),
+                env=env,
                 stdin=PIPE,
                 stdout=PIPE,
                 stderr=PIPE,
