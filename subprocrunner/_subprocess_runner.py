@@ -78,7 +78,7 @@ class SubprocessRunner:
             self.__dry_run = self.default_is_dry_run
         self.__stdout = None  # type: Optional[str]
         self.__stderr = None  # type: Optional[str]
-        self.__returncode = None
+        self.__returncode = None  # type: Optional[int]
 
         self.__ignore_stderr_regexp = ignore_stderr_regexp
         self.__debug_logging_method = get_logging_method()
