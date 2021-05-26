@@ -41,7 +41,7 @@ class Retry:
             else:
                 msg = "Retrying in "
 
-            msg += "{:.2f} seconds ... (attempt={})".format(sleep_duration, attempt)
+            msg += "{:.2f} seconds ... (attempt={}/{})".format(sleep_duration, attempt, self.total)
 
             logging_method(msg)
 
