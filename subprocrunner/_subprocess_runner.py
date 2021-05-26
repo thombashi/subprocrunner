@@ -59,6 +59,7 @@ class SubprocessRunner:
         error_log_level: Optional[str] = None,
         ignore_stderr_regexp: Optional[Pattern] = None,
         dry_run: Optional[bool] = None,
+        quiet: bool = False,
     ) -> None:
         self.__command = []  # type: Union[str, Sequence[str]]
 
@@ -81,9 +82,11 @@ class SubprocessRunner:
         self.__returncode = None  # type: Optional[int]
 
         self.__ignore_stderr_regexp = ignore_stderr_regexp
-        self.__debug_logging_method = get_logging_method()
+        self.__debug_logging_method = get_logging_method("QUIET" if quiet else "DEBUG")
 
-        if error_log_level is not None:
+        if quiet:
+            self.error_log_level = "QUIET"
+        elif error_log_level is not None:
             self.error_log_level = error_log_level
         else:
             self.error_log_level = self.default_error_log_level
@@ -93,6 +96,8 @@ class SubprocessRunner:
                 self.__command_history.pop(0)
 
             self.__command_history.append(command)
+
+        self.__quiet = quiet
 
     @property
     def dry_run(self) -> bool:
@@ -189,7 +194,8 @@ class SubprocessRunner:
             self.__stderr = self._DRY_RUN_OUTPUT
             self.__returncode = 0
 
-            self.__debug_logging_method("dry-run: {}".format(self.command))
+            if not self.__quiet:
+                self.__debug_logging_method("dry-run: {}".format(self.command))
 
             return self.__returncode
 
@@ -285,4 +291,5 @@ class SubprocessRunner:
         if self.is_output_stacktrace:
             message_list.append("".join(traceback.format_stack()[:-2]))
 
-        self.__debug_logging_method("\n".join(message_list))
+        if not self.__quiet:
+            self.__debug_logging_method("\n".join(message_list))
