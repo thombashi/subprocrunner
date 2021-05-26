@@ -4,10 +4,13 @@ from typing import Callable, Optional
 
 
 class Retry:
-    def __init__(self, total: int = 3, backoff_factor: float = 0.2, jitter: float = 0.2) -> None:
+    def __init__(
+        self, total: int = 3, backoff_factor: float = 0.2, jitter: float = 0.2, quiet: bool = False
+    ) -> None:
         self.total = total
         self.__backoff_factor = backoff_factor
         self.__jitter = jitter
+        self.__quiet = quiet
 
         if self.total <= 0:
             raise ValueError("total must be greater than zero")
@@ -32,7 +35,7 @@ class Retry:
     ) -> float:
         sleep_duration = self.calc_backoff_time(attempt)
 
-        if logging_method:
+        if logging_method and not self.__quiet:
             if retry_target:
                 msg = "Retrying '{}' in ".format(retry_target)
             else:
