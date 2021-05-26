@@ -40,7 +40,8 @@ def get_logging_method(log_level: Optional[str] = None) -> Callable:
         "CRITICAL": logger.critical,
     }
 
-    method = method_table.get(log_level.upper())
+    log_level = log_level.strip().upper()
+    method = method_table.get(log_level)
     if method is None:
         raise ValueError("unknown log level: {}".format(log_level))
 
