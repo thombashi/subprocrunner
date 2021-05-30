@@ -136,6 +136,8 @@ class SubprocessRunner:
         self.__error_logging_method = get_logging_method(log_level)
 
     def _run(self, env, check: bool, timeout: Optional[float] = None, **kwargs) -> int:
+        self.__debug_print_command(retry_attept=kwargs.get(self._RETRY_ATTEMPT_KEY))
+
         if self._RETRY_ATTEMPT_KEY in kwargs:
             kwargs.pop(self._RETRY_ATTEMPT_KEY)
 
@@ -203,7 +205,6 @@ class SubprocessRunner:
 
             return self.__returncode
 
-        self.__debug_print_command()
         self._run(env=env, check=check if retry is None else False, timeout=timeout, **kwargs)
 
         if self.__returncode == 0 or retry is None:
@@ -288,8 +289,13 @@ class SubprocessRunner:
 
         return os.environ
 
-    def __debug_print_command(self) -> None:
-        message_list = [self.command_str]
+    def __debug_print_command(self, retry_attept: Optional[int] = None) -> None:
+        message_list = []
+
+        if retry_attept is not None:
+            message_list.append(f"retry-attempt={retry_attept}: {self.command_str}")
+        else:
+            message_list.append(self.command_str)
 
         if self.is_output_stacktrace:
             message_list.append("".join(traceback.format_stack()[:-2]))
