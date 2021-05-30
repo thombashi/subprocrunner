@@ -9,8 +9,7 @@ import platform
 import subprocess
 import traceback
 from subprocess import PIPE
-from typing import Sequence, Union  # noqa
-from typing import Dict, List, Optional, Pattern, cast
+from typing import Dict, List, Optional, Pattern, Sequence, Union, cast  # noqa
 
 from mbstrdecoder import MultiByteStrDecoder
 
@@ -293,7 +292,7 @@ class SubprocessRunner:
         message_list = []
 
         if retry_attept is not None:
-            message_list.append(f"retry-attempt={retry_attept}: {self.command_str}")
+            message_list.append("retry-attempt={}: {}".format(retry_attept, self.command_str))
         else:
             message_list.append(self.command_str)
 
