@@ -204,10 +204,11 @@ class SubprocessRunner:
 
             return self.__returncode
 
-        self._run(env=env, check=check if retry is None else False, timeout=timeout, **kwargs)
-
-        if self.__returncode == 0 or retry is None:
-            return self.__returncode  # type: ignore
+        returncode = self._run(
+            env=env, check=check if retry is None else False, timeout=timeout, **kwargs
+        )
+        if retry is None or returncode in [0] + retry.no_retry_returncodes:
+            return returncode
 
         for i in range(retry.total):
             retry.sleep_before_retry(
@@ -217,8 +218,9 @@ class SubprocessRunner:
             )
             kwargs[self._RETRY_ATTEMPT_KEY] = i + 1
 
-            if self._run(env=env, check=False, timeout=timeout, **kwargs) == 0:
-                return 0
+            returncode = self._run(env=env, check=False, timeout=timeout, **kwargs)
+            if returncode in [0] + retry.no_retry_returncodes:
+                return returncode
 
         if check is True:
             raise CalledProcessError(

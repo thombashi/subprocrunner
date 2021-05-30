@@ -191,6 +191,18 @@ class Test_SubprocessRunner_run:
             pass
         assert mocked_run.call_count == 1
 
+    def test_no_retry_returncodes(self, mocker):
+        mocker.patch("subprocrunner.Which.verify")
+
+        runner = SubprocessRunner("always-failed-command")
+        mocked_run = mocker.patch("subprocrunner.SubprocessRunner._run")
+        mocked_run.return_value = 2
+        runner.run(
+            check=True,
+            retry=Retry(total=3, backoff_factor=0.1, jitter=0.1, no_retry_returncodes=[2]),
+        )
+        assert mocked_run.call_count == 1
+
     def test_retry_success_ater_failed(self, mocker):
         mocker.patch("subprocrunner.Which.verify")
 

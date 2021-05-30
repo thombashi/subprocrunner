@@ -1,11 +1,16 @@
 import time
 from random import uniform
-from typing import Callable, Optional
+from typing import Callable, List, Optional
 
 
 class Retry:
     def __init__(
-        self, total: int = 3, backoff_factor: float = 0.2, jitter: float = 0.2, quiet: bool = False
+        self,
+        total: int = 3,
+        backoff_factor: float = 0.2,
+        jitter: float = 0.2,
+        no_retry_returncodes: Optional[List[int]] = None,
+        quiet: bool = False,
     ) -> None:
         self.total = total
         self.__backoff_factor = backoff_factor
@@ -20,6 +25,11 @@ class Retry:
 
         if self.__jitter <= 0:
             raise ValueError("jitter must be greater than zero")
+
+        if no_retry_returncodes:
+            self.no_retry_returncodes = no_retry_returncodes
+        else:
+            self.no_retry_returncodes = []
 
     def calc_backoff_time(self, attempt: int) -> float:
         sleep_duration = self.__backoff_factor * (2 ** max(0, attempt - 1))
