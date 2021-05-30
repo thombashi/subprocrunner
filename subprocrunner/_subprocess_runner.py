@@ -136,6 +136,9 @@ class SubprocessRunner:
         self.__error_logging_method = get_logging_method(log_level)
 
     def _run(self, env, check: bool, timeout: Optional[float] = None, **kwargs) -> int:
+        if self._RETRY_ATTEMPT_KEY in kwargs:
+            kwargs.pop(self._RETRY_ATTEMPT_KEY)
+
         try:
             proc = subprocess.Popen(
                 self.command,
