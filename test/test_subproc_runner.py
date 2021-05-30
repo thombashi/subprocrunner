@@ -198,7 +198,7 @@ class Test_SubprocessRunner_run:
         retry_ct = 3
 
         def failed_first_call(*args, **kwargs):
-            attempt = kwargs.get("__retry_attempt__")
+            attempt = kwargs.get(SubprocessRunner._RETRY_ATTEMPT_KEY)
             if attempt is None:
                 return 1
 

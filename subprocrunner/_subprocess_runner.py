@@ -34,6 +34,7 @@ class SubprocessRunner:
     """
 
     _DRY_RUN_OUTPUT = ""
+    _RETRY_ATTEMPT_KEY = "__retry_attempt__"
 
     default_error_log_level = DEFAULT_ERROR_LOG_LEVEL
     default_is_dry_run = False
@@ -213,7 +214,7 @@ class SubprocessRunner:
                 logging_method=self.__debug_logging_method,
                 retry_target=self.command_str,
             )
-            kwargs["__retry_attempt__"] = i + 1
+            kwargs[self._RETRY_ATTEMPT_KEY] = i + 1
 
             if self._run(env=env, check=False, timeout=timeout, **kwargs) == 0:
                 return 0
