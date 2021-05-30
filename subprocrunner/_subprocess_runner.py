@@ -215,7 +215,7 @@ class SubprocessRunner:
             )
 
             if self._run(env=env, check=False, timeout=timeout, **kwargs) == 0:
-                break
+                return 0
 
         if check is True:
             raise CalledProcessError(
