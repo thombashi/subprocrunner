@@ -158,18 +158,18 @@ class Test_SubprocessRunner_run:
     def test_retry(self, mocker):
         mocker.patch("subprocrunner.Which.verify")
 
-        runner = SubprocessRunner("dummy")
+        runner = SubprocessRunner("always-failed-command")
         retry_ct = 3
 
         # w/ retry: check=False
         mocked_run = mocker.patch("subprocrunner.SubprocessRunner._run")
-        mocked_run.return_value = -1
+        mocked_run.return_value = 1
         runner.run(check=False, retry=Retry(total=retry_ct, backoff_factor=0.1, jitter=0.1))
         assert mocked_run.call_count == retry_ct + 1
 
         # w/ retry: check=True
         mocked_run = mocker.patch("subprocrunner.SubprocessRunner._run")
-        mocked_run.return_value = -1
+        mocked_run.return_value = 1
         try:
             runner.run(check=True, retry=Retry(total=retry_ct, backoff_factor=0.1, jitter=0.1))
         except CalledProcessError:
@@ -178,13 +178,13 @@ class Test_SubprocessRunner_run:
 
         # w/o retry: check=False
         mocked_run = mocker.patch("subprocrunner.SubprocessRunner._run")
-        mocked_run.return_value = -1
+        mocked_run.return_value = 1
         runner.run(check=False, retry=None)
         assert mocked_run.call_count == 1
 
         # w/o retry: check=True
         mocked_run = mocker.patch("subprocrunner.SubprocessRunner._run")
-        mocked_run.return_value = -1
+        mocked_run.return_value = 1
         try:
             runner.run(check=True, retry=None)
         except CalledProcessError:
