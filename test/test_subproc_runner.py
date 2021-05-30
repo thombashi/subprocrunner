@@ -191,6 +191,24 @@ class Test_SubprocessRunner_run:
             pass
         assert mocked_run.call_count == 1
 
+    def test_retry_success_ater_failed(self, mocker):
+        mocker.patch("subprocrunner.Which.verify")
+
+        runner = SubprocessRunner("always-failed-command")
+        retry_ct = 3
+
+        def failed_first_call(*args, **kwargs):
+            attempt = kwargs.get("__retry_attempt__")
+            if attempt is None:
+                return 1
+
+            return 0
+
+        mocked_run = mocker.patch("subprocrunner.SubprocessRunner._run")
+        mocked_run.side_effect = failed_first_call
+        runner.run(check=True, retry=Retry(total=retry_ct, backoff_factor=0.1, jitter=0.1))
+        assert mocked_run.call_count == 2
+
 
 class Test_SubprocessRunner_popen:
     @pytest.mark.parametrize(

@@ -213,6 +213,7 @@ class SubprocessRunner:
                 logging_method=self.__debug_logging_method,
                 retry_target=self.command_str,
             )
+            kwargs["__retry_attempt__"] = i + 1
 
             if self._run(env=env, check=False, timeout=timeout, **kwargs) == 0:
                 return 0
