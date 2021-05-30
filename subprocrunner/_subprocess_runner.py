@@ -210,8 +210,6 @@ class SubprocessRunner:
             return self.__returncode  # type: ignore
 
         for i in range(retry.total):
-            self.__error_logging_method(self.stderr)
-
             retry.sleep_before_retry(
                 attempt=i + 1,
                 logging_method=self.__debug_logging_method,
