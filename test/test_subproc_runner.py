@@ -194,9 +194,6 @@ class Test_SubprocessRunner_run:
     def test_retry_success_ater_failed(self, mocker):
         mocker.patch("subprocrunner.Which.verify")
 
-        runner = SubprocessRunner("always-failed-command")
-        retry_ct = 3
-
         def failed_first_call(*args, **kwargs):
             attempt = kwargs.get(SubprocessRunner._RETRY_ATTEMPT_KEY)
             if attempt is None:
@@ -204,9 +201,10 @@ class Test_SubprocessRunner_run:
 
             return 0
 
+        runner = SubprocessRunner("always-failed-command")
         mocked_run = mocker.patch("subprocrunner.SubprocessRunner._run")
         mocked_run.side_effect = failed_first_call
-        runner.run(check=True, retry=Retry(total=retry_ct, backoff_factor=0.1, jitter=0.1))
+        runner.run(check=True, retry=Retry(total=3, backoff_factor=0.1, jitter=0.1))
         assert mocked_run.call_count == 2
 
 
