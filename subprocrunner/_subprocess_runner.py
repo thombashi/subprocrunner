@@ -173,7 +173,7 @@ class SubprocessRunner:
 
         self.__error_logging_method(
             "command='{}', returncode={}, stderr={!r}".format(
-                self.command, self.returncode, self.stderr
+                self.command_str, self.returncode, self.stderr
             )
         )
 
