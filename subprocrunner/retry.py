@@ -31,6 +31,18 @@ class Retry:
         else:
             self.no_retry_returncodes = []
 
+    def __repr__(self) -> str:
+        msgs = [
+            "total={}".format(self.total),
+            "backoff-factor={}".format(self.__backoff_factor),
+            "jitter={}".format(self.__jitter),
+        ]
+
+        if self.no_retry_returncodes:
+            msgs.append("no-retry-returncodes={}".format(self.no_retry_returncodes))
+
+        return "Retry({})".format(", ".join(msgs))
+
     def calc_backoff_time(self, attempt: int) -> float:
         sleep_duration = self.__backoff_factor * (2 ** max(0, attempt - 1))
         sleep_duration += uniform(0.5 * self.__jitter, 1.5 * self.__jitter)

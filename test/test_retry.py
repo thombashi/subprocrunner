@@ -3,6 +3,14 @@ import pytest
 from subprocrunner.retry import Retry
 
 
+class Test_Retry_repr:
+    def test_normal(self):
+        assert (
+            str(Retry(backoff_factor=0.5, jitter=0.5))
+            == "Retry(total=3, backoff-factor=0.5, jitter=0.5)"
+        )
+
+
 class Test_Retry_calc_backoff_time:
     @pytest.mark.parametrize(
         ["attempt"],
