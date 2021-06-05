@@ -34,6 +34,15 @@ else:
     raise NotImplementedError(os_type)
 
 
+class Test_SubprocessRunner_repr:
+    def test_normal(self):
+        expected = (
+            "SubprocessRunner(command='ls hoge', returncode='not yet executed', "
+            "dryrun=False, quiet=False)"
+        )
+        assert str(SubprocessRunner(command=["ls", "hoge"])) == expected
+
+
 class Test_SubprocessRunner_run:
     @pytest.mark.parametrize(
         ["command", "dry_run", "expected"],
