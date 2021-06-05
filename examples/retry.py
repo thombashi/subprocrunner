@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from subprocrunner import Retry, SubprocessRunner, set_logger
 
 
