@@ -206,8 +206,7 @@ class SubprocessRunner:
             self.__stderr = self._DRY_RUN_OUTPUT
             self.__returncode = 0
 
-            if not self.__quiet:
-                self.__debug_logging_method("dry-run: {}".format(self.command))
+            self.__debug_print_command()
 
             return self.__returncode
 
@@ -241,19 +240,16 @@ class SubprocessRunner:
 
     def popen(self, std_in: Optional[int] = None, env: Optional[Dict[str, str]] = None):
         self.__verify_command()
+        self.__debug_print_command()
 
         if self.dry_run:
             self.__stdout = self._DRY_RUN_OUTPUT
             self.__stderr = self._DRY_RUN_OUTPUT
             self.__returncode = 0
 
-            self.__debug_logging_method("dry-run: {}".format(self.command))
-
             return subprocess.CompletedProcess(
                 args=[], returncode=self.__returncode, stdout=self.__stdout, stderr=self.__stderr
             )
-
-        self.__debug_print_command()
 
         try:
             process = subprocess.Popen(
@@ -302,6 +298,9 @@ class SubprocessRunner:
             return
 
         message_list = []
+
+        if self.dry_run:
+            message_list.append("dryrun: ")
 
         if retry_attept is not None:
             message_list.append("retry-attempt={}: {}".format(retry_attept, self.command_str))
