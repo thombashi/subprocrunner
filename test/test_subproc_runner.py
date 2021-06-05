@@ -269,9 +269,13 @@ class Test_SubprocessRunner_popen:
 
 class Test_SubprocessRunner_command_history:
     @pytest.mark.parametrize(
-        ["command", "dry_run", "expected"], [[list_command, False, 0], [list_command, True, 0]]
+        ["command", "dry_run"],
+        [
+            [list_command, False],
+            [list_command, True],
+        ],
     )
-    def test_normal(self, command, dry_run, expected):
+    def test_normal(self, command, dry_run):
         loop_count = 3
 
         SubprocessRunner.is_save_history = False
