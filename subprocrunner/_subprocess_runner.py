@@ -100,11 +100,10 @@ class SubprocessRunner:
         self.__quiet = quiet
 
     def __repr__(self) -> str:
-        return "SubprocessRunner(command='{}', returncode={}, dryrun={}, quiet={})".format(
+        return "SubprocessRunner(command='{}', returncode={}, dryrun={})".format(
             self.command_str,
             self.returncode if self.returncode is not None else "'not yet executed'",
             self.dry_run,
-            self.__quiet,
         )
 
     @property

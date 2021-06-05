@@ -37,8 +37,7 @@ else:
 class Test_SubprocessRunner_repr:
     def test_normal(self):
         expected = (
-            "SubprocessRunner(command='ls hoge', returncode='not yet executed', "
-            "dryrun=False, quiet=False)"
+            "SubprocessRunner(command='ls hoge', returncode='not yet executed', " "dryrun=False)"
         )
         assert str(SubprocessRunner(command=["ls", "hoge"])) == expected
 
