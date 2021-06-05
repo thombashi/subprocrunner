@@ -21,8 +21,12 @@ A Python wrapper library for subprocess module.
     :alt: Supported Python implementations
 
 .. image:: https://github.com/thombashi/subprocrunner/workflows/Tests/badge.svg
-    :target: https://github.com/thombashi/subprocrunner/actions?query=workflow%3ATests
-    :alt: Linux/macOS/Windows CI status
+    :target: https://github.com/thombashi/subprocrunner/actions/workflows/tests.yml
+    :alt: Test result of Linux/macOS/Windows
+
+.. image:: https://github.com/thombashi/subprocrunner/actions/workflows/lint.yml/badge.svg
+    :target: https://github.com/thombashi/subprocrunner/actions/workflows/lint.yml
+    :alt: Lint result
 
 .. image:: https://coveralls.io/repos/github/thombashi/subprocrunner/badge.svg?branch=master
     :target: https://coveralls.io/github/thombashi/subprocrunner?branch=master
@@ -38,24 +42,24 @@ Execute a command
 
         from subprocrunner import SubprocessRunner
 
-        runner = SubprocessRunner("echo test")
-        print("command: {:s}".format(runner.command))
-        print("return code: {:d}".format(runner.run()))
-        print("stdout: {:s}".format(runner.stdout))
-
-        runner = SubprocessRunner("ls __not_exist_dir__")
-        print("command: {:s}".format(runner.command))
-        print("return code: {:d}".format(runner.run()))
-        print("stderr: {:s}".format(runner.stderr))
-
+        runner = SubprocessRunner(["echo", "test"])
+        print(runner)
+        print(f"return code: {runner.run()}")
+        print(f"stdout: {runner.stdout}")
+        
+        runner = SubprocessRunner(["ls", "__not_exist_dir__"])
+        print(runner)
+        print(f"return code: {runner.run()}")
+        print(f"stderr: {runner.stderr}")
+        
 :Output:
     .. code::
 
-        command: echo test
+        SubprocessRunner(command='echo test', returncode='not yet executed')
         return code: 0
         stdout: test
-
-        command: ls __not_exist_dir__
+        
+        SubprocessRunner(command='ls __not_exist_dir__', returncode='not yet executed')
         return code: 2
         stderr: ls: cannot access '__not_exist_dir__': No such file or directory
 
@@ -79,16 +83,16 @@ Commands are not actually run when passing ``dry_run=True`` to ``SubprocessRunne
         from subprocrunner import SubprocessRunner
 
         runner = SubprocessRunner("echo test", dry_run=True)
-        print("command: {:s}".format(runner.command))
-        print("return code: {:d}".format(runner.run()))
-        print("stdout: {:s}".format(runner.stdout))
-
+        print(runner)
+        print(f"return code: {runner.run()}")
+        print(f"stdout: {runner.stdout}")
+        
 :Output:
     .. code::
 
-        command: echo test
+        SubprocessRunner(command='echo test', returncode='not yet executed', dryrun=True)
         return code: 0
-        stdout:
+        stdout: 
 
 Get execution command history
 --------------------------------------------------------
@@ -99,10 +103,10 @@ Get execution command history
 
         SubprocessRunner.clear_history()
         SubprocessRunner.is_save_history = True
-
-        SubprocessRunner("echo hoge").run()
-        SubprocessRunner("echo foo").run()
-
+        
+        SubprocessRunner(["echo", "hoge"]).run()
+        SubprocessRunner(["echo", "foo"]).run()
+        
         print("\n".join(SubprocessRunner.get_history()))
 
 :Output:
