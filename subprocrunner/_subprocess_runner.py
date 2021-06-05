@@ -94,11 +94,16 @@ class SubprocessRunner:
         self.__quiet = quiet
 
     def __repr__(self) -> str:
-        return "SubprocessRunner(command='{}', returncode={}, dryrun={})".format(
-            self.command_str,
-            self.returncode if self.returncode is not None else "'not yet executed'",
-            self.dry_run,
-        )
+        params = [
+            "command='{}'".format(self.command_str),
+            "returncode={}".format(
+                self.returncode if self.returncode is not None else "'not yet executed'"
+            ),
+        ]
+        if self.dry_run:
+            params.append("dry_run={}".format(self.dry_run))
+
+        return "SubprocessRunner({})".format(", ".join(params))
 
     @property
     def dry_run(self) -> bool:

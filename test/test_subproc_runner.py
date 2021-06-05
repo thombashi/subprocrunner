@@ -39,11 +39,23 @@ JITTER = 0.01
 
 
 class Test_SubprocessRunner_repr:
-    def test_normal(self):
-        expected = (
-            "SubprocessRunner(command='ls hoge', returncode='not yet executed', " "dryrun=False)"
-        )
-        assert str(SubprocessRunner(command=["ls", "hoge"])) == expected
+    @pytest.mark.parametrize(
+        ["command", "dry_run", "expected"],
+        [
+            [
+                ["ls", "hoge"],
+                False,
+                "SubprocessRunner(command='ls hoge', returncode='not yet executed')",
+            ],
+            [
+                ["ls", "hoge"],
+                True,
+                "SubprocessRunner(command='ls hoge', returncode='not yet executed', dry_run=True)",
+            ],
+        ],
+    )
+    def test_normal(self, command, dry_run, expected):
+        assert str(SubprocessRunner(command=["ls", "hoge"], dry_run=dry_run)) == expected
 
 
 class Test_SubprocessRunner_run:
