@@ -299,6 +299,9 @@ class SubprocessRunner:
         return os.environ
 
     def __debug_print_command(self, retry_attept: Optional[int] = None) -> None:
+        if self.__quiet:
+            return
+
         message_list = []
 
         if retry_attept is not None:
@@ -309,5 +312,4 @@ class SubprocessRunner:
         if self.is_output_stacktrace:
             message_list.append("".join(traceback.format_stack()[:-2]))
 
-        if not self.__quiet:
-            self.__debug_logging_method("\n".join(message_list))
+        self.__debug_logging_method("\n".join(message_list))
