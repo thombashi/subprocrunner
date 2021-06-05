@@ -91,12 +91,6 @@ class SubprocessRunner:
         else:
             self.error_log_level = self.default_error_log_level
 
-        if self.is_save_history:
-            if len(self.__command_history) >= self.history_size:
-                self.__command_history.pop(0)
-
-            self.__command_history.append(command)
-
         self.__quiet = quiet
 
     def __repr__(self) -> str:
@@ -142,6 +136,7 @@ class SubprocessRunner:
         self.__error_logging_method = get_logging_method(log_level)
 
     def _run(self, env, check: bool, timeout: Optional[float] = None, **kwargs) -> int:
+        self.__save_command()
         self.__debug_print_command(retry_attept=kwargs.get(self._RETRY_ATTEMPT_KEY))
 
         if self._RETRY_ATTEMPT_KEY in kwargs:
@@ -206,6 +201,7 @@ class SubprocessRunner:
             self.__stderr = self._DRY_RUN_OUTPUT
             self.__returncode = 0
 
+            self.__save_command()
             self.__debug_print_command()
 
             return self.__returncode
@@ -282,6 +278,15 @@ class SubprocessRunner:
             base_command = self.command[0]
 
         Which(base_command).verify()
+
+    def __save_command(self):
+        if not self.is_save_history:
+            return
+
+        if len(self.__command_history) >= self.history_size:
+            self.__command_history.pop(0)
+
+        self.__command_history.append(self.command_str)
 
     @staticmethod
     def __get_env(env=None):
