@@ -44,6 +44,9 @@ class Test_SubprocessRunner_repr:
 
 
 class Test_SubprocessRunner_run:
+    BACKOFF_FACTOR = 0.01
+    JITTER = 0.01
+
     @pytest.mark.parametrize(
         ["command", "dry_run", "expected"],
         [
@@ -173,14 +176,20 @@ class Test_SubprocessRunner_run:
         # w/ retry: check=False
         mocked_run = mocker.patch("subprocrunner.SubprocessRunner._run")
         mocked_run.return_value = 1
-        runner.run(check=False, retry=Retry(total=retry_ct, backoff_factor=0.1, jitter=0.1))
+        runner.run(
+            check=False,
+            retry=Retry(total=retry_ct, backoff_factor=self.BACKOFF_FACTOR, jitter=self.JITTER),
+        )
         assert mocked_run.call_count == retry_ct + 1
 
         # w/ retry: check=True
         mocked_run = mocker.patch("subprocrunner.SubprocessRunner._run")
         mocked_run.return_value = 1
         try:
-            runner.run(check=True, retry=Retry(total=retry_ct, backoff_factor=0.1, jitter=0.1))
+            runner.run(
+                check=True,
+                retry=Retry(total=retry_ct, backoff_factor=self.BACKOFF_FACTOR, jitter=self.JITTER),
+            )
         except CalledProcessError:
             pass
         assert mocked_run.call_count == retry_ct + 1
@@ -208,7 +217,12 @@ class Test_SubprocessRunner_run:
         mocked_run.return_value = 2
         runner.run(
             check=True,
-            retry=Retry(total=3, backoff_factor=0.1, jitter=0.1, no_retry_returncodes=[2]),
+            retry=Retry(
+                total=3,
+                backoff_factor=self.BACKOFF_FACTOR,
+                jitter=self.JITTER,
+                no_retry_returncodes=[2],
+            ),
         )
         assert mocked_run.call_count == 1
 
@@ -225,7 +239,9 @@ class Test_SubprocessRunner_run:
         runner = SubprocessRunner("always-failed-command")
         mocked_run = mocker.patch("subprocrunner.SubprocessRunner._run")
         mocked_run.side_effect = failed_first_call
-        runner.run(check=True, retry=Retry(total=3, backoff_factor=0.1, jitter=0.1))
+        runner.run(
+            check=True, retry=Retry(total=3, backoff_factor=self.BACKOFF_FACTOR, jitter=self.JITTER)
+        )
         assert mocked_run.call_count == 2
 
 
@@ -257,15 +273,16 @@ class Test_SubprocessRunner_command_history:
         ["command", "dry_run", "expected"], [[list_command, False, 0], [list_command, True, 0]]
     )
     def test_normal(self, command, dry_run, expected):
+        loop_count = 3
+
         SubprocessRunner.is_save_history = False
         SubprocessRunner.clear_history()
-
-        loop_count = 3
         for _i in range(loop_count):
             SubprocessRunner(command, dry_run=dry_run).run()
-        assert len(SubprocessRunner.get_history()) == 0
+        assert SubprocessRunner.get_history() == []
 
         SubprocessRunner.is_save_history = True
+        SubprocessRunner.clear_history()
         for _i in range(loop_count):
             SubprocessRunner(command, dry_run=dry_run).run()
-        assert len(SubprocessRunner.get_history()) == loop_count
+        assert SubprocessRunner.get_history() == [list_command] * loop_count
