@@ -198,9 +198,6 @@ class SubprocessRunner:
     def run(self, timeout: Optional[float] = None, retry: Retry = None, **kwargs) -> int:
         self.__verify_command()
 
-        check = kwargs.pop("check", False)
-        env = self.__get_env(kwargs.pop("env", None))
-
         if self.dry_run:
             self.__stdout = self._DRY_RUN_OUTPUT
             self.__stderr = self._DRY_RUN_OUTPUT
@@ -210,6 +207,9 @@ class SubprocessRunner:
             self.__debug_print_command()
 
             return self.__returncode
+
+        check = kwargs.pop("check", False)
+        env = self.__get_env(kwargs.pop("env", None))
 
         returncode = self._run(
             env=env, check=check if retry is None else False, timeout=timeout, **kwargs
