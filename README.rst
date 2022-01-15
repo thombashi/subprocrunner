@@ -149,7 +149,7 @@ Install from PPA (for Ubuntu)
 
 Dependencies
 ============
-- Python 3.5+
+- Python 3.6+
 - `Python package dependencies (automatically installed) <https://github.com/thombashi/subprocrunner/network/dependencies>`__
 
 Optional dependencies
