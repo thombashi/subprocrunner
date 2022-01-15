@@ -60,6 +60,8 @@ jobs:
         exclude:
           - os: macos-latest
             python-version: pypy3
+          - os: windows-latest
+            python-version: "3.6"
     concurrency:
       group: ${{ github.workflow }}-${{ github.job }}-${{ matrix.os }}-${{ matrix.python-version }}
       cancel-in-progress: true
