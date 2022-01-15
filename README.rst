@@ -5,8 +5,7 @@
 
 Summary
 =============
-A Python wrapper library for subprocess module.
-
+A Python wrapper library for ``subprocess`` module.
 
 .. image:: https://badge.fury.io/py/subprocrunner.svg
     :target: https://badge.fury.io/py/subprocrunner
@@ -20,20 +19,16 @@ A Python wrapper library for subprocess module.
     :target: https://pypi.org/project/subprocrunner
     :alt: Supported Python implementations
 
-.. image:: https://github.com/thombashi/subprocrunner/workflows/Tests/badge.svg
-    :target: https://github.com/thombashi/subprocrunner/actions/workflows/tests.yml
-    :alt: Test result of Linux/macOS/Windows
-
-.. image:: https://github.com/thombashi/subprocrunner/actions/workflows/lint.yml/badge.svg
-    :target: https://github.com/thombashi/subprocrunner/actions/workflows/lint.yml
-    :alt: Lint result
+.. image:: https://github.com/thombashi/subprocrunner/actions/workflows/lint_and_test.yml/badge.svg
+    :target: https://github.com/thombashi/subprocrunner/actions/workflows/lint_and_test.yml
+    :alt: CI status of Linux/macOS/Windows
 
 .. image:: https://coveralls.io/repos/github/thombashi/subprocrunner/badge.svg?branch=master
     :target: https://coveralls.io/github/thombashi/subprocrunner?branch=master
     :alt: Test coverage
 
 
-Examples
+Usage
 ========
 Execute a command
 ----------------------------
@@ -72,6 +67,40 @@ Execute a command with retry
         from subprocrunner import Retry, SubprocessRunner
 
         SubprocessRunner(command).run(retry=Retry(total=3, backoff_factor=0.2, jitter=0.2))
+
+Raise an exception when a command execution failed
+--------------------------------------------------------
+:Sample Code:
+    .. code:: python
+
+        import sys
+        from subprocess import CalledProcessError
+        from subprocrunner import SubprocessRunner
+
+        runner = SubprocessRunner("ls not-exist-dir")
+
+        # raise an exception at run
+        try:
+            runner.run(check=True)
+        except CalledProcessError as e:
+            print(f"run(check=True): {e}\n{e.stderr}", file=sys.stderr)
+
+
+        # raise an exception after run
+        runner.run()
+        try:
+            runner.raise_for_returncode()
+        except CalledProcessError as e:
+            print(f"raise_for_returncode(): {e}\n{e.stderr}", file=sys.stderr)
+
+:Output:
+    .. code::
+
+        run(check=True): Command 'ls not-exist-dir' returned non-zero exit status 2.
+        ls: cannot access 'not-exist-dir': No such file or directory
+
+        raise_for_returncode(): Command 'ls not-exist-dir' returned non-zero exit status 2.
+        ls: cannot access 'not-exist-dir': No such file or directory
 
 dry run
 ----------------------------
