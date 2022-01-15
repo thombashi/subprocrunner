@@ -7,7 +7,6 @@ import errno
 import os
 import platform
 import re
-import subprocess
 import sys
 from subprocess import PIPE
 
@@ -160,6 +159,15 @@ class Test_SubprocessRunner_run:
             with pytest.raises(expected):
                 runner.run(check=True)
 
+    def test_input_kwarg(self, mocker):
+        mocked_communicate = mocker.patch("subprocess.Popen.communicate")
+        mocked_communicate.return_value = ("", "")
+
+        runner = SubprocessRunner(list_command)
+        runner.run(input="test input")
+
+        mocked_communicate.assert_called_with(input=b"test input", timeout=None)
+
     def test_timeout_kwarg(self, mocker):
         mocked_communicate = mocker.patch("subprocess.Popen.communicate")
         mocked_communicate.return_value = ("", "")
@@ -168,13 +176,14 @@ class Test_SubprocessRunner_run:
         runner = SubprocessRunner("dummy")
         runner.run(timeout=1)
 
-        mocked_communicate.assert_called_with(timeout=1)
+        mocked_communicate.assert_called_with(input=None, timeout=1)
 
-    def test_unicode(self, monkeypatch):
-        def monkey_communicate(input=None, timeout=None):
-            return ("", "'dummy' は、内部コマンドまたは外部コマンド、" "操作可能なプログラムまたはバッチ ファイルとして認識されていません")
-
-        monkeypatch.setattr(subprocess.Popen, "communicate", monkey_communicate)
+    def test_unicode(self, mocker):
+        mocked_communicate = mocker.patch("subprocess.Popen.communicate")
+        mocked_communicate.return_value = (
+            "",
+            "'dummy' は、内部コマンドまたは外部コマンド、" "操作可能なプログラムまたはバッチ ファイルとして認識されていません",
+        )
 
         runner = SubprocessRunner(list_command)
         runner.run()

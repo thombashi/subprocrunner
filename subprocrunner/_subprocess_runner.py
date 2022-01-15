@@ -140,7 +140,15 @@ class SubprocessRunner:
     def error_log_level(self, log_level: Optional[str]):
         self.__error_logging_method = get_logging_method(log_level)
 
-    def _run(self, env, check: bool, timeout: Optional[float] = None, **kwargs) -> int:
+    def _run(
+        self,
+        env,
+        check: bool,
+        input: Union[str, bytes, None] = None,
+        encoding: str = "ascii",
+        timeout: Optional[float] = None,
+        **kwargs
+    ) -> int:
         self.__save_command()
         self.__debug_print_command(retry_attept=kwargs.get(self._RETRY_ATTEMPT_KEY))
 
@@ -161,7 +169,9 @@ class SubprocessRunner:
                 self.command, shell=self.__is_shell, stdin=PIPE, stdout=PIPE, stderr=PIPE
             )
 
-        stdout, stderr = proc.communicate(timeout=timeout, **kwargs)
+        if input and not isinstance(input, bytes) and encoding:
+            input = input.encode(encoding)
+        stdout, stderr = proc.communicate(input=input, timeout=timeout)  # type: ignore
         self.__returncode = proc.returncode
 
         self.__stdout = MultiByteStrDecoder(stdout).unicode_str
@@ -195,7 +205,14 @@ class SubprocessRunner:
 
         return self.__returncode
 
-    def run(self, timeout: Optional[float] = None, retry: Retry = None, **kwargs) -> int:
+    def run(
+        self,
+        input: Union[str, bytes, None] = None,
+        encoding: Optional[str] = None,
+        timeout: Optional[float] = None,
+        retry: Retry = None,
+        **kwargs
+    ) -> int:
         self.__verify_command()
 
         if self.dry_run:
@@ -210,9 +227,15 @@ class SubprocessRunner:
 
         check = kwargs.pop("check", False)
         env = self.__get_env(kwargs.pop("env", None))
+        encoding = "ascii" if encoding is None else encoding
 
         returncode = self._run(
-            env=env, check=check if retry is None else False, timeout=timeout, **kwargs
+            env=env,
+            check=check if retry is None else False,
+            input=input,
+            encoding=encoding,
+            timeout=timeout,
+            **kwargs
         )
         if retry is None or returncode in [0] + retry.no_retry_returncodes:
             return returncode
@@ -225,7 +248,9 @@ class SubprocessRunner:
             )
             kwargs[self._RETRY_ATTEMPT_KEY] = i + 1
 
-            returncode = self._run(env=env, check=False, timeout=timeout, **kwargs)
+            returncode = self._run(
+                env=env, check=False, input=input, encoding=encoding, timeout=timeout, **kwargs
+            )
             if returncode in [0] + retry.no_retry_returncodes:
                 return returncode
 
