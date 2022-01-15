@@ -147,7 +147,7 @@ class SubprocessRunner:
         input: Union[str, bytes, None] = None,
         encoding: str = "ascii",
         timeout: Optional[float] = None,
-        **kwargs
+        **kwargs,
     ) -> int:
         self.__save_command()
         self.__debug_print_command(retry_attept=kwargs.get(self._RETRY_ATTEMPT_KEY))
@@ -211,7 +211,7 @@ class SubprocessRunner:
         encoding: Optional[str] = None,
         timeout: Optional[float] = None,
         retry: Retry = None,
-        **kwargs
+        **kwargs,
     ) -> int:
         self.__verify_command()
 
@@ -235,7 +235,7 @@ class SubprocessRunner:
             input=input,
             encoding=encoding,
             timeout=timeout,
-            **kwargs
+            **kwargs,
         )
         if retry is None or returncode in [0] + retry.no_retry_returncodes:
             return returncode
