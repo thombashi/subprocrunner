@@ -134,10 +134,10 @@ class Test_SubprocessRunner_run:
         assert runner.returncode != 0
 
         out, err = capsys.readouterr()
-        print("[sys stdout]\n{}\n".format(out))
-        print("[sys stderr]\n{}\n".format(err))
-        print("[proc stdout]\n{}\n".format(runner.stdout))
-        print("[proc stderr]\n{}\n".format(runner.stderr))
+        print(f"[sys stdout]\n{out}\n")
+        print(f"[sys stderr]\n{err}\n")
+        print(f"[proc stdout]\n{runner.stdout}\n")
+        print(f"[proc stderr]\n{runner.stderr}\n")
 
         actual = out_regexp.search(err) is not None
         assert actual == expected

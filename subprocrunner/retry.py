@@ -33,13 +33,13 @@ class Retry:
 
     def __repr__(self) -> str:
         msgs = [
-            "total={}".format(self.total),
-            "backoff-factor={}".format(self.__backoff_factor),
-            "jitter={}".format(self.__jitter),
+            f"total={self.total}",
+            f"backoff-factor={self.__backoff_factor}",
+            f"jitter={self.__jitter}",
         ]
 
         if self.no_retry_returncodes:
-            msgs.append("no-retry-returncodes={}".format(self.no_retry_returncodes))
+            msgs.append(f"no-retry-returncodes={self.no_retry_returncodes}")
 
         return "Retry({})".format(", ".join(msgs))
 
@@ -59,11 +59,11 @@ class Retry:
 
         if logging_method and not self.__quiet:
             if retry_target:
-                msg = "Retrying '{}' in ".format(retry_target)
+                msg = f"Retrying '{retry_target}' in "
             else:
                 msg = "Retrying in "
 
-            msg += "{:.2f} seconds ... (attempt={}/{})".format(sleep_duration, attempt, self.total)
+            msg += f"{sleep_duration:.2f} seconds ... (attempt={attempt}/{self.total})"
 
             logging_method(msg)
 

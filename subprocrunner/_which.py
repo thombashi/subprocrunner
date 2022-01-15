@@ -25,17 +25,17 @@ class Which:
 
         self.__command = command
         self.__follow_symlinks = follow_symlinks
-        self.__abspath = None  # type: Optional[str]
+        self.__abspath: Optional[str] = None
 
     def __repr__(self) -> str:
         item_list = [
-            "command={}".format(self.command),
-            "is_exist={}".format(self.is_exist()),
-            "follow_symlinks={}".format(self.__follow_symlinks),
+            f"command={self.command}",
+            f"is_exist={self.is_exist()}",
+            f"follow_symlinks={self.__follow_symlinks}",
         ]
 
         if self.is_exist():
-            item_list.append("abspath={}".format(self.abspath()))
+            item_list.append(f"abspath={self.abspath()}")
 
         return ", ".join(item_list)
 
@@ -45,7 +45,7 @@ class Which:
     def verify(self) -> None:
         if not self.is_exist():
             raise CommandError(
-                "command not found: {}".format(self.command), cmd=self.command, errno=errno.ENOENT
+                f"command not found: {self.command}", cmd=self.command, errno=errno.ENOENT
             )
 
     def abspath(self) -> Optional[str]:

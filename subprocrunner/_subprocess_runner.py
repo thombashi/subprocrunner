@@ -43,7 +43,7 @@ class SubprocessRunner:
     is_save_history = False
     history_size = 512
 
-    __command_history = []  # type: List[Command]
+    __command_history: List[Command] = []
 
     @classmethod
     def get_history(cls) -> List[Command]:
@@ -61,7 +61,7 @@ class SubprocessRunner:
         dry_run: Optional[bool] = None,
         quiet: bool = False,
     ) -> None:
-        self.__command = []  # type: Union[str, Sequence[str]]
+        self.__command: Union[str, Sequence[str]] = []
 
         if not command:
             raise ValueError("command is empty")
@@ -77,9 +77,9 @@ class SubprocessRunner:
             self.__dry_run = dry_run
         else:
             self.__dry_run = self.default_is_dry_run
-        self.__stdout = None  # type: Optional[str]
-        self.__stderr = None  # type: Optional[str]
-        self.__returncode = None  # type: Optional[int]
+        self.__stdout: Optional[str] = None
+        self.__stderr: Optional[str] = None
+        self.__returncode: Optional[int] = None
 
         self.__ignore_stderr_regexp = ignore_stderr_regexp
         self.__debug_logging_method = get_logging_method("QUIET" if quiet else "DEBUG")
@@ -95,13 +95,13 @@ class SubprocessRunner:
 
     def __repr__(self) -> str:
         params = [
-            "command='{}'".format(self.command_str),
+            f"command='{self.command_str}'",
             "returncode={}".format(
                 self.returncode if self.returncode is not None else "'not yet executed'"
             ),
         ]
         if self.dry_run:
-            params.append("dry_run={}".format(self.dry_run))
+            params.append(f"dry_run={self.dry_run}")
 
         return "SubprocessRunner({})".format(", ".join(params))
 
@@ -296,7 +296,7 @@ class SubprocessRunner:
     def __verify_command(self) -> None:
         if not self.command:
             raise CommandError(
-                "invalid command: {}".format(self.command), cmd=self.command_str, errno=errno.EINVAL
+                f"invalid command: {self.command}", cmd=self.command_str, errno=errno.EINVAL
             )
 
         if self.dry_run or platform.system() == "Windows":
@@ -338,7 +338,7 @@ class SubprocessRunner:
             message_list.append("dryrun: ")
 
         if retry_attept is not None:
-            message_list.append("retry-attempt={}: {}".format(retry_attept, self.command_str))
+            message_list.append(f"retry-attempt={retry_attept}: {self.command_str}")
         else:
             message_list.append(self.command_str)
 
