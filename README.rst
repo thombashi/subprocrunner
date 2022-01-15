@@ -74,8 +74,8 @@ Raise an exception when a command execution failed
     .. code:: python
 
         import sys
-        from subprocess import CalledProcessError
         from subprocrunner import SubprocessRunner
+        from subprocrunner.error import CalledProcessError
 
         runner = SubprocessRunner("ls not-exist-dir")
 
