@@ -196,12 +196,7 @@ class SubprocessRunner:
         )
 
         if check is True:
-            raise CalledProcessError(
-                returncode=self.__returncode,
-                cmd=self.command_str,
-                output=self.stdout,
-                stderr=self.stderr,
-            )
+            self.raise_for_returncode()
 
         return self.__returncode
 
@@ -255,12 +250,7 @@ class SubprocessRunner:
                 return returncode
 
         if check is True:
-            raise CalledProcessError(
-                returncode=self.__returncode,  # type: ignore
-                cmd=self.command_str,
-                output=self.stdout,
-                stderr=self.stderr,
-            )
+            self.raise_for_returncode()
 
         return self.__returncode  # type: ignore
 
@@ -292,6 +282,19 @@ class SubprocessRunner:
             )
 
         return process
+
+    def raise_for_returncode(self) -> None:
+        if self.__returncode in [None, 0]:
+            return
+
+        assert self.__returncode
+
+        raise CalledProcessError(
+            returncode=self.__returncode,
+            cmd=self.command_str,
+            output=self.stdout,
+            stderr=self.stderr,
+        )
 
     def __verify_command(self) -> None:
         if not self.command:
