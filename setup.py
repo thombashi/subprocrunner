@@ -55,6 +55,7 @@ setuptools.setup(
     packages=setuptools.find_packages(exclude=["test*"]),
     package_data={MODULE_NAME: ["py.typed"]},
     project_urls={
+        "Changlog": f"{REPOSITORY_URL:s}/releases",
         "Source": REPOSITORY_URL,
         "Tracker": f"{REPOSITORY_URL:s}/issues",
     },
@@ -81,6 +82,7 @@ setuptools.setup(
         "Programming Language :: Python :: Implementation :: PyPy",
         "Topic :: Software Development :: Libraries",
         "Topic :: Software Development :: Libraries :: Python Modules",
+        "Typing :: Typed",
     ],
     cmdclass=get_release_command_class(),
 )
