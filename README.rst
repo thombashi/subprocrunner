@@ -7,25 +7,31 @@ Summary
 =============
 A Python wrapper library for ``subprocess`` module.
 
-.. image:: https://badge.fury.io/py/subprocrunner.svg
+|PyPI pkg ver| |Supported Python versions| |Supported Python implementations| |CI status| |Test coverage| |CodeQL|
+
+.. |PyPI pkg ver| image:: https://badge.fury.io/py/subprocrunner.svg
     :target: https://badge.fury.io/py/subprocrunner
     :alt: PyPI package version
 
-.. image:: https://img.shields.io/pypi/pyversions/subprocrunner.svg
+.. |Supported Python versions| image:: https://img.shields.io/pypi/pyversions/subprocrunner.svg
     :target: https://pypi.org/project/subprocrunner
     :alt: Supported Python versions
 
-.. image:: https://img.shields.io/pypi/implementation/subprocrunner.svg
+.. |Supported Python implementations| image:: https://img.shields.io/pypi/implementation/subprocrunner.svg
     :target: https://pypi.org/project/subprocrunner
     :alt: Supported Python implementations
 
-.. image:: https://github.com/thombashi/subprocrunner/actions/workflows/lint_and_test.yml/badge.svg
-    :target: https://github.com/thombashi/subprocrunner/actions/workflows/lint_and_test.yml
+.. |CI status| image:: https://github.com/thombashi/subprocrunner/actions/workflows/ci.yml/badge.svg
+    :target: https://github.com/thombashi/subprocrunner/actions/workflows/ci.yml
     :alt: CI status of Linux/macOS/Windows
 
-.. image:: https://coveralls.io/repos/github/thombashi/subprocrunner/badge.svg?branch=master
+.. |Test coverage| image:: https://coveralls.io/repos/github/thombashi/subprocrunner/badge.svg?branch=master
     :target: https://coveralls.io/github/thombashi/subprocrunner?branch=master
     :alt: Test coverage
+
+.. |CodeQL| image:: https://github.com/thombashi/subprocrunner/actions/workflows/github-code-scanning/codeql/badge.svg
+    :target: https://github.com/thombashi/subprocrunner/actions/workflows/github-code-scanning/codeql
+    :alt: CodeQL
 
 
 Usage
@@ -58,7 +64,7 @@ Execute a command
         return code: 2
         stderr: ls: cannot access '__not_exist_dir__': No such file or directory
 
-Execute a command with retry
+Execute a command with retries
 --------------------------------------------------------
 
 :Sample Code:
@@ -178,7 +184,7 @@ Install from PPA (for Ubuntu)
 
 Dependencies
 ============
-- Python 3.6+
+- Python 3.7+
 - `Python package dependencies (automatically installed) <https://github.com/thombashi/subprocrunner/network/dependencies>`__
 
 Optional dependencies
