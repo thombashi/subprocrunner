@@ -18,7 +18,7 @@ jobs:
       - run: make build
 
   lint:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.event_name }}-${{ github.workflow }}-${{ github.ref_name }}-lint
       cancel-in-progress: true
@@ -30,7 +30,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - run: make check
-
         env:
           PYTEST_DISCORD_WEBHOOK: ${{ secrets.PYTEST_DISCORD_WEBHOOK }}
 
