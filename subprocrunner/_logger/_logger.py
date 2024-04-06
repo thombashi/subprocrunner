@@ -18,7 +18,7 @@ try:
     logger.disable(MODULE_NAME)
 except ImportError:
     LOGURU_INSTALLED = False
-    logger = NullLogger()  # type: ignore
+    logger = NullLogger()
 
 
 def get_logging_method(log_level: Optional[str] = None) -> Callable:
@@ -54,6 +54,6 @@ def set_logger(is_enable: bool, propagation_depth: int = 1) -> None:
         logger.disable(MODULE_NAME)
 
 
-def set_log_level(log_level):
+def set_log_level(log_level):  # type: ignore
     # deprecated
     return

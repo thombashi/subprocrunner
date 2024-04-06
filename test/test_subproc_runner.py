@@ -6,6 +6,7 @@ import errno
 import os
 import platform
 import re
+import subprocess
 import sys
 from subprocess import PIPE
 
@@ -99,6 +100,7 @@ class Test_SubprocessRunner_run:
         assert runner.command == command
         assert isinstance(runner.command_str, str)
         assert runner.returncode == 0
+        assert runner.stdout
         assert runner.stdout.strip() == expected
         assert is_null_string(runner.stderr)
 
@@ -128,6 +130,8 @@ class Test_SubprocessRunner_run:
         runner = SubprocessRunner(command, ignore_stderr_regexp=ignore_stderr_regexp)
         runner.run()
 
+        assert runner.stdout
+        assert runner.stderr
         assert is_null_string(runner.stdout.strip())
         assert is_not_null_string(runner.stderr.strip())
         assert runner.returncode != 0
@@ -274,10 +278,14 @@ class Test_SubprocessRunner_run:
 class Test_SubprocessRunner_popen:
     @pytest.mark.parametrize(
         ["command", "environ", "expected"],
-        [["hostname", None, 0], ["hostname", dict(os.environ), 0]],
+        [
+            ["hostname", None, 0],
+            ["hostname", dict(os.environ), 0],
+        ],
     )
     def test_normal(self, command, environ, expected):
         proc = SubprocessRunner(command).popen(env=environ)
+        assert isinstance(proc, subprocess.Popen)
         ret_stdout, ret_stderr = proc.communicate()
         assert is_not_null_string(ret_stdout)
         assert is_null_string(ret_stderr)
@@ -287,6 +295,7 @@ class Test_SubprocessRunner_popen:
     @pytest.mark.parametrize(["command", "pipe_input", "expected"], [["grep a", b"aaa", 0]])
     def test_normal_stdin(self, command, pipe_input, expected):
         proc = SubprocessRunner(command).popen(PIPE)
+        assert isinstance(proc, subprocess.Popen)
         ret_stdout, ret_stderr = proc.communicate(input=pipe_input)
 
         assert is_not_null_string(ret_stdout)

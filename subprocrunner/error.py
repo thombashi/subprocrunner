@@ -4,7 +4,7 @@
 
 # keep the following line for backward compatibility
 from subprocess import CalledProcessError  # noqa
-from typing import Optional
+from typing import Any, Optional
 
 from .typing import Command
 
@@ -18,7 +18,7 @@ class CommandError(Exception):
     def errno(self) -> Optional[int]:
         return self.__errno
 
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, *args: str, **kwargs: Any) -> None:
         self.__cmd = kwargs.pop("cmd", None)
         self.__errno = kwargs.pop("errno", None)
 
