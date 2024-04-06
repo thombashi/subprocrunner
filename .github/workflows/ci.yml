@@ -3,6 +3,20 @@ name: CI
 on: [push, pull_request]
 
 jobs:
+  build-package:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.event_name }}-${{ github.workflow }}-${{ github.ref_name }}-build
+      cancel-in-progress: true
+    timeout-minutes: 20
+    container:
+      image: ghcr.io/thombashi/python-ci:3.11
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: make build
+
   lint:
     runs-on: ${{ matrix.os }}
     strategy:
