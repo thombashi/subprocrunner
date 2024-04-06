@@ -2,7 +2,6 @@
 .. codeauthor:: Tsuyoshi Hombashi <tsuyoshi.hombashi@gmail.com>
 """
 
-
 import platform
 import re
 import sys
@@ -54,7 +53,12 @@ class Test_Which_repr:
 class Test_Which_is_exist:
     @pytest.mark.skipif(platform.system() == "Windows", reason="platform dependent tests")
     @pytest.mark.parametrize(
-        ["value", "expected"], [["ls", True], ["/bin/ls", True], ["__not_exist_command__", False]]
+        ["value", "expected"],
+        [
+            ["ls", True],
+            ["/bin/ls", True],
+            ["__not_exist_command__", False],
+        ],
     )
     def test_normal_linux(self, value, expected):
         assert Which(value).is_exist() == expected

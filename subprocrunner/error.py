@@ -2,7 +2,6 @@
 .. codeauthor:: Tsuyoshi Hombashi <tsuyoshi.hombashi@gmail.com>
 """
 
-
 # keep the following line for backward compatibility
 from subprocess import CalledProcessError  # noqa
 from typing import Optional

@@ -2,7 +2,6 @@
 .. codeauthor:: Tsuyoshi Hombashi <tsuyoshi.hombashi@gmail.com>
 """
 
-
 import errno
 import os
 import platform
@@ -147,7 +146,11 @@ class Test_SubprocessRunner_run:
         ["command", "ignore_stderr_regexp", "expected"],
         [
             [[list_command, "__not_exist_dir__"], None, CalledProcessError],
-            [[list_command, "__not_exist_dir__"], re.compile(re.escape("__not_exist_dir__")), None],
+            [
+                [list_command, "__not_exist_dir__"],
+                re.compile(re.escape("__not_exist_dir__")),
+                None,
+            ],
         ],
     )
     def test_stderr_check(self, command, ignore_stderr_regexp, expected):
@@ -182,7 +185,8 @@ class Test_SubprocessRunner_run:
         mocked_communicate = mocker.patch("subprocess.Popen.communicate")
         mocked_communicate.return_value = (
             "",
-            "'dummy' は、内部コマンドまたは外部コマンド、" "操作可能なプログラムまたはバッチ ファイルとして認識されていません",
+            "'dummy' は、内部コマンドまたは外部コマンド、"
+            "操作可能なプログラムまたはバッチ ファイルとして認識されていません",
         )
 
         runner = SubprocessRunner(list_command)
@@ -260,7 +264,10 @@ class Test_SubprocessRunner_run:
         runner = SubprocessRunner("always-failed-command")
         mocked_run = mocker.patch("subprocrunner.SubprocessRunner._run")
         mocked_run.side_effect = failed_first_call
-        runner.run(check=True, retry=Retry(total=3, backoff_factor=BACKOFF_FACTOR, jitter=JITTER))
+        runner.run(
+            check=True,
+            retry=Retry(total=3, backoff_factor=BACKOFF_FACTOR, jitter=JITTER),
+        )
         assert mocked_run.call_count == 2
 
 

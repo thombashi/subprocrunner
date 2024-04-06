@@ -45,7 +45,9 @@ class Which:
     def verify(self) -> None:
         if not self.is_exist():
             raise CommandError(
-                f"command not found: {self.command}", cmd=self.command, errno=errno.ENOENT
+                f"command not found: {self.command}",
+                cmd=self.command,
+                errno=errno.ENOENT,
             )
 
     def abspath(self) -> Optional[str]:

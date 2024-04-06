@@ -2,7 +2,6 @@
 .. codeauthor:: Tsuyoshi Hombashi <tsuyoshi.hombashi@gmail.com>
 """
 
-
 import errno
 import os
 import platform
@@ -166,7 +165,11 @@ class SubprocessRunner:
             )
         except TypeError:
             proc = subprocess.Popen(
-                self.command, shell=self.__is_shell, stdin=PIPE, stdout=PIPE, stderr=PIPE
+                self.command,
+                shell=self.__is_shell,
+                stdin=PIPE,
+                stdout=PIPE,
+                stderr=PIPE,
             )
 
         if input and not isinstance(input, bytes) and encoding:
@@ -244,7 +247,12 @@ class SubprocessRunner:
             kwargs[self._RETRY_ATTEMPT_KEY] = i + 1
 
             returncode = self._run(
-                env=env, check=False, input=input, encoding=encoding, timeout=timeout, **kwargs
+                env=env,
+                check=False,
+                input=input,
+                encoding=encoding,
+                timeout=timeout,
+                **kwargs,
             )
             if returncode in [0] + retry.no_retry_returncodes:
                 return returncode
@@ -264,7 +272,10 @@ class SubprocessRunner:
             self.__returncode = 0
 
             return subprocess.CompletedProcess(
-                args=[], returncode=self.__returncode, stdout=self.__stdout, stderr=self.__stderr
+                args=[],
+                returncode=self.__returncode,
+                stdout=self.__stdout,
+                stderr=self.__stderr,
             )
 
         try:
@@ -278,7 +289,11 @@ class SubprocessRunner:
             )
         except TypeError:
             process = subprocess.Popen(
-                self.command, shell=self.__is_shell, stdin=std_in, stdout=PIPE, stderr=PIPE
+                self.command,
+                shell=self.__is_shell,
+                stdin=std_in,
+                stdout=PIPE,
+                stderr=PIPE,
             )
 
         return process
@@ -299,7 +314,9 @@ class SubprocessRunner:
     def __verify_command(self) -> None:
         if not self.command:
             raise CommandError(
-                f"invalid command: {self.command}", cmd=self.command_str, errno=errno.EINVAL
+                f"invalid command: {self.command}",
+                cmd=self.command_str,
+                errno=errno.EINVAL,
             )
 
         if self.dry_run or platform.system() == "Windows":

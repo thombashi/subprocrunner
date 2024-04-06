@@ -9,6 +9,7 @@ from ._which import Which
 from .error import CalledProcessError, CommandError
 from .retry import Retry
 
+
 __all__ = (
     "__author__",
     "__copyright__",
