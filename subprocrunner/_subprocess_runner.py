@@ -205,7 +205,7 @@ class SubprocessRunner:
         input: Union[str, bytes, None] = None,
         encoding: Optional[str] = None,
         timeout: Optional[float] = None,
-        retry: Retry = None,
+        retry: Optional[Retry] = None,
         **kwargs,
     ) -> int:
         self.__verify_command()
