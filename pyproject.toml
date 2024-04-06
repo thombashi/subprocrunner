@@ -56,3 +56,15 @@ exclude_lines = [
     'abstractclassmethod',
     'warnings.warn',
 ]
+
+[tool.mypy]
+ignore_missing_imports = true
+python_version = "3.7"
+
+pretty = true
+
+check_untyped_defs = true
+show_error_codes = true
+show_error_context = true
+warn_unreachable = true
+warn_unused_configs = true
