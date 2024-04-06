@@ -175,7 +175,7 @@ class SubprocessRunner:
                 stderr=PIPE,
             )
 
-        if input and not isinstance(input, bytes) and encoding:
+        if input and isinstance(input, str) and encoding:
             input = input.encode(encoding)
         stdout, stderr = proc.communicate(input=input, timeout=timeout)  # type: ignore
         self.__returncode = proc.returncode
