@@ -8,7 +8,7 @@ import platform
 import subprocess
 import traceback
 from subprocess import PIPE
-from typing import Dict, List, Optional, Pattern, Sequence, Union, cast  # noqa
+from typing import Any, Dict, List, Optional, Pattern, Sequence, Union, cast
 
 from mbstrdecoder import MultiByteStrDecoder
 
@@ -17,6 +17,9 @@ from ._which import Which
 from .error import CalledProcessError, CommandError
 from .retry import Retry
 from .typing import Command
+
+
+Env = Dict[str, str]
 
 
 class SubprocessRunner:
@@ -132,21 +135,21 @@ class SubprocessRunner:
         return self.__returncode
 
     @property
-    def error_log_level(self):
+    def error_log_level(self) -> None:
         raise NotImplementedError()
 
     @error_log_level.setter
-    def error_log_level(self, log_level: Optional[str]):
+    def error_log_level(self, log_level: Optional[str]) -> None:
         self.__error_logging_method = get_logging_method(log_level)
 
     def _run(
         self,
-        env,
+        env: Optional[Env],
         check: bool,
         input: Union[str, bytes, None] = None,
         encoding: str = "ascii",
         timeout: Optional[float] = None,
-        **kwargs,
+        **kwargs: Any,
     ) -> int:
         self.__save_command()
         self.__debug_print_command(retry_attept=kwargs.get(self._RETRY_ATTEMPT_KEY))
@@ -209,7 +212,7 @@ class SubprocessRunner:
         encoding: Optional[str] = None,
         timeout: Optional[float] = None,
         retry: Optional[Retry] = None,
-        **kwargs,
+        **kwargs: Any,
     ) -> int:
         self.__verify_command()
 
@@ -262,7 +265,9 @@ class SubprocessRunner:
 
         return self.__returncode  # type: ignore
 
-    def popen(self, std_in: Optional[int] = None, env: Optional[Dict[str, str]] = None):
+    def popen(
+        self, std_in: Optional[int] = None, env: Optional[Env] = None
+    ) -> Union[subprocess.Popen, subprocess.CompletedProcess]:
         self.__verify_command()
         self.__debug_print_command()
 
@@ -339,14 +344,14 @@ class SubprocessRunner:
         self.__command_history.append(self.command_str)
 
     @staticmethod
-    def __get_env(env=None):
+    def __get_env(env: Optional[Env] = None) -> Env:
         if env is not None:
             return env
 
         if platform.system() == "Linux":
             return dict(os.environ, LC_ALL="C")
 
-        return os.environ
+        return cast(Env, os.environ)
 
     def __debug_print_command(self, retry_attept: Optional[int] = None) -> None:
         if self.__quiet:
