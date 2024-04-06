@@ -69,6 +69,19 @@ show_error_context = true
 warn_unreachable = true
 warn_unused_configs = true
 
+[tool.pyright]
+exclude = [
+    "**/node_modules",
+    "**/__pycache__",
+    ".tox",
+    ".venv",
+    "_build",
+    "_sandbox",
+    "build",
+    "dist"
+]
+pythonVersion = "3.7"
+
 [tool.ruff]
 line-length = 100
 target-version = "py37"
