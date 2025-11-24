@@ -13,7 +13,7 @@ jobs:
       image: ghcr.io/thombashi/python-ci:3.11
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - run: make build
 
@@ -27,7 +27,7 @@ jobs:
       image: ghcr.io/thombashi/python-ci:3.11
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - run: make check
         env:
@@ -47,7 +47,7 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Setup Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
